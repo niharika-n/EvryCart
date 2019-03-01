@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { Router } from '@angular/router';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,7 @@ export class DashboardComponent implements OnInit {
   categoryUpdateDate: Date;
   productUpdateDate: Date;
 
-  constructor(private dashboardService: DashboardService, private router: Router) {
+  constructor(private dashboardService: DashboardService, private router: Router, private spinnerService: SpinnerService) {
     this.statistics = {
       categoryCount: 0,
       productCount: 0
@@ -26,8 +27,10 @@ export class DashboardComponent implements OnInit {
   }
 
   dashboard() {
+    this.spinnerService.startRequest();
     this.dashboardService.getStatistics().
       subscribe((result: any) => {
+        this.spinnerService.endRequest();
         this.statistics.categoryCount = result.categoryCount;
         this.statistics.productCount = result.productCount;
         this.categoryUpdateDate = result.categoryLastUpdated;

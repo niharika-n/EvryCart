@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { CategoryService } from '../../../../services/category.service';
+import { SpinnerService } from '../../../../services/spinner.service';
 import { PagerService } from '../../../../services/pagination.service';
 import { ProductService } from '../../../../services/product.service';
 
@@ -23,7 +24,8 @@ export class CategoryProductsComponent implements OnInit {
 
   constructor(private categoryService: CategoryService, private builder: FormBuilder,
     private router: Router, private activatedRoute: ActivatedRoute,
-    private productService: ProductService, private toastr: ToastrService, private pagerService: PagerService) { }
+    private productService: ProductService, private toastr: ToastrService,
+    private pagerService: PagerService, private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     this.pageStart();
@@ -35,8 +37,10 @@ export class CategoryProductsComponent implements OnInit {
   }
 
   getProducts(selectedPage: number, selectedSize: number) {
+    this.spinnerService.startRequest();
     this.categoryService.getProducts(this.id, '', selectedPage, selectedSize, 'ProductName', false).
       subscribe((result: any) => {
+        this.spinnerService.endRequest();
         this.productMessage = false;
         if (result.productResult.length > 0) {
           for (let i = 0; i < result.productResult.length; i++) {

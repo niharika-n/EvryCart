@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../../services/category.service';
 import { CategoryModel } from '../category';
 import { isNullOrUndefined } from 'util';
+import { SpinnerService } from '../../../services/spinner.service';
 
 @Component({
   selector: 'app-categoryfeatures',
@@ -28,7 +29,7 @@ export class CategoryfeaturesComponent implements OnInit {
   categoryCheckMessage = '';
 
   constructor(private categoryService: CategoryService, private toastr: ToastrService,
-    private router: Router, private activatedRoute: ActivatedRoute) {
+    private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService) {
     this.model = {
       categoryID: 0,
       categoryName: '',
@@ -52,9 +53,10 @@ export class CategoryfeaturesComponent implements OnInit {
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
     if (this.id) {
       this.editPage = true;
+      this.spinnerService.startRequest();
       this.categoryService.Detail(this.id)
         .subscribe((result: any) => {
-          console.log(result);
+          this.spinnerService.endRequest();
           this.pageTitle = 'Edit';
           this.model = result;
           if (!this.model.parentCategory) { this.showChild = true; }
