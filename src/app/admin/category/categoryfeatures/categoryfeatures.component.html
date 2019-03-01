@@ -1,0 +1,112 @@
+<div class="container body-content">
+    <h3>
+        {{pageTitle}} Category
+    </h3>
+    <div class="col-md-12" id="text_link">
+        <a [routerLink]="['/admin/category']" title="Category list" value="back to list">back to list</a>
+    </div>
+    <mat-tab-group>
+
+        <mat-tab label="Category Information">
+            <ng-template matTabContent>
+                <br>
+                <form #categoryForm="ngForm" (ngSubmit)="add(categoryForm)" class="form-group" novalidate>
+                    <div hidden>
+                        <label>ID</label>
+                        <input class="form-control form-input" autocomplete="off" name="CategoryID" #CategoryID="ngModel" [(ngModel)]="model.categoryID" id="CategoryID" />
+                    </div>
+                    <div>
+                        <label for="CategoryName">Name </label>
+                        <input type="text" class="form-control form-input text-box" autocomplete="off" name="CategoryName" #CategoryName="ngModel" [(ngModel)]="model.categoryName" [ngClass]="{ 'is-invalid': CategoryName.errors && submitted}" (keyup)="categoryCheckMessage=='' || nameCheck($event)"
+                            id="CategoryName" maxlength="15" required />
+                        <div *ngIf="submitted && CategoryName.errors?.required" class="invalid-feedback validation-message">*required</div>
+                        <div *ngIf="categoryCheckMessage != ''" class="error-message">{{categoryCheckMessage}}</div>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="CategoryDescription">Description </label>
+                        <textarea id="CategoryDescription" class="form-control form-input" name="CategoryDescription" autocomplete="off" #CategoryDescription="ngModel" [(ngModel)]="model.categoryDescription" [ngClass]="{ 'is-invalid': CategoryDescription.errors && submitted}"
+                            id="CategoryDescription" maxlength="100" required>
+                        </textarea>
+                        <div *ngIf="submitted && CategoryDescription.errors?.required" class="invalid-feedback validation-message">*required</div>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="IsActive">Is Active</label>
+                        <input type="checkbox" class="form-control form-input" name="IsActive" id="IsActive" #IsActive="ngModel" [(ngModel)]="model.isActive" />
+                    </div>
+                    <br>
+                    <div>
+                        <label for="ParentCategory">Is Parent</label>
+                        <input type="checkbox" (change)="SelectChild()" class="form-control form-input" name="ParentCategory" #ParentCategory="ngModel" [(ngModel)]="model.parentCategory" id="ParentCategory">
+                    </div>
+                    <span *ngIf="showChild">
+            <br>
+            <div>
+              <label for="ChildCategory">Parent Category</label>
+              <select class="form-control form-input" name="ChildCategory" #ChildCategory="ngModel" [(ngModel)]="model.childCategory"
+                id="ChildCategory">
+                <option [value]="category.id" *ngFor="let category of CategoryArr">{{category.name}}</option>
+              </select>
+            </div>
+          </span>
+                    <br>
+                    <div>
+                        <span *ngIf="editPage">
+              <div>
+                <label>Category Image</label>
+                <span *ngIf="url == ''">                    
+                        <input type="hidden" class="form-control form-input" name="ImageID"  #ImageID="ngModel" [(ngModel)]="model.imageID" id="ImageID"/>
+                  <div *ngIf="model.imageContent != null ; else imageMessage" class="img_wrp">
+                    <img [src]="model.imageContent" width="250px">
+                    <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage()"></i>
+                  </div>
+                  <ng-template #imageMessage>
+                    Category Image does not exist. &nbsp;
+                  </ng-template>
+                  <br>
+                </span>
+                        <div class="img_wrp" *ngIf="url!=''">
+                            <img [src]="url" width="250px" (change)="CategoryImage()">
+                            <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage()"></i>
+                            <br>
+                            <br>
+                        </div>
+                        <br>
+                        <label></label>
+                        <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
+                    </div>
+                    </span>
+                    <span *ngIf="!editPage">
+              <div>
+                <label for="imagePath">Category Image </label>
+                <span *ngIf="url != ''">
+                  <div class="img_wrp">
+                    <img [src]="url" width="250px" (change)="CategoryImage()">
+                    <i class="fa fa-times-circle img-close" title="Cancel" (click)="deleteImage()"></i>
+                  </div>
+                  <br>
+                  <br><label></label>
+                </span>
+                    <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
+</div>
+</span>
+</div>
+<br>
+<div>
+    <label></label>
+    <button type="submit" [disabled]="loading" class="btn btn-info" title="Submit">Submit</button>&nbsp;
+    <button type="reset" value="Reset" class="btn btn-secondary" (click)="resetForm(categoryForm)" title="Reset">Reset</button>
+</div>
+</form>
+</ng-template>
+</mat-tab>
+
+<mat-tab label="Products" *ngIf="editPage">
+    <ng-template matTabContent>
+        <app-category-products></app-category-products>
+    </ng-template>
+</mat-tab>
+
+</mat-tab-group>
+</div>

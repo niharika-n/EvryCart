@@ -1,0 +1,35 @@
+<div class="container body-content">
+    <h3>
+        DashBoard
+    </h3>
+    <hr>
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-header bg-light text-dark" [routerLink]="['/admin/category']" title="Categories">
+                <h5>
+                    Categories ({{statistics.categoryCount}})
+                </h5>
+                <sub><p class="text-muted">updated on : {{categoryUpdateDate | date}}</p></sub>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush" *ngFor="let category of CategoryArr">
+                    <li class="list-group-item" (click)="getCategoryDetail(category.id)">{{category.name}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-light text-dark" [routerLink]="['/admin/product']" title="Products
+            ">
+                <h5>
+                    Products ({{statistics.productCount}})
+                </h5>
+                <sub><p class="text-muted">updated on : {{productUpdateDate | date}}</p></sub>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush" *ngFor="let product of ProductArr">
+                    <li class="list-group-item" (click)="getProductDetail(product.productID)">{{product.productName}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>

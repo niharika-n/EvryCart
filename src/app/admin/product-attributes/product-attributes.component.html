@@ -1,0 +1,57 @@
+<div class="container body-content">
+    <h3>
+        Product Attributes
+    </h3>
+    <hr>
+    <div>
+        <div class="form-group row">
+            <div class="col-md-3">
+                <input autocomplete="off" class="form-control" name="search" #search />
+            </div>
+            <div class="col-md-9">
+                <input type="submit" value="Search" class="btn btn-info" title="Submit" (click)="listing(search.value)" /> &nbsp;
+                <input type="submit" value="Clear" class="btn btn-info" title="Clear" (click)="listing(search.value='')" name="Clear" />&nbsp;
+                <button type="button" class="btn btn-info" value="add new" [routerLink]="['add']" title="Add New Attribute"><i class="fa fa-plus-circle add-icon"></i> Add</button>
+            </div>
+            <div class="col-md-12 page-size">
+                <b>Page Size</b> &nbsp;
+                <select #pageSize (change)="sizeSelect(pageSize.value)">
+          <option value=5 >5</option>
+          <option value=7 >7</option>
+          <option value=10 >10</option>
+        </select>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="!message">
+            <table class="table table-bordered">
+                <tr>
+                    <th hidden>Attribute ID</th>
+                    <th appSort [data]="model" [sortKey]="'attributeName'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Name <i *ngIf="sortColumn=='attributeName' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='attributeName' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th>Created By</th>
+                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Created Date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th></th>
+                </tr>
+                <tr *ngFor="let attribute of model">
+                    <td hidden>{{attribute.attributeID}}</td>
+                    <td>{{attribute.attributeName}}</td>
+                    <td>{{attribute.createdUser}}</td>
+                    <td>{{attribute.createdDate | date}}</td>
+                    <td class="message">
+                        <a [routerLink]="['detail',(attribute.attributeID)]">
+                            <i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+                        </a>&nbsp;
+                        <a (click)="delete(attribute.attributeID, attribute.associatedProductValues)">
+                            <i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <nav>
+                <app-paging [pager]="pager" (selectedPage)='pageSelect($event)'></app-paging>
+            </nav>
+        </div>
+        <div *ngIf="message"><br>
+            <h4 class="message">{{message}}</h4>
+        </div>
+    </div>
+</div>

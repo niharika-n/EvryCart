@@ -1,0 +1,10 @@
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+.body-content {
+    padding-left: 50px;
+    padding-top: 20px;
+}

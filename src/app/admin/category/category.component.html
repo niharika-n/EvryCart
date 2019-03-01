@@ -1,0 +1,64 @@
+<div class="container body-content">
+    <h3>
+        Categories
+    </h3>
+    <hr>
+    <div>
+        <div class="form-group row">
+            <div class="col-md-3">
+                <input autocomplete="off" class="form-control" name="search" #search />
+            </div>
+            <div class="col-md-9">
+                <input type="submit" value="Search" class="btn btn-info" title="Submit" (click)="listing(search.value)" /> &nbsp;
+                <input type="submit" value="Clear" class="btn btn-info" title="Clear" (click)="listing(search.value='')" name="all" /> &nbsp;
+                <button class="btn btn-info" type="button" [routerLink]="['add']" value="Add" title="Add New Category"><i class="fa fa-plus-circle add-icon"></i> Add</button>
+            </div>
+            <div class=" col-md-12 page-size">
+                <b>Page Size</b> &nbsp;
+                <select #pageSize (change)="sizeSelect(pageSize.value)">
+          <option value=5 >5</option>
+          <option value=7 >7</option>
+          <option value=10 >10</option>
+        </select>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="!message">
+            <table class="table table-bordered">
+                <tr>
+                    <th hidden>Category ID</th>
+                    <th appSort [data]="model" [sortKey]="'name'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Name <i *ngIf="sortColumn=='name' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='name' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th appSort [data]="model" [sortKey]="'description'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Description <i *ngIf="sortColumn=='description' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='description' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th>Active</th>
+                    <th>Created By</th>
+                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Created Date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th>Modified By</th>
+                    <th></th>
+                </tr>
+
+                <tr *ngFor="let category of model">
+                    <td hidden>{{category.categoryID}}</td>
+                    <td>{{category.name}}</td>
+                    <td>{{category.description}}</td>
+                    <td>{{category.isActive}}</td>
+                    <td>{{category.createdUser}}</td>
+                    <td>{{category.createdDate | date}}</td>
+                    <td>{{category.modifiedUser}}</td>
+                    <td class="message">
+                        <a [routerLink]="['detail',(category.id)]">
+                            <i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+                        </a>&nbsp;
+                        <a>
+                            <i class="fa fa-times icon" aria-hidden="true" title="Delete" (click)="delete(category.id, category.associatedProducts)"></i>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+            <nav>
+                <app-paging [pager]="pager" (selectedPage)='pageSelect($event)'></app-paging>
+            </nav>
+        </div>
+        <div *ngIf="message"><br>
+            <h4 class="message">{{message}}</h4>
+        </div>
+    </div>
+</div>

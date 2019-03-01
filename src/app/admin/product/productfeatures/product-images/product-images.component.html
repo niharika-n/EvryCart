@@ -1,0 +1,35 @@
+<a title="Add Image" value="add Image" #addnewImage class="addnewLink" id="addnewImage" (click)="showImageForm()">add
+    new Image
+  </a>
+
+<div *ngIf="isImage">
+    <br><br>
+    <div class="product-images" *ngIf="selectedImg.length > 0">
+        <div class="pdt-img" *ngFor='let selectimg of selectedImg'>
+            <figure>
+                <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage(selectimg.id)"></i>
+                <img [src]="selectimg.src">
+            </figure>
+        </div>
+        <br>
+        <button type="button" class="btn btn-info" title="Add" (click)="addImages()">Add</button>
+    </div>
+    <br>
+    <input type='file' (change)="onSelectFile($event)" multiple />
+</div>
+
+<div *ngIf="!isImage">
+    <br><br>
+    <div class="product-images">
+        <div class="pdt-img" *ngFor='let url of urls'>
+            <figure>
+                <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage(url.id)"></i>
+                <img [src]="url.src">
+            </figure>
+        </div>
+    </div>
+
+    <h5 *ngIf="imageMessage">
+        <br> Product images do not exist.
+    </h5>
+</div>

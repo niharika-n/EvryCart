@@ -1,0 +1,141 @@
+.container-fluid {
+    padding: 0px;
+}
+
+.container-prop {
+    overflow-x: hidden;
+}
+
+a {
+    cursor: pointer;
+}
+
+.navbar {
+    height: 80px;
+    padding: 0px;
+}
+
+.navbar-brand {
+    padding: 0px;
+    padding-left: 50px;
+}
+
+img {
+    height: 80px;
+}
+
+h2 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    color: darkslategrey;
+    display: inline;
+}
+
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    color: darkslategrey;
+    display: inline;
+}
+
+h4 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    color: darkslategrey;
+    display: inline;
+}
+
+.nav-margin {
+    margin-top: 80px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.border-margins {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+h5 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 80;
+    color: darkslategray;
+    display: inline;
+}
+
+h6 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    color: darkslategray;
+    display: inline;
+}
+
+td:hover {
+    background: #f2f8f9;
+    cursor: pointer;
+}
+
+.navbar-right {
+    display: inline-block;
+    margin-right: 75px;
+}
+
+i {
+    cursor: pointer;
+    color: #17a2b8;
+}
+
+.search-box {
+    width: 350px;
+}
+
+.icons {
+    font-size: 1.8em;
+}
+
+.nav-li {
+    display: inline-block;
+    border-left: 1.3px solid #a59f9f;
+    padding: 0 15px;
+}
+
+.nav-li:first-child {
+    border-left: none;
+}
+
+.table {
+    margin: 0px;
+}
+
+td {
+    border-left: 1.3px solid #a59f9f;
+    text-align: center;
+}
+
+td:first-child {
+    border-left: none;
+}
+
+.table-responsive {
+    overflow-x: initial;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: auto;
+    top: 55px;
+    margin-right: 20px;
+    padding: 1rem 0;
+}
+
+.background-image {
+    background: url('../../../assets//images/background.jpg');
+}
+
+.footer-content {
+    padding-left: 50px;
+}
+
+.footer-copyright {
+    background: whitesmoke;
+}

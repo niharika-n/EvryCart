@@ -1,0 +1,158 @@
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+h5 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+}
+
+h6 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+}
+
+.body-content {
+    padding-top: 20px;
+    overflow: hidden !important;
+}
+
+#text_link {
+    text-align-last: right;
+}
+
+form {
+    overflow: hidden !important;
+}
+
+label {
+    width: 200px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: darkslategrey;
+    vertical-align: top;
+    margin-bottom: 0rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.form-input {
+    display: inline-block;
+}
+
+#ShortDescription {
+    height: 80px;
+    resize: none;
+}
+
+#LongDescription {
+    height: 170px;
+    resize: none;
+}
+
+.text-box {
+    width: 100%;
+}
+
+.checkbox-select {
+    width: 15px;
+    margin-right: 10px;
+}
+
+#div-btn {
+    text-align: left;
+}
+
+.icon {
+    color: #17a2b8;
+    cursor: pointer;
+}
+
+.table-icons {
+    text-align: center;
+}
+
+.addnewLink {
+    color: #17a2b8 !important;
+    cursor: pointer;
+    float: right;
+    margin: 10px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.mat-tab {
+    overflow: hidden !important;
+}
+
+.pdt-img {
+    font-size: 16px;
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 8px;
+    width: calc(50% - 4px);
+    margin-right: 8px;
+}
+
+.pdt-img:nth-of-type(2n) {
+    margin-right: 0;
+}
+
+@media screen and (min-width: 50em) {
+    .pdt-img {
+        width: calc(25% - 6px);
+    }
+    .pdt-img:nth-of-type(2n) {
+        margin-right: 8px;
+    }
+    .pdt-img:nth-of-type(4n) {
+        margin-right: 0;
+    }
+}
+
+figure {
+    margin: 0;
+    height: 175px;
+    overflow: hidden;
+}
+
+img {
+    border: none;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: #ccc;
+}
+
+.product-images {
+    font-size: 0;
+}
+
+.img-close {
+    position: absolute !important;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-top: 2px;
+    margin-left: 4px;
+}
+
+.error-message {
+    font-size: 80%;
+    color: #dc3545;
+    margin-left: 200px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-datepicker-toggle {
+    position: absolute;
+    right: 20px;
+}

@@ -1,0 +1,70 @@
+<div class="container body-content">
+    <h3>
+        Create User
+    </h3>
+    <hr>
+    <div class="col-md-7">
+        <form [formGroup]='adminForm' (submit)="CreateAdmin(adminForm)" id="adminForm" lass="form-group" novalidate>
+
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control form-input" formControlName='firstName' #firstName id="firstName" [ngClass]="{ 'is-invalid': submitted && model.firstName.errors }" autocomplete="off" maxlength="20">
+                <div *ngIf="model.firstName.errors && submitted" class="invalid-feedback">
+                    <div *ngIf="model.firstName.errors.required">*required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" maxlength="20" class="form-control form-input" formControlName='lastName' #lastName id="lastName" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.lastName.errors }">
+                <div *ngIf="submitted && model.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="model.lastName.errors.required">*required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" maxlength="15" class="form-control form-input" (keyup)="existingUsername=='' || UsernameCheck($event)" formControlName='username' #username id="username" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.username.errors }">
+                <div *ngIf="submitted && model.username.errors" class="invalid-feedback">
+                    <div *ngIf="model.username.errors.required">*required</div>
+                </div>
+                <div *ngIf="existingUsername!=''" class="custom-error">{{existingUsername}}</div>
+            </div>
+
+            <div class="form-group">
+                <label for="emailID">Email Address</label>
+                <input type="text" formControlName="emailID" class="form-control form-input" (keyup)="existingEmail =='' || EmailCheck($event)" #emailID id="emailID" email autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.emailID.errors }" />
+                <div *ngIf="submitted && model.emailID.errors" class="invalid-feedback">
+                    <div *ngIf="model.emailID.errors.required">*required</div>
+                    <div *ngIf="model.emailID.errors.email">Enter a valid Email address</div>
+                </div>
+                <div *ngIf="existingEmail !=''" class="custom-error">{{existingEmail}}</div>
+            </div>
+
+            <div class="form-group">
+                <label>User Image </label>
+                <img *ngIf="url != ''" [src]="url" width="250px">
+                <br>
+                <label></label>
+                <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
+                <div *ngIf="submitted && !fileSelected" class="custom-error">*required</div>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">Role Type</label>
+                <input type="checkbox" value="1" name="roleID" formControlName='roleID' #roleID id="roleID" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.roleID.invalid }" required/> Admin
+                <input type="checkbox" aria-selected="true" value="2" name="roleID" formControlName='roleID' #roleID id="roleID" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.roleID.errors }" required/> User
+                <div *ngIf="submitted && model.roleID.errors">
+                    <div *ngIf="model.roleID.errors.required" class="custom-error">*required</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label></label>
+                <input type="submit" value="Create" title="Create" class="btn btn-info">&nbsp;
+                <input type="reset" value="Reset" title="Reset" (click)="resetForm(adminForm)" class="btn btn-secondary">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5"></div>
+</div>

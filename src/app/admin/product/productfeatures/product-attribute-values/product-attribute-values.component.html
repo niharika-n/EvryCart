@@ -1,0 +1,68 @@
+<a title="Add Attribute" value="add Attribute" class="addnewLink" id="addnewAttribute" (click)="showAttributeValueForm()">add
+  new Attribute</a>
+<div *ngIf="isAttribute">
+    <form #attributeForm="ngForm" (ngSubmit)="addAttribute(AttributeID.value,Value.value,attributeForm)" class="form-group" novalidate>
+        <br>
+        <br>
+        <div>
+            <label for="AttributeID">Attribute</label>
+            <select class="form-control form-input" name="AttributeID" #AttributeID="ngModel" [(ngModel)]="model.attributeID" [ngClass]="{ 'is-invalid': AttributeID.errors && submitted}" id="AttributeID" required>            
+<option value="0" selected="true" disabled>-select-</option>
+<option [value]="attribute.attributeID" *ngFor="let attribute of AttributeArr">{{attribute.attributeName}}</option>
+</select>
+            <div *ngIf="submitted && AttributeID.errors?.required" class="error-message">*required</div>
+        </div>
+        <br>
+        <div>
+            <label for="Value">Value </label>
+            <input type="text" maxlength="20" class="form-control form-input" autocomplete="off" name="Value" #Value="ngModel" [(ngModel)]="model.value" [ngClass]="{ 'is-invalid ': Value.errors && submitted}" (keyup)="attributeValMessage=='' || attributeValCheck($event)"
+                id="Value" required />
+            <div *ngIf="submitted && Value.errors?.required" class="error-message">*required</div>
+            <div *ngIf="attributeValMessage!=''" class="error-message">{{attributeValMessage}}</div>
+        </div>
+        <br>
+        <div id="div-btn">
+            <label></label>
+            <button type="submit" class="btn btn-info" title="Add">Add</button>&nbsp;
+            <button type="reset" value="Reset" class="btn btn-secondary" title="Reset" (click)="resetForm(attributeForm)">Reset</button>
+        </div>
+    </form>
+
+</div>
+<div *ngIf="!isAttribute">
+    <div *ngIf="!attributeMessage">
+        <div class=" col-md-12 page-size">
+            <b>Page Size</b> &nbsp;
+            <select #pageSize (change)="sizeSelect(pageSize.value)">
+          <option value=4 >4</option>
+          <option value=7 >7</option>
+          <option value=10 >10</option>
+        </select>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                    <th></th>
+                </tr>
+                <tr *ngFor='let attribute of attributeValues '>
+                    <td>{{attribute.attributeName}}</td>
+                    <td>{{attribute.value}}</td>
+                    <td class="table-icons">
+                        <a (click)="getDetailAttribute(attribute.id)"><i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+            </a>&nbsp;&nbsp;&nbsp;
+                        <a (click)="deleteAttribute(attribute.id)"><i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+            </a>
+                    </td>
+                </tr>
+            </table>
+            <nav>
+                <app-paging [pager]="pager" (selectedPage)='pageSelect($event) '></app-paging>
+            </nav>
+        </div>
+    </div>
+    <h5 *ngIf="attributeMessage">
+        <br> Product attributes do not exist.
+    </h5>
+</div>

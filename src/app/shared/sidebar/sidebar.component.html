@@ -1,0 +1,27 @@
+<div class="wrapper">
+    <nav id="sidebar">
+        <ul class="list-unstyled components">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Dashboard">
+                <a [routerLink]="['/admin/dashboard']">Dashboard</a>
+            </li>
+            <li [ngClass]="{'active':router.url.indexOf('/category')>-1}" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Categories">
+                <a [routerLink]="['/admin/category']">Categories</a>
+            </li>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" title="Product Options">Products</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Products">
+                        <a [routerLink]="['/admin/product']">Products</a>
+                    </li>
+                    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Product Attributes">
+                        <a [routerLink]="['/admin/product/attribute']">Attributes</a>
+                    </li>
+                </ul>
+            </li>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Location">
+                <a [routerLink]="['/admin/location']">Location</a>
+            </li>
+        </ul>
+    </nav>
+
+</div>

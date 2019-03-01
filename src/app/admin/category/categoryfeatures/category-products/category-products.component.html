@@ -1,0 +1,34 @@
+<br>
+<div *ngIf="!productMessage">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            <tr *ngFor='let product of ProductsArr'>
+                <td>{{product.productName}}</td>
+                <td>{{product.shortDescription}}</td>
+                <td class="table-icons">
+                    <a (click)="getDetailProduct(product.productID)"><i class="fa fa-pencil icon" aria-hidden="true"
+              title="Edit"></i>
+          </a>&nbsp;&nbsp;&nbsp;
+                    <a (click)="deleteProduct(product.productID)"><i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+          </a>
+                </td>
+            </tr>
+        </table>
+        <nav>
+            <app-paging [pager]="pager" (selectedPage)='pageSelect($event)'></app-paging>
+            <b>Page Size</b> &nbsp;
+            <select #pageSize (change)="sizeSelect(pageSize.value)">
+        <option value=5>5</option>
+        <option value=10>10</option>
+      </select>
+        </nav>
+    </div>
+</div>
+<h5 *ngIf="productMessage">
+    Products do not exist.
+</h5>

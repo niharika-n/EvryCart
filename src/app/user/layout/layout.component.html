@@ -1,0 +1,109 @@
+<div class="container-fluid container-prop">
+    <nav class="navbar fixed-top background-image">
+        <div class="navbar-brand">
+            <a>
+                <img src="../../assets/images/logo_training.png" />
+                <h2>
+                    Application
+                </h2>
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-li">
+                <form class="form-inline">
+                    <input class="form-control search-box" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </li>
+            <li class="nav-li">
+                <span>
+          <i class="dropdown fa fa-user icons" aria-expanded="true" data-toggle="dropdown"></i>&nbsp;
+          <div class="dropdown-menu dropdown-menu-right">
+            <span *ngIf="loginModel != null">
+              <a class="dropdown-item">
+                <span *ngIf="loginModel.imageContent != null; else userImagePath">
+                  <img [src]="loginModel.imageContent" class="img-fluid user-img">
+                </span>
+                <ng-template #userImagePath>
+                    <img src="../../assets/images/UserImages/alternate.jpg" class="img-fluid user-img">
+                </ng-template>
+                </a>
+                <a class="dropdown-item">{{loginModel.firstName}}&nbsp;{{loginModel.lastName}}</a>
+                <a class="dropdown-item">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="" (click)="logout()">Logout</a>
+                </span>
+                <span *ngIf="loginModel == null">
+              <a class="dropdown-item" [routerLink]="['/login']">Login</a>
+              <a class="dropdown-item" [routerLink]="['/register']">Sign Up</a>
+            </span>
+</div>
+</span>
+</li>
+<li class="nav-li">
+    <i class="fa fa-shopping-cart icons"></i>
+</li>
+</ul>
+</nav>
+<div class="nav-margin">
+    <br>
+    <hr>
+    <div class="table-responsive">
+        <table class="table table-borderless">
+            <tr>
+                <td *ngFor="let category of CategoryArr">
+                    <h5>{{category.name}}</h5>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr>
+</div>
+<div class="border-margins ">
+    <router-outlet>
+    </router-outlet>
+</div>
+<br>
+<footer class="page-footer font-small background-image pt-4">
+    <div class="container-fluid text-center text-md-left footer-content">
+        <div class="row">
+            <div class="col-md-6 mt-md-0 mt-3">
+                <h5 class="text-uppercase">Footer Content</h5>
+                <p>footer content.</p>
+            </div>
+            <hr class="clearfix w-100 d-md-none pb-3">
+            <div class="col-md-3 mb-md-0 mb-3">
+                <h5 class="text-uppercase">Categories</h5>
+                <ul class="list-unstyled footer-list">
+                    <li *ngFor="let category of AllCategoryArr">
+                        <a href="#">{{category.name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-md-0 mb-3">
+                <h5 class="text-uppercase">Links</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="#!">Link 1</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 2</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 3</a>
+                    </li>
+                    <li>
+                        <a href="#!">Link 4</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright text-center py-3">
+        <h6>Follow us on:&nbsp;&nbsp;</h6>
+        <i class="fa fa-facebook-square icons" title="Facebook"></i>&nbsp;
+        <i class="fa fa-twitter icons" title="Twitter"></i>&nbsp;
+        <i class="fa fa-instagram icons" title="Instagram"></i>&nbsp;
+    </div>
+</footer>
+</div>

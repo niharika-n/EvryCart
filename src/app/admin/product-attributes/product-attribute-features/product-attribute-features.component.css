@@ -1,0 +1,46 @@
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+.body-content {
+    padding-top: 20px;
+}
+
+#text_link {
+    text-align-last: right;
+}
+
+label {
+    width: 140px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: darkslategrey;
+    vertical-align: top;
+    margin-bottom: 0rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.form-input {
+    display: inline-block;
+}
+
+#AttributeName {
+    width: 178px;
+}
+
+.text-box {
+    width: 178px;
+}
+
+.invalid-feedback {
+    margin-left: 140px;
+}
+
+.error-message {
+    font-size: 80%;
+    color: #dc3545;
+    margin-left: 140px;
+}

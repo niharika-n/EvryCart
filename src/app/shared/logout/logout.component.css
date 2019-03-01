@@ -1,0 +1,43 @@
+.login-pop-over {
+    width: 400px;
+    height: auto;
+    background-color: white;
+    margin: 1% auto 0;
+    padding: 30px 30px 10px;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 70px;
+}
+
+.background {
+    background: url('../../../assets/images/background.jpg');
+    overflow: hidden !important;
+    min-height: 657px;
+}
+
+.bottom-margin {
+    margin-bottom: 30px;
+}
+
+img {
+    height: 250px;
+    width: auto;
+    padding-bottom: 30px;
+}
+
+.inner-margin {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+h6 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}

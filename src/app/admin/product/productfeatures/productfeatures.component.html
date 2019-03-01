@@ -1,0 +1,264 @@
+<div class="container body-content">
+    <h3>
+        {{pageTitle}} Product
+    </h3>
+    <div class="col-md-12" id="text_link">
+        <a [routerLink]="['/admin/product']" title="Product list" value="back to list">back to list</a>
+    </div>
+    <mat-tab-group>
+
+        <mat-tab label="Product Information">
+            <ng-template matTabContent>
+                <br>
+                <form #productForm="ngForm" (ngSubmit)="add(productForm)" class="form-group" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light text-dark">
+                                    <h5>
+                                        General Information
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div hidden>ProductID</div>
+                                    <input hidden class="form-control form-input" autocomplete="off" name="ProductID" #ProductID="ngModel" [(ngModel)]="model.productID" id="ProductID" />
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="ProductName">Name </label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <input type="text" class="form-control form-input text-box" autocomplete="off" name="ProductName" #ProductName="ngModel" [(ngModel)]="model.productName" [ngClass]="{ 'is-invalid': ProductName.errors && submitted}" id="ProductName" required (keyup)="sameNameCheck=='' || editSameName($event)"
+                                                maxlength="15" />
+                                            <div *ngIf="submitted && ProductName.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                            <div *ngIf="sameNameCheck!==''" class="error-message">{{sameNameCheck}}</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="ShortDescription">Short Description </label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <textarea id="ShortDescription" class="form-control form-input" name="ShortDescription" autocomplete="off" #ShortDescription="ngModel" [(ngModel)]="model.shortDescription" [ngClass]="{ 'is-invalid': ShortDescription.errors && submitted}" id="ShortDescription"
+                                                maxlength="50" required>
+                    </textarea>
+                                            <div *ngIf="submitted && ShortDescription.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="LongDescription">Long Description </label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <textarea id="LongDescription" class="form-control form-input" name="LongDescription" autocomplete="off" #LongDescription="ngModel" [(ngModel)]="model.longDescription" [ngClass]="{ 'is-invalid': LongDescription.errors && submitted}" id="LongDescription"
+                                                maxlength="100" required>
+                                                                                        </textarea>
+                                            <div *ngIf="submitted && LongDescription.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="CategoryID">Category</label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <select class="form-control form-input text-box" name="CategoryID" #CategoryID="ngModel" [(ngModel)]="model.categoryID" [ngClass]="{ 'is-invalid': CategoryID.errors && submitted}" id="CategoryID" required>
+                      <option value="0" selected="true" disabled>-select-</option>
+                      <option [value]="category.id" *ngFor="let category of CategoryArr">{{category.name}}</option>
+                      <option *ngIf="message != ''">{{message}}</option>
+                    </select>
+                                            <div *ngIf="submitted && CategoryID.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="ModelNumber">Model Number </label>
+                                        </div>
+                                        <div class="col-md-8 col-sm-8 col-12">
+                                            <input type="text" class="form-control form-input text-box" autocomplete="off" name="ModelNumber" #ModelNumber="ngModel" [(ngModel)]="model.modelNumber" [ngClass]="{ 'is-invalid': ModelNumber.errors && submitted}" id="ModelNumber" required (keyup)="sameModelCheck=='' || editSameModel($event)"
+                                                maxlength="8" />
+                                            <div *ngIf="submitted && ModelNumber.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                            <div *ngIf="sameModelCheck !==''" class="error-message">{{sameModelCheck}}</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <input type="checkbox" class="form-control form-input checkbox-select" name="OnHomePage" id="OnHomePage" #OnHomePage="ngModel" [(ngModel)]="model.onHomePage" />
+                                        <label for="OnHomePage">Show on Home Page</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="form-control form-input checkbox-select" name="MarkNew" id="MarkNew" #MarkNew="ngModel" [(ngModel)]="model.markNew" />
+                                        <label for="MarkNew">Mark as New</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="form-control form-input checkbox-select" name="AllowCustomerReviews" id="AllowCustomerReviews" #AllowCustomerReviews="ngModel" [(ngModel)]="model.allowCustomerReviews" />
+                                        <label for="AllowCustomerReviews">Allow Customer Reviews</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light text-dark">
+                                    <h5>
+                                        Price
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="Price">Price (in ₹)</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-12">
+                                            <input type="number" class="form-control form-input text-box" autocomplete="off" name="Price" #Price="ngModel" [(ngModel)]="model.price" [ngClass]="{ 'is-invalid': Price.errors && submitted}" id="Price" maxlength="6" required />
+                                            <div *ngIf="submitted && Price.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <input type="checkbox" (change)="selectDiscount()" class="form-control form-input checkbox-select" name="IsDiscounted" id="IsDiscounted" #IsDiscounted="ngModel" [(ngModel)]="model.isDiscounted" />
+                                        <label for="IsDiscounted">Is Discounted</label>
+                                    </div>
+                                    <div *ngIf="isDiscount" class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="DiscountPercent">Discount (in %) </label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-12">
+                                            <input type="number" maxlength="2" required [ngClass]="{ 'is-invalid':DiscountPercent.errors && submitted}" class="form-control form-input text-box" autocomplete="off" name="DiscountPercent" #DiscountPercent="ngModel" [(ngModel)]="model.discountPercent"
+                                                id="DiscountPercent" />
+                                            <div *ngIf="DiscountPercent.errors?.required && isDiscount" class="invalid-feedback validation-message">*required</div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" (change)="selectTax()" class="form-control form-input checkbox-select" name="TaxExempted" id="TaxExempted" #TaxExempted="ngModel" [(ngModel)]="model.taxExempted" />
+                                        <label for="TaxExempted">Tax Exempted</label>
+                                    </div>
+                                    <div *ngIf="isTax" class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="Tax">Tax (in %)</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-12">
+                                            <input type="number" required maxlength="2" [ngClass]="{ 'is-invalid':Tax.errors && submitted}" class="form-control form-input text-box" autocomplete="off" name="Tax" #Tax="ngModel" [(ngModel)]="model.tax" id="Tax" />
+                                            <div *ngIf="Tax.errors?.required && submitted" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="card">
+                                <div class="card-header bg-light text-dark">
+                                    <h5>
+                                        Inventory
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="QuantityInStock">Quantity in Stock</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-12">
+                                            <input type="number" maxlength="3" class="form-control form-input text-box" autocomplete="off" name="QuantityInStock" #QuantityInStock="ngModel" [(ngModel)]="model.quantityInStock" [ngClass]="{ 'is-invalid': QuantityInStock.errors && submitted}" id="QuantityInStock"
+                                                required />
+                                            <div *ngIf="submitted && QuantityInStock.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="QuantityType">Quantity Type</label>
+                                        </div>
+                                        <div class="col-md-5 col-sm-5 col-12">
+                                            <select class="form-control form-input text-box" name="QuantityType" #QuantityType="ngModel" [(ngModel)]="model.quantityType" [ngClass]="{ 'is-invalid': QuantityType.errors && submitted}" id="QuantityType" required>
+                      <option value="0" selected="true" disabled>-select-</option>
+                      <option *ngFor="let key of keys" [value]="key" [label]="quantityType[key]"></option>
+                    </select>
+                                            <div *ngIf="submitted && QuantityType.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="VisibleStartDate">Visible Start Date </label>
+                                        </div>
+                                        <div class="col-md-5 col-sm-5 col-12">
+                                            <input matInput [matDatepicker]="pickerStart" autocomplete="off" class="form-control form-input text-box" name="VisibleStartDate" #VisibleStartDate="ngModel" [(ngModel)]="model.visibleStartDate" [ngClass]="{ 'is-invalid': VisibleStartDate.errors && submitted}"
+                                                id="VisibleStartDate" required placeholder="Enter Date" [min]="minDate" (ngModelChange)="endDate($event)">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                                            <mat-datepicker #pickerStart></mat-datepicker>
+                                            <div *ngIf="submitted && VisibleStartDate.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="VisibleEndDate">Visible End Date </label>
+                                        </div>
+                                        <div class="col-md-5 col-sm-5 col-12">
+                                            <input matInput [matDatepicker]="pickerEnd" autocomplete="off" class="form-control form-input text-box" name="VisibleEndDate" #VisibleEndDate="ngModel" [(ngModel)]="model.visibleEndDate" [ngClass]="{ 'is-invalid': VisibleEndDate.errors && submitted}"
+                                                id="VisibleEndDate" required placeholder="Enter Date" [min]="maxDate">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                                            <mat-datepicker #pickerEnd></mat-datepicker>
+                                            <div *ngIf="submitted && VisibleEndDate.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                            <div *ngIf="submitted && !VisibleEndDate.errors?.valid" class="invalid-feedback">*date cannot be less than start date</div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <input type="checkbox" class="form-control form-input checkbox-select" name="IsActive" id="IsActive" #IsActive="ngModel" [(ngModel)]="model.isActive" />
+                                        <label for="IsActive">Show Availability</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="card">
+                                <div class="card-header bg-light text-dark">
+                                    <h5>
+                                        Shipping
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <input type="checkbox" (change)="selectShipping()" class="form-control form-input checkbox-select" name="ShippingEnabled" id="ShippingEnabled" #ShippingEnabled="ngModel" [(ngModel)]="model.shipingEnabled" />
+                                        <label for="ShippingEnabled">Shipping charges Enabled</label>
+                                    </div>
+                                    <div *ngIf="isShipping" class="row">
+                                        <div class="col-md-4 col-sm-4 col-12">
+                                            <label for="ShippingCharges">Shipping Charges (in ₹)</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-12">
+                                            <input type="number" maxlength="3" class="form-control form-input text-box" [ngClass]="{ 'is-invalid': ShippingCharges.errors && submitted}" autocomplete="off" name="ShippingCharges" #ShippingCharges="ngModel" [(ngModel)]="model.shippingCharges" id="ShippingCharges"
+                                                required />
+                                            <div *ngIf="submitted && ShippingCharges.errors?.required" class="invalid-feedback validation-message">*required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="div-btn">
+                        <button type="submit" [disabled]="loading" class="btn btn-info" title="Submit">Submit</button>&nbsp;
+                        <button type="reset" value="Reset" class="btn btn-secondary" (click)="resetForm(productForm)" title="Reset">Reset</button>
+                    </div>
+                </form>
+            </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Images" *ngIf="editPage">
+            <ng-template matTabContent>
+                <app-product-images></app-product-images>
+            </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Product Attributes" *ngIf="editPage">
+            <ng-template matTabContent>
+                <app-product-attribute-values></app-product-attribute-values>
+            </ng-template>
+        </mat-tab>
+
+    </mat-tab-group>
+</div>

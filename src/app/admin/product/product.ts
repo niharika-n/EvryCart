@@ -1,0 +1,29 @@
+export interface ProductModel {
+    productId: number;
+    productName: string;
+    shortDescription: string;
+    longDescription?: string;
+    categoryID: number;
+    isActive: boolean;
+    createdBy: number;
+    createdDate: Date;
+    createdUser: string;
+    modifiedBy?: number;
+    modifiedDate?: Date;
+    modifiedUser?: string;
+    modelNumber?: string;
+    price: number;
+    quantityInStock: number;
+    quantityType: string;
+    visibleStartDate?: Date;
+    visibleEndDate: Date;
+    onHomePage?: boolean;
+    markNew?: boolean;
+    allowCustomerReviews?: boolean;
+    isDiscounted?: boolean;
+    discountPercent?: number;
+    taxExempted?: boolean;
+    tax?: number;
+    shipingEnabled?: boolean;
+    shippingCharges?: number;
+}

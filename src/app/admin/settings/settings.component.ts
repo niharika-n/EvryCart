@@ -1,0 +1,135 @@
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { LoginUser } from '../../shared/login-model';
+import { SettingsService } from '../../services/settings.service';
+import { ToastrService } from 'ngx-toastr';
+import { isNullOrUndefined } from 'util';
+
+@Component({
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css']
+})
+export class SettingsComponent implements OnInit {
+  settingsForm: FormGroup;
+  userImg = '';
+  user: LoginUser;
+  submitted = false;
+  fileSelected = false;
+  id = 0;
+  url = '';
+  imageObj = null;
+  @ViewChild('imagePath') imagePath: ElementRef;
+  existingUsername = '';
+  existingEmail = '';
+
+  constructor(private formbuilder: FormBuilder, private settingsService: SettingsService, private toastr: ToastrService) {
+    this.settingsForm = this.formbuilder.group({
+      userID: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      emailID: ['', [Validators.required, Validators.email]],
+    });
+  }
+
+  get model() { return this.settingsForm.controls; }
+
+  ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.id = this.user.userID;
+    this.settingsService.Detail(this.id).subscribe((result: any) => {
+      this.user = result;
+      if (result.imageContent != null) {
+        this.userImg = 'data:image/png;base64,' + result.imageContent;
+        this.fileSelected = true;
+      }
+      this.formValue();
+    });
+  }
+
+  formValue() {
+    this.settingsForm.patchValue({
+      userID: this.user.userID,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      username: this.user.username,
+      emailID: this.user.emailID
+    });
+  }
+
+  onSelectFile(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e: any) => {
+        this.url = e.target.result;
+      };
+      this.fileSelected = true;
+    }
+    this.imageObj = event.target.files[0];
+  }
+
+  EmailCheck(event: any) {
+    if (this.existingEmail !== '') {
+      this.existingEmail = '';
+    }
+  }
+
+  UsernameCheck(event: any) {
+    if (this.existingUsername !== '') {
+      this.existingUsername = '';
+    }
+  }
+
+  submitForm(formValue: FormGroup) {
+    if (formValue.valid) {
+      const currentUser = JSON.parse(localStorage.getItem('token'));
+      const body = JSON.stringify(formValue.value);
+      const formData = new FormData();
+      formData.append('model', body);
+      if (this.imageObj !== null) {
+        formData.append('file', this.imageObj);
+      }
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', '/api/user/update');
+      xhr.setRequestHeader('accept', 'application/json');
+      xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
+      xhr.responseType = 'json';
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (!isNullOrUndefined(xhr.response.usernameMessage)) {
+            this.existingUsername = 'Username already exists';
+          } else {
+            this.existingUsername = '';
+          }
+          if (!isNullOrUndefined(xhr.response.emailMessage)) {
+            this.existingEmail = 'This Email already exists';
+          } else {
+            this.existingEmail = '';
+          }
+          if (xhr.status === 200) {
+            if (!isNullOrUndefined(xhr.response.user)) {
+              localStorage.removeItem('user');
+              localStorage.setItem('user', JSON.stringify(formValue.value));
+              this.toastr.success('Settings Updated !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            }
+          }
+        }
+      };
+      xhr.send(formData);
+
+    }
+    this.submitted = true;
+  }
+
+  resetForm(form: NgForm) {
+    if (form != null) {
+      this.fileSelected = false;
+      this.submitted = false;
+      this.url = '';
+      this.ngOnInit();
+      this.imagePath.nativeElement.value = '';
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<div class="pagination">
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination ">
+        <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+            <a (click)="pageSelect(pager.currentPage - 1)" class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item">
+            <a (click)="pageSelect(page)" class="page-link">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+            <a (click)="pageSelect(pager.currentPage + 1)" class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        </li>
+    </ul>
+</div>

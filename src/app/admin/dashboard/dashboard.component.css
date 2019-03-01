@@ -1,0 +1,41 @@
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+h5 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+}
+
+.body-content {
+    padding-top: 20px;
+}
+
+hr {
+    margin-bottom: 2rem;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-header {
+    cursor: pointer;
+}
+
+li {
+    cursor: pointer;
+}
+
+p {
+    float: right;
+    margin: 0;
+}
+
+li:hover {
+    background-color: #e3e7eb;
+}

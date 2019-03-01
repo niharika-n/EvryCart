@@ -1,0 +1,64 @@
+<div class="container-fluid container-prop">
+    <nav class="navbar fixed-top">
+        <div class="application-heading">
+            <img src="../../assets/images/logo_training.png" />
+            <h4>
+                Application
+            </h4>
+        </div>
+        <div class="dropdown">
+            <h5 class="nav-link dropdown" aria-expanded="true" data-toggle="dropdown">{{loginModel.username}}</h5>&nbsp;
+            <ul class="dropdown-menu">
+                <li class="dropdown-item">
+                    <a><span *ngIf="loginModel.imageContent != null; else userImagePath">
+              <img src="{{userImg}}" class="img-fluid user-img">
+            </span>
+            <ng-template #userImagePath>
+              <img src="../../assets/images/UserImages/alternate.jpg" class="img-fluid user-img">
+            </ng-template>
+          </a>
+                </li>
+                <li class="dropdown-item">
+                    <a>{{loginModel.firstName}}&nbsp;{{loginModel.lastName}}</a>
+                </li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item class-pointer">Profile Settings</a>
+                    <ul class="dropdown-menu submenu-right">
+                        <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/profile']"><a>Change Profile</a></li>
+                        <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/password']"><a>Change Password</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item class-pointer">Manage Users</a>
+                    <ul class="dropdown-menu submenu-right">
+                        <li class="dropdown-item class-pointer" [routerLink]="['/admin/user/create']"><a>Create User</a></li>
+                        <li class="dropdown-item class-pointer"><a>View Users</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-divider">
+                </li>
+                <li class="dropdown-item">
+                    <a class="logout-prop" href="" (click)="logout()">Logout &nbsp;<i class="fa fa-power-off"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row nav-margin">
+        <div class="col-md-2 sidebar">
+            <br>
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-10 text-area">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12 col-xl-12 no-padding content-height">
+                    <div class="loader-mid" appSpinner>
+                        <mat-spinner mode="indeterminate" strokeWidth="3" [diameter]="60" class="loading">
+                        </mat-spinner>
+                    </div>
+                    <router-outlet>
+                    </router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
