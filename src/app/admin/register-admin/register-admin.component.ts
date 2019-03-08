@@ -94,7 +94,7 @@ export class RegisterAdminComponent implements OnInit {
         formData.append('file', this.imageObj);
         formData.append('role', JSON.stringify(this.userRoles));
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/user/createuser');
+        xhr.open('POST', '/api/user/createuserfromadmin');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
         xhr.responseType = 'json';
@@ -113,7 +113,7 @@ export class RegisterAdminComponent implements OnInit {
             }
             if (xhr.status === 200) {
               debugger;
-              if (!isNullOrUndefined(xhr.response.user)) {
+              if (!isNullOrUndefined(xhr.response.success)) {
                 this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
                 this.resetForm(form);
               }
