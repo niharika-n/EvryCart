@@ -4,6 +4,7 @@ import { LayoutService } from '../../services/layout.service';
 import { isNullOrUndefined, debug } from 'util';
 import { LoginUser } from '../../shared/login-model';
 import { SigninService } from '../../services/login.service';
+import { SpinnerService } from '../../services/spinner.service';
 
 @Component({
   selector: 'app-layout',
@@ -12,7 +13,8 @@ import { SigninService } from '../../services/login.service';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor(private layoutService: LayoutService, private loginService: SigninService, private router: Router) { }
+  constructor(private layoutService: LayoutService, private loginService: SigninService,
+    private router: Router, private spinnerService: SpinnerService) { }
   loginModel: LoginUser;
   CategoryArr = [];
   AllCategoryArr = [];
@@ -27,8 +29,10 @@ export class LayoutComponent implements OnInit {
   }
 
   pageStart() {
+    this.spinnerService.startRequest();
     this.layoutService.getCategories().
       subscribe((result: any) => {
+        this.spinnerService.endRequest();
         if (result.categoryResult.length !== 0 && !isNullOrUndefined(result.categoryResult)) {
           for (let i = 0; i < result.categoryResult.length; i++) {
             this.AllCategoryArr.push(result.categoryResult[i]);

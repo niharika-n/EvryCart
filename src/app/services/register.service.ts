@@ -20,21 +20,21 @@ export class RegisterService {
 
     constructor(private http: HttpClient, private toastr: ToastrService) { }
 
-    postLogin(user: LoginUser, file: File) {
-        const body = JSON.stringify(user);
-        const formData = new FormData();
-        formData.append('model', body);
-        formData.append('file', file);
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/user/create');
-        xhr.setRequestHeader('Accept', 'application/json');
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
-                }
-            }
-        };
-        xhr.send(formData);
-    }
+    // postLogin(user: LoginUser, file: File) {
+    //     const body = JSON.stringify(user);
+    //     const formData = new FormData();
+    //     formData.append('model', body);
+    //     formData.append('file', file);
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', '/api/user/createuser');
+    //     xhr.setRequestHeader('Accept', 'application/json');
+    //     xhr.onreadystatechange = () => {
+    //         if (xhr.readyState === 4) {
+    //             if (xhr.status === 200) {
+    //                 this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+    //             }
+    //         }
+    //     };
+    //     xhr.send(formData);
+    // }
 }

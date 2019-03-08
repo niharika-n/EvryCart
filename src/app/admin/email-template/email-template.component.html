@@ -1,0 +1,25 @@
+<div class="container body-content">
+    <h3>
+        Edit Templates
+    </h3>
+    <hr>
+    <div>
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-12">
+                <label for="Templates">Choose Template</label>
+            </div>
+            <div class="col-md-10 col-sm-10 col-12">
+                <select class="form-control" name="Templates" id="Templates" (change)="onSelect($event)">
+          <option value="0" selected="true" disabled>-select-</option>
+          <option *ngFor="let key of keys" [value]="key" [label]="templateType[key]"></option>
+        </select>
+            </div>
+            <div class="col-md-8 col-sm-8 col-12" *ngIf="selectCheck != ''">
+                <h5 class="template-label">{{heading}}</h5>
+                <ckeditor #templateEditor name="templateEditor" [(ngModel)]="emailContent" [readonly]="false" debounce="500" debounce="500">
+                </ckeditor>
+                <br>
+                <button type="submit" (click)="update(templateEditor.value)" class="btn btn-info" title="Submit">Submit</button>
+            </div>
+        </div>
+    </div>

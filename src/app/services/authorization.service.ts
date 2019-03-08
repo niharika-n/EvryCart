@@ -7,7 +7,7 @@ import { LoginUser } from '../shared/login-model';
 @Injectable()
 export class AuthService {
 
-    constructor(private myRoute: Router) { }
+    constructor(private route: Router) { }
 
     getToken() {
         const token = localStorage.getItem('token');
@@ -20,6 +20,5 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem('token');
-        this.myRoute.navigate(['/login']);
     }
 }

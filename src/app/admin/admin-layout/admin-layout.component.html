@@ -22,10 +22,12 @@
                     <a>{{loginModel.firstName}}&nbsp;{{loginModel.lastName}}</a>
                 </li>
                 <li class="dropdown-submenu">
-                    <a class="dropdown-item class-pointer">Profile Settings</a>
+                    <a class="dropdown-item class-pointer">Settings</a>
                     <ul class="dropdown-menu submenu-right">
                         <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/profile']"><a>Change Profile</a></li>
                         <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/password']"><a>Change Password</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/template']"><a>Change Templates</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu">
@@ -38,7 +40,7 @@
                 <li class="dropdown-divider">
                 </li>
                 <li class="dropdown-item">
-                    <a class="logout-prop" href="" (click)="logout()">Logout &nbsp;<i class="fa fa-power-off"></i></a>
+                    <a class="logout-prop" href="javascript:void(0)" (click)="logout()">Logout &nbsp;<i class="fa fa-power-off"></i></a>
                 </li>
             </ul>
         </div>

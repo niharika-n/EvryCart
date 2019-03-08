@@ -51,8 +51,9 @@ export class RegisterComponent implements OnInit {
       const formData = new FormData();
       formData.append('model', body);
       formData.append('file', this.imageObj);
+      formData.append('role', '[3]');
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/user/create');
+      xhr.open('POST', '/api/user/createuser');
       xhr.setRequestHeader('Accept', 'application/json');
       xhr.responseType = 'json';
       xhr.onreadystatechange = (result: any) => {
@@ -69,11 +70,16 @@ export class RegisterComponent implements OnInit {
           }
           if (xhr.status === 200) {
             console.log(xhr.response);
-            if (!isNullOrUndefined(xhr.response.user)) {
-              console.log(xhr.response.user);
+            if (!isNullOrUndefined(xhr.response.success)) {
+              console.log(xhr.response.success);
               this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
               this.resetForm(form);
               this.router.navigate(['/login']);
+            }
+            if (!isNullOrUndefined(xhr.response.fail)) {
+              console.log(xhr.response.success);
+              this.toastr.error('User could not be created', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.resetForm(form);
             }
           }
         }

@@ -24,7 +24,8 @@ export class CategoryComponent implements OnInit {
     getAll = false;
     sortOrder = false;
     constructor(private categoryService: CategoryService, private router: Router,
-        private pagerService: PagerService, private toastr: ToastrService, private spinnerService: SpinnerService) { }
+        private pagerService: PagerService, private toastr: ToastrService,
+        private spinnerService: SpinnerService) { }
 
     ngOnInit() {
         this.listing('', this.currentPage, this.pageSize);

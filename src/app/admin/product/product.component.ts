@@ -48,6 +48,7 @@ export class ProductComponent implements OnInit {
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
+        this.spinnerService.endRequest();
         this.message = 'No product found';
         console.log(error);
       });

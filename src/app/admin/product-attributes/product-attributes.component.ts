@@ -4,6 +4,7 @@ import { PagerService } from '../../services/pagination.service';
 import { ToastrService } from 'ngx-toastr';
 import { ProductAttributeService } from '../../services/product-attributes.service';
 import { ProductAttributeModel } from './product-attribute';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-product-attributes',
@@ -23,7 +24,8 @@ export class ProductAttributesComponent implements OnInit {
   currentPage = 1;
 
   constructor(private router: Router, private pagerService: PagerService,
-    private toastr: ToastrService, private productAttributeService: ProductAttributeService) { }
+    private toastr: ToastrService, private productAttributeService: ProductAttributeService,
+    private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     this.listing('', this.currentPage, this.pageSize);
@@ -35,8 +37,10 @@ export class ProductAttributesComponent implements OnInit {
     if (this.sortColumn === '') {
       this.sortColumn = 'CreatedDate';
     }
+    this.spinnerService.startRequest();
     this.productAttributeService.listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', this.sortOrder, false).
       subscribe((result: any) => {
+        this.spinnerService.endRequest();
         if (result.status === 404) {
           this.message = 'No record found.';
         } else {

@@ -52,10 +52,11 @@
 
             <div class="form-group">
                 <label class="checkbox-label">Role Type</label>
-                <input type="checkbox" value="1" name="roleID" formControlName='roleID' #roleID id="roleID" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.roleID.invalid }" required/> Admin
-                <input type="checkbox" aria-selected="true" value="2" name="roleID" formControlName='roleID' #roleID id="roleID" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.roleID.errors }" required/> User
-                <div *ngIf="submitted && model.roleID.errors">
-                    <div *ngIf="model.roleID.errors.required" class="custom-error">*required</div>
+                <div *ngFor="let role of rolesArray" class="form-input">
+                    <input type="checkbox" [checked]="role.selected" (change)="onChange(role.value, $event.target.checked)" [ngClass]="{ 'is-invalid': submitted && !selectedRole}"> {{role.key}}
+                </div>
+                <div *ngIf="submitted && !selectedRole" class="custom-error">
+                    *required
                 </div>
             </div>
 

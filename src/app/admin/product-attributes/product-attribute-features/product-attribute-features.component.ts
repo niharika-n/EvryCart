@@ -5,6 +5,7 @@ import { ProductAttributeService } from '../../../services/product-attributes.se
 import { ProductAttributeModel } from '../product-attribute';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-product-attribute-features',
@@ -21,7 +22,7 @@ export class ProductAttributeFeaturesComponent implements OnInit {
   nameCheckMessage = '';
 
   constructor(private attributeService: ProductAttributeService, private builder: FormBuilder,
-    private route: ActivatedRoute, private toastr: ToastrService) {
+    private route: ActivatedRoute, private toastr: ToastrService, private spinnerService: SpinnerService) {
     this.model = {
       attributeID: 0,
       attributeName: '',
@@ -37,8 +38,10 @@ export class ProductAttributeFeaturesComponent implements OnInit {
   pageStart() {
     this.id = +this.route.snapshot.paramMap.get('id');
     if (this.id) {
+      this.spinnerService.startRequest();
       this.attributeService.detail(this.id)
         .subscribe((result: any) => {
+          this.spinnerService.endRequest();
           this.pageTitle = 'Edit';
           this.model = result;
         });

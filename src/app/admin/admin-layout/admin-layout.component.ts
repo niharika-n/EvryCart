@@ -21,6 +21,5 @@ export class AdminLayoutComponent implements OnInit {
 
   logout() {
     this.logoutService.logout();
-    this.router.navigate(['/logout']);
   }
 }

@@ -10,7 +10,10 @@ import { isNullOrUndefined } from 'util';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  key = '';
   user: LoginUser;
+  currentRole: any = [];
+
   constructor(private auth: AuthService, private router: Router) { }
 
   canActivate(
@@ -21,8 +24,13 @@ export class AuthGuard implements CanActivate {
       if (!isNullOrUndefined(route.data.roles)) {
         const roles: any[] = route.data.roles;
         const currentUserRoleId = this.user.roleID;
-        const enumKey = UserRoles[currentUserRoleId];
-        if (roles.indexOf(enumKey.toLowerCase()) > -1 && enumKey.toLowerCase() === 'admin') {
+        for (let role = 0; role < this.user.roleID.length; role++) {
+          this.currentRole.push(UserRoles[currentUserRoleId[role]]);
+        }
+        const result = this.verifyUser(roles, this.currentRole);
+        // if (roles.indexOf(this.key.toLowerCase()) > -1
+        // && (this.key.toLowerCase() === 'superadmin' || this.key.toLowerCase() === 'admin'))
+        if (result) {
           return true;
         } else {
           this.router.navigate(['']);
@@ -34,4 +42,15 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
+
+  verifyUser(roles: any[], userRoles: any) {
+    for (let i = 0; i < userRoles.length; i++) {
+      if (roles.includes(userRoles[i].toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
+

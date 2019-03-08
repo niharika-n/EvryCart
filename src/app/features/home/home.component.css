@@ -29,3 +29,18 @@ h4 {
     font-weight: 200;
     color: darkslategrey;
 }
+
+.loader-mid {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    min-height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 99;
+}
+
+.loader-mid .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}

@@ -3,6 +3,10 @@
         <li data-target="#carouselIndicators" *ngFor="let p of productImages;let i = index" [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"></li>
     </ol>
     <div class="carousel-inner">
+        <div class="loader-mid" appSpinner>
+            <mat-spinner mode="indeterminate" strokeWidth="3" [diameter]="60" class="loading">
+            </mat-spinner>
+        </div>
         <div *ngFor="let j of productImages; let k = index" [ngClass]="k == 0 ? 'carousel-item active' : 'carousel-item'">
             <img [src]="j.src" height="350" alt="Product Image">
             <div class="carousel-caption">
@@ -28,12 +32,16 @@
 <br>
 <div>
     <div class="card-deck">
+        <div class="loader-mid" appSpinner>
+            <mat-spinner mode="indeterminate" strokeWidth="3" [diameter]="60" class="loading">
+            </mat-spinner>
+        </div>
         <div class="card" *ngFor="let category of categoryArr">
             <span *ngIf="category.imageContent != null">
-                <div class="categoryImg-crop">
-            <img [src]="category.imageContent" alt="Card image cap" class="category-img">
+        <div class="categoryImg-crop">
+          <img [src]="category.imageContent" alt="Card image cap" class="category-img">
         </div>
-            </span>
+      </span>
             <div class="card-body">
                 <h4 class="card-title">{{category.categoryValue.name}}</h4>
                 <p class="card-text">{{category.categoryValue.description}}</p>

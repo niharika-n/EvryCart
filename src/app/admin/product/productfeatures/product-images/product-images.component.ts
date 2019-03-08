@@ -4,6 +4,7 @@ import { isNullOrUndefined } from 'util';
 import { ToastrService } from 'ngx-toastr';
 
 import { ProductService } from '../../../../services/product.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-product-images',
@@ -22,7 +23,7 @@ export class ProductImagesComponent implements OnInit {
   selectedImg = [];
 
   constructor(private productService: ProductService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute, private spinnerService: SpinnerService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -112,8 +113,10 @@ export class ProductImagesComponent implements OnInit {
 
   getImageList() {
     this.isImage = false;
+    this.spinnerService.startRequest();
     this.productService.listProductImages(this.id).
       subscribe((result: any) => {
+        this.spinnerService.endRequest();
         if (result.productImageResult.length > 0 && !isNullOrUndefined(result.productImageResult)) {
           this.imageMessage = false;
           this.urls = [];

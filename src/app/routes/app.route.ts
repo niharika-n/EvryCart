@@ -1,10 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from '../app.component';
-import { RegisterComponent } from 'src/app/user/register/register.component';
-import { LoginComponent } from 'src/app/shared/login/login.component';
 import { DashboardComponent } from 'src/app/admin/dashboard/dashboard.component';
 import { AdminLayoutComponent } from 'src/app/admin/admin-layout/admin-layout.component';
-import { AuthService } from '../services/authorization.service';
 import { AuthGuard } from '../services/auth.guard';
 import { CategoryComponent } from 'src/app/admin/category/category.component';
 import { CategoryfeaturesComponent } from 'src/app/admin/category/categoryfeatures/categoryfeatures.component';
@@ -16,13 +12,16 @@ import { ProductAttributesComponent } from '../admin/product-attributes/product-
 import {
     ProductAttributeFeaturesComponent
 } from '../admin/product-attributes/product-attribute-features/product-attribute-features.component';
-import { HomeComponent } from '../shared/home/home.component';
-import { LayoutComponent } from '../user/layout/layout.component';
 import { AdminChangePasswordComponent } from '../admin/admin-change-password/admin-change-password.component';
 import { RegisterAdminComponent } from '../admin/register-admin/register-admin.component';
-import { ForgotPasswordComponent } from '../shared/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from '../shared/reset-password/reset-password.component';
-import { LogoutComponent } from '../shared/logout/logout.component';
+import { RegisterComponent } from '../features/register/register.component';
+import { LoginComponent } from '../features/login/login.component';
+import { ForgotPasswordComponent } from '../features/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from '../features/reset-password/reset-password.component';
+import { LogoutComponent } from '../features/logout/logout.component';
+import { LayoutComponent } from '../features/layout/layout.component';
+import { HomeComponent } from '../features/home/home.component';
+import { EmailTemplateComponent } from '../admin/email-template/email-template.component';
 
 const routes: Routes = [
     {
@@ -98,7 +97,7 @@ const routes: Routes = [
         path: 'admin/edit',
         component: AdminLayoutComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['admin', 'user'] },
+        data: { roles: ['admin'] },
         children: [
             {
                 path: 'profile',
@@ -107,6 +106,10 @@ const routes: Routes = [
             {
                 path: 'password',
                 component: AdminChangePasswordComponent
+            },
+            {
+                path: 'template',
+                component: EmailTemplateComponent
             }
         ]
     },

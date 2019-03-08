@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined, isDate } from 'util';
 import { ToastrService } from 'ngx-toastr';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 import { ProductService } from '../../../services/product.service';
 import { ProductModel } from '../product';
@@ -36,7 +37,7 @@ export class ProductfeaturesComponent implements OnInit {
 
     constructor(private productService: ProductService, private router: Router,
         private route: ActivatedRoute, private categoryservice: CategoryService,
-        private toastr: ToastrService) {
+        private toastr: ToastrService, private spinnerService: SpinnerService) {
         this.keys = Object.keys(this.quantityType);
         this.model = {
             productId: 0,
@@ -76,8 +77,10 @@ export class ProductfeaturesComponent implements OnInit {
         }
         if (this.id) {
             this.editPage = true;
+            this.spinnerService.startRequest();
             this.productService.detail(this.id)
                 .subscribe((result: any) => {
+                    this.spinnerService.endRequest();
                     this.pageTitle = 'Edit';
                     this.model = result.product;
                     if (this.model.taxExempted) {

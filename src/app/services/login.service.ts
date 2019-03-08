@@ -3,13 +3,14 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SigninService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
   login(username: string, password: string): Observable<any> {
     const queryParameters = new HttpParams().set('username', username).set('password', password);
@@ -47,5 +48,6 @@ export class SigninService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('userRole');
+    this.router.navigate(['../logout']);
   }
 }

@@ -1,0 +1,37 @@
+h3 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+}
+
+h5 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: darkslategrey;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+}
+
+.body-content {
+    padding-top: 20px;
+    overflow: hidden !important;
+}
+
+label {
+    width: 200px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: darkslategrey;
+    vertical-align: top;
+    margin-bottom: 0rem !important;
+    margin-top: 0.5rem !important;
+}
+
+#Templates {
+    width: 170px;
+}
+
+.template-label {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}

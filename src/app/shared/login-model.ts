@@ -5,5 +5,5 @@ export class LoginUser {
     username: string;
     imageContent: any;
     emailID: string;
-    roleID: number;
+    roleID: number[];
 }

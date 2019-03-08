@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductService } from '../../../../services/product.service';
 import { ProductAttributeValueModel } from '../../product-attribute-value';
 import { PagerService } from '../../../../services/pagination.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
     selector: 'app-product-attribute-values',
@@ -34,8 +35,9 @@ export class ProductAttributeValuesComponent implements OnInit {
     attributeValMessage = '';
     submitted = false;
 
-    constructor(private productService: ProductService, private route: ActivatedRoute, private pagerService: PagerService,
-        private toastr: ToastrService, private attributeservice: ProductAttributeService) {
+    constructor(private productService: ProductService, private route: ActivatedRoute, 
+        private pagerService: PagerService, private toastr: ToastrService, 
+        private attributeservice: ProductAttributeService, private spinnerService: SpinnerService) {
         this.model = {
             attributeID: 0,
             id: 0,
@@ -69,9 +71,11 @@ export class ProductAttributeValuesComponent implements OnInit {
             this.attributeMessage = true;
         } else {
             this.attributeMessage = false;
-        }
+        }        
+        this.spinnerService.startRequest();
         this.attributeservice.listing('', 1, 5, new Date(), false, true).
             subscribe((result: any) => {
+                this.spinnerService.endRequest();
                 if (result.status === 404) {
                     this.message = 'No record found.';
                 } else {
@@ -200,7 +204,6 @@ export class ProductAttributeValuesComponent implements OnInit {
     }
 
     resetForm(form: NgForm) {
-        debugger;
         this.submitted = false;
         this.attributeValMessage = '';
         form.reset();

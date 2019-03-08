@@ -10,10 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule, MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './shared/login/login.component';
-import { RegisterComponent } from './user/register/register.component';
+import { LoginComponent } from './features/login/login.component';
+import { RegisterComponent } from './features/register/register.component';
 import { APPROUTERMODULE } from 'src/app/routes/app.route';
 import { AuthInterceptor } from 'src/app/shared/Interceptor';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -34,8 +35,8 @@ import { ProductAttributesComponent } from './admin/product-attributes/product-a
 import {
   ProductAttributeFeaturesComponent
 } from './admin/product-attributes/product-attribute-features/product-attribute-features.component';
-import { HomeComponent } from './shared/home/home.component';
-import { LayoutComponent } from './user/layout/layout.component';
+import { HomeComponent } from './features/home/home.component';
+import { LayoutComponent } from './features/layout/layout.component';
 import { AdminChangePasswordComponent } from './admin/admin-change-password/admin-change-password.component';
 import { RegisterAdminComponent } from './admin/register-admin/register-admin.component';
 import { ProductImagesComponent } from './admin/product/productfeatures/product-images/product-images.component';
@@ -43,10 +44,11 @@ import {
   ProductAttributeValuesComponent
 } from './admin/product/productfeatures/product-attribute-values/product-attribute-values.component';
 import { CategoryProductsComponent } from './admin/category/categoryfeatures/category-products/category-products.component';
-import { ForgotPasswordComponent } from './shared/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './shared/reset-password/reset-password.component';
-import { LogoutComponent } from './shared/logout/logout.component';
+import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './features/reset-password/reset-password.component';
+import { LogoutComponent } from './features/logout/logout.component';
 import { SpinnerDirective } from './shared/directives/spinner.directive';
+import { EmailTemplateComponent } from './admin/email-template/email-template.component';
 
 @NgModule({
   imports: [
@@ -62,7 +64,8 @@ import { SpinnerDirective } from './shared/directives/spinner.directive';
     MatNativeDateModule,
     MatDatepickerModule,
     ToastrModule.forRoot(),
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CKEditorModule
   ],
   declarations: [
     AppComponent,
@@ -91,7 +94,8 @@ import { SpinnerDirective } from './shared/directives/spinner.directive';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     LogoutComponent,
-    SpinnerDirective
+    SpinnerDirective,
+    EmailTemplateComponent
   ],
 
   providers: [

@@ -4,6 +4,7 @@ import { LoginUser } from '../../shared/login-model';
 import { SettingsService } from '../../services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,8 @@ export class SettingsComponent implements OnInit {
   existingUsername = '';
   existingEmail = '';
 
-  constructor(private formbuilder: FormBuilder, private settingsService: SettingsService, private toastr: ToastrService) {
+  constructor(private formbuilder: FormBuilder, private settingsService: SettingsService,
+    private toastr: ToastrService, private spinnerService: SpinnerService) {
     this.settingsForm = this.formbuilder.group({
       userID: [''],
       firstName: ['', Validators.required],
@@ -38,7 +40,9 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.id = this.user.userID;
+    this.spinnerService.startRequest();
     this.settingsService.Detail(this.id).subscribe((result: any) => {
+      this.spinnerService.endRequest();
       this.user = result;
       if (result.imageContent != null) {
         this.userImg = 'data:image/png;base64,' + result.imageContent;
