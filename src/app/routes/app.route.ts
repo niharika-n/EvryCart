@@ -39,18 +39,21 @@ const routes: Routes = [
     {
         path: 'admin/category',
         component: AdminLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         data: { roles: ['admin'] },
         children: [
             {
+                data: { roles: ['admin'] },
                 path: 'add',
                 component: CategoryfeaturesComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: 'detail/:id',
                 component: CategoryfeaturesComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: '',
                 component: CategoryComponent
             }
@@ -59,22 +62,26 @@ const routes: Routes = [
     {
         path: 'admin/product',
         component: AdminLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         data: { roles: ['admin'] },
         children: [
             {
+                data: { roles: ['admin'] },
                 path: 'add',
                 component: ProductfeaturesComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: 'detail/:id',
                 component: ProductfeaturesComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: '',
                 component: ProductComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: 'attribute',
                 children: [
                     {
@@ -96,18 +103,21 @@ const routes: Routes = [
     {
         path: 'admin/edit',
         component: AdminLayoutComponent,
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         data: { roles: ['admin'] },
         children: [
             {
+                data: { roles: ['admin'] },
                 path: 'profile',
                 component: SettingsComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: 'password',
                 component: AdminChangePasswordComponent
             },
             {
+                data: { roles: ['admin'] },
                 path: 'template',
                 component: EmailTemplateComponent
             }
@@ -117,7 +127,7 @@ const routes: Routes = [
         path: 'admin/user/create',
         component: AdminLayoutComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['admin'] },
+        data: { roles: ['superadmin'] },
         children: [
             {
                 path: '',

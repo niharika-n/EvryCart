@@ -30,7 +30,7 @@
                         <li class="dropdown-item class-pointer" [routerLink]="['/admin/edit/template']"><a>Change Templates</a></li>
                     </ul>
                 </li>
-                <li class="dropdown-submenu">
+                <li class="dropdown-submenu" *ngIf="isSuperAdmin">
                     <a class="dropdown-item class-pointer">Manage Users</a>
                     <ul class="dropdown-menu submenu-right">
                         <li class="dropdown-item class-pointer" [routerLink]="['/admin/user/create']"><a>Create User</a></li>
