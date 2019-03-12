@@ -33,7 +33,6 @@ export class RegisterAdminComponent implements OnInit {
       lastName: ['', Validators.required],
       username: ['', Validators.required],
       emailID: ['', [Validators.required, Validators.email]]
-      //  roleID: this.formbuilder.array([])
     });
   }
 
@@ -88,7 +87,6 @@ export class RegisterAdminComponent implements OnInit {
       if (this.fileSelected) {
         const currentUser = JSON.parse(localStorage.getItem('token'));
         const body = JSON.stringify(form.value);
-        // const roles = ('[').concat(this.userRoles).concat(']');
         const formData = new FormData();
         formData.append('model', body);
         formData.append('file', this.imageObj);
@@ -100,7 +98,6 @@ export class RegisterAdminComponent implements OnInit {
         xhr.responseType = 'json';
         xhr.onreadystatechange = (result: any) => {
           if (xhr.readyState === 4) {
-            debugger;
             if (!isNullOrUndefined(xhr.response.usernameMessage)) {
               this.existingUsername = 'Username already exists';
             } else {
@@ -112,7 +109,6 @@ export class RegisterAdminComponent implements OnInit {
               this.existingEmail = '';
             }
             if (xhr.status === 200) {
-              debugger;
               if (!isNullOrUndefined(xhr.response.success)) {
                 this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
                 this.resetForm(form);
