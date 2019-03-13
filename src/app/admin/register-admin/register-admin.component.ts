@@ -93,7 +93,7 @@ export class RegisterAdminComponent implements OnInit {
         formData.append('file', this.imageObj);
         formData.append('role', JSON.stringify(this.userRoles));
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/user/createuser');
+        xhr.open('POST', '/api/user/createuserfromadmin');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
         xhr.responseType = 'json';
