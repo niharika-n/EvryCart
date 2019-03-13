@@ -3,8 +3,8 @@
     <div class="table-responsive">
         <table class="table table-bordered">
             <tr>
-                <th>Product</th>
-                <th>Description</th>
+                <th translate>category-detail.product</th>
+                <th translate>category.description</th>
                 <th></th>
             </tr>
             <tr *ngFor='let product of ProductsArr'>
@@ -12,16 +12,16 @@
                 <td>{{product.shortDescription}}</td>
                 <td class="table-icons">
                     <a (click)="getDetailProduct(product.productID)"><i class="fa fa-pencil icon" aria-hidden="true"
-              title="Edit"></i>
+              title="{{'common.edit-title' | translate}}"></i>
           </a>&nbsp;&nbsp;&nbsp;
-                    <a (click)="deleteProduct(product.productID)"><i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+                    <a (click)="deleteProduct(product.productID)"><i class="fa fa-times icon" aria-hidden="true" title="{{'common.delete-title' | translate}}"></i>
           </a>
                 </td>
             </tr>
         </table>
         <nav>
             <app-paging [pager]="pager" (selectedPage)='pageSelect($event)'></app-paging>
-            <b>Page Size</b> &nbsp;
+            <b translate>common.page-size</b> &nbsp;
             <select #pageSize (change)="sizeSelect(pageSize.value)">
         <option value=5>5</option>
         <option value=10>10</option>
@@ -29,6 +29,6 @@
         </nav>
     </div>
 </div>
-<h5 *ngIf="productMessage">
-    Products do not exist.
+<h5 *ngIf="productMessage" translate>
+    category-detail.pdt-message
 </h5>

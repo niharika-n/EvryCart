@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,7 @@ export class ResetPasswordComponent implements OnInit {
   token = '';
   badRequestMessage = '';
   constructor(private loginService: SigninService, private formBuilder: FormBuilder, private router: Router,
-    private toastr: ToastrService, private activatedRoute: ActivatedRoute) {
+    private toastr: ToastrService, private activatedRoute: ActivatedRoute, private translate: TranslateService) {
     this.resetPasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^[a-z]/)]],
       confirmPassword: ['', Validators.required],
@@ -30,7 +31,7 @@ export class ResetPasswordComponent implements OnInit {
     this.loginService.validateToken(this.token).
       subscribe((result: any) => {
       }, (error: any) => {
-          this.badRequestMessage = 'This link is not valid, please generate the link again';
+        this.badRequestMessage = this.translate.instant('password.invalid-link');
       });
   }
 
@@ -50,7 +51,8 @@ export class ResetPasswordComponent implements OnInit {
         this.loginService.resetPassword(this.token, form.value.newPassword).
           subscribe((result: any) => {
             if (!isNullOrUndefined(result.success)) {
-              this.toastr.success('Password changed successfully !', '', { positionClass: 'toast-bottom-center' });
+              this.toastr.success(this.translate.instant('common.update', { object: 'Password' }), '',
+                { positionClass: 'toast-bottom-center', timeOut: 5000 });
               this.router.navigate(['/login']);
             }
           }, (error: any) => {

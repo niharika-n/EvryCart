@@ -1,26 +1,26 @@
 <div class="container body-content">
-    <h3>
-        {{pageTitle}} Attribute
+    <h3 translate>
+        {{pageTitle}}
     </h3>
     <hr>
     <div class="col-md-12" id="text_link">
-        <a [routerLink]="['/admin/product/attribute']" title="Attribute List" value="back to list">back to list</a>
+        <a [routerLink]="['/admin/product/attribute']" title="{{'common.back' | translate}}" translate>common.back</a>
     </div>
     <form #attributeForm="ngForm" (ngSubmit)="add(attributeForm)" class="form-group" novalidate>
-        <div hidden>ID</div>
+        <div hidden translate>attribute.attributeID</div>
         <input hidden class="form-control form-input" autocomplete="off" name="AttributeID" #AttributeID="ngModel" [(ngModel)]="model.attributeID" id="AttributeID" />
         <div>
-            <label for="AttributeName">Name </label>
+            <label for="AttributeName" translate>attribute.name </label>
             <input type="text" class="form-control form-input text-box" autocomplete="off" name="AttributeName" #AttributeName="ngModel" [(ngModel)]="model.attributeName" [ngClass]="{ 'is-invalid': AttributeName.errors && submitted}" id="AttributeName" (keyup)="nameCheckMessage=='' || attributeNameCheck($event)"
                 maxlength="20" required />
-            <div *ngIf="submitted && AttributeName.errors?.required" class="invalid-feedback">*required</div>
+            <div *ngIf="submitted && AttributeName.errors?.required" class="invalid-feedback" translate>required</div>
             <div *ngIf="nameCheckMessage!=''" class="error-message">{{nameCheckMessage}}</div>
         </div>
         <br>
         <div>
             <label></label>
-            <button type="submit" [disabled]="loading" class="btn btn-info" title="Submit">Submit</button>&nbsp;
-            <button type="reset" value="Reset" class="btn btn-secondary" (click)="resetForm(attributeForm)" title="Reset">Reset</button>
+            <button type="submit" [disabled]="loading" class="btn btn-info" title="{{'common.submit' | translate}}" translate>common.submit</button>&nbsp;
+            <button type="reset" value="{{'common.reset' | translate}}" class="btn btn-secondary" (click)="resetForm(attributeForm)" title="{{'common.reset' | translate}}" translate>common.reset</button>
         </div>
     </form>
 </div>

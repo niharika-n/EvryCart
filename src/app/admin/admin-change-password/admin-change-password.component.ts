@@ -2,6 +2,7 @@ import { Component, OnInit, Directive } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-change-password',
@@ -13,7 +14,8 @@ export class AdminChangePasswordComponent implements OnInit {
   submitted = false;
   wrongPassword = false;
   passwordMatchCheck = false;
-  constructor(private settingsService: SettingsService, private formBuilder: FormBuilder, private toastr: ToastrService) {
+  constructor(private settingsService: SettingsService, private formBuilder: FormBuilder,
+    private toastr: ToastrService, private translate: TranslateService) {
     this.passwordForm = this.formBuilder.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^[a-z]/)]],
@@ -45,10 +47,10 @@ export class AdminChangePasswordComponent implements OnInit {
       } else {
         this.settingsService.changePassword(form.value.oldPassword, form.value.newPassword).
           subscribe((result: any) => {
-            this.toastr.success('Updated successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.update'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
           }, (error: any) => {
             this.wrongPassword = true;
-            console.log(error);
+            this.toastr.error(this.translate.instant('common.err-update'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
           });
       }
     }

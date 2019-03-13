@@ -3,21 +3,21 @@
         <a [routerLink]="['']"><img src="../../assets/images/logo_training.png"></a>
         <div class="form-group">
             <input type="text" autocomplete="off" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" placeholder="Username" [ngClass]="{ 'is-invalid': username.errors && submitted}" required />
-            <div *ngIf="submitted && username.errors?.required" class="invalid-feedback">*required</div>
+            <div *ngIf="submitted && username.errors?.required" class="invalid-feedback" translate>required</div>
         </div>
 
         <div class="form-group">
             <input type="password" autocomplete="off" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" placeholder="Password" [ngClass]="{ 'is-invalid': password.errors && submitted}" required />
-            <div class="passwordLink"><a [routerLink]="['/forgot_password']">Forgot Password?</a></div>
-            <div *ngIf="submitted && password.errors?.required" class="invalid-feedback">*required</div>
+            <div class="passwordLink"><a [routerLink]="['/forgot_password']" translate>password.heading-1</a></div>
+            <div *ngIf="submitted && password.errors?.required" class="invalid-feedback" translate>required</div>
         </div>
 
         <div class="form-group">
-            <button class="btn btn-info form-control" type="ngSubmit">Login</button>
+            <button class="btn btn-info form-control" type="ngSubmit" translate>layout.login</button>
         </div>
 
         <div class="form-group">
-            <p><a [routerLink]="['/register']">Sign Up</a></p>
+            <p><a [routerLink]="['/register']" translate>layout.sign-up</a></p>
         </div>
     </form>
 </div>

@@ -4,6 +4,8 @@ import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,10 +19,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private signInService: SigninService,
-    private toastr: ToastrService,
+    private route: ActivatedRoute, private router: Router, private signInService: SigninService,
+    private toastr: ToastrService, private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
             }
           } else {
             this.errorCheck = true;
-            this.toastr.error('Username or Password is incorrect', '', { positionClass: 'toast-bottom-center' });
+            this.toastr.error(this.translate.instant('login.err-details'), '', { positionClass: 'toast-bottom-center', timeOut: 5000 });
           }
         }, error => {
           console.log('error: ' + error);

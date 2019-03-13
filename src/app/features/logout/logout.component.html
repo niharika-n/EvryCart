@@ -1,11 +1,11 @@
 <div class="background">
     <div class="form login-pop-over">
         <div><img src="../../assets/images/logo_training.png"></div>
-        <h3>You have successfully logged out.</h3>
+        <h3 translate>logout.message</h3>
         <br>
         <h6 class="bottom-margin">
-            <a [routerLink]="['']">Return to Home</a> or
-            <a [routerLink]="['/login']">Login again</a>
+            <a [routerLink]="['']" translate>logout.home</a> {{'logout.or' | translate}}
+            <a [routerLink]="['/login']" translate>logout.login</a>
         </h6>
     </div>
 </div>

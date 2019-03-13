@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductAttributeService } from '../../../../services/product-attributes.service';
 import { isNullOrUndefined } from 'util';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../../services/product.service';
 import { ProductAttributeValueModel } from '../../product-attribute-value';
@@ -35,8 +36,8 @@ export class ProductAttributeValuesComponent implements OnInit {
     attributeValMessage = '';
     submitted = false;
 
-    constructor(private productService: ProductService, private route: ActivatedRoute, 
-        private pagerService: PagerService, private toastr: ToastrService, 
+    constructor(private productService: ProductService, private route: ActivatedRoute,
+        private pagerService: PagerService, private toastr: ToastrService, private translate: TranslateService,
         private attributeservice: ProductAttributeService, private spinnerService: SpinnerService) {
         this.model = {
             attributeID: 0,
@@ -71,13 +72,13 @@ export class ProductAttributeValuesComponent implements OnInit {
             this.attributeMessage = true;
         } else {
             this.attributeMessage = false;
-        }        
+        }
         this.spinnerService.startRequest();
         this.attributeservice.listing('', 1, 5, new Date(), false, true).
             subscribe((result: any) => {
                 this.spinnerService.endRequest();
                 if (result.status === 404) {
-                    this.message = 'No record found.';
+                    this.message = this.translate.instant('common.not-found');
                 } else {
                     this.AttributeArr = result;
                 }
@@ -92,13 +93,14 @@ export class ProductAttributeValuesComponent implements OnInit {
                 this.productService.addProductAttributeValue(this.model).
                     subscribe((result: any) => {
                         if (!isNullOrUndefined(result.attributeVal)) {
-                            this.toastr.success('Added successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                            this.toastr.success(this.translate.instant('common.insert', { object: 'Attribute' }), '',
+                                { positionClass: 'toast-top-right', timeOut: 5000 });
                             this.listAttribute(1, this.pageSize);
                             this.isAttribute = true;
                             this.resetForm(form);
                         }
                         if (!isNullOrUndefined(result.message)) {
-                            this.attributeValMessage = 'This attribute value already exists';
+                            this.attributeValMessage = this.translate.instant('product.attribute-present');
                         } else {
                             this.attributeValMessage = '';
                         }
@@ -112,12 +114,13 @@ export class ProductAttributeValuesComponent implements OnInit {
                     this.productService.updateProductAttributeValue(this.model).
                         subscribe((result: any) => {
                             if (!isNullOrUndefined(result.attributeVal)) {
-                                this.toastr.success('Updated successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                                this.toastr.success(this.translate.instant('common.update', { object: 'Attribute' }), '',
+                                    { positionClass: 'toast-top-right', timeOut: 5000 });
                                 this.listAttribute(1, this.pageSize);
                                 this.isAttribute = false;
                             }
                             if (!isNullOrUndefined(result.message)) {
-                                this.attributeValMessage = 'This attribute value already exists';
+                                this.attributeValMessage = this.translate.instant('product.attribute-present');
                             } else {
                                 this.attributeValMessage = '';
                             }
@@ -149,7 +152,8 @@ export class ProductAttributeValuesComponent implements OnInit {
                 if (data === 'attribute deleted') {
                     const index: number = this.attributeValues.findIndex(x => x.id === attrID);
                     this.attributeValues.splice(index, 1);
-                    this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                    this.toastr.success(this.translate.instant('common.delete'), '',
+                        { positionClass: 'toast-top-right', timeOut: 5000 });
                 }
             });
         }
@@ -162,7 +166,7 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.productService.listProductAttributeValue(this.id, '', selectedPage, selectedSize, 'ID', false).
             subscribe((result: any) => {
                 if (result.status === 404) {
-                    this.message = 'No record found.';
+                    this.message = this.translate.instant('common.not-found');
                     this.attributeMessage = true;
                 } else if (!isNullOrUndefined(result.productAttributeValueResult) && result.productAttributeValueResult.length > 0) {
                     this.attributeValues = [];
@@ -179,7 +183,7 @@ export class ProductAttributeValuesComponent implements OnInit {
             }, (error: any) => {
                 this.attributeMessage = true;
                 if (error.status === 404) {
-                    this.message = 'No Attributes present';
+                    this.message = this.translate.instant('common.not-present', {object: 'attribute'});
                     console.log(this.message);
                 }
                 this.attributeMessage = true;

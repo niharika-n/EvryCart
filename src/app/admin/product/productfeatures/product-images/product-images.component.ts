@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../../services/product.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
@@ -22,7 +23,7 @@ export class ProductImagesComponent implements OnInit {
   imageObj = [];
   selectedImg = [];
 
-  constructor(private productService: ProductService,
+  constructor(private productService: ProductService, private translate: TranslateService,
     private route: ActivatedRoute, private spinnerService: SpinnerService,
     private toastr: ToastrService) { }
 
@@ -66,7 +67,8 @@ export class ProductImagesComponent implements OnInit {
         if (data === 'image deleted') {
           const index: number = this.urls.findIndex(x => x.id === imgID);
           this.urls.splice(index, 1);
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '',
+            { positionClass: 'toast-top-right', timeOut: 5000 });
           if (this.urls.length === 0) {
             this.imageMessage = true;
           }
@@ -101,7 +103,8 @@ export class ProductImagesComponent implements OnInit {
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              this.toastr.success('Images Added !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.insert', { object: 'Images' }), '',
+                { positionClass: 'toast-top-right', timeOut: 5000 });
               this.getImageList();
             }
           }
@@ -131,7 +134,7 @@ export class ProductImagesComponent implements OnInit {
         }
       }, (error: any) => {
         if (error.status === 404) {
-          this.message = 'No Product Images present';
+          this.message = this.translate.instant('product.image-present');
           console.log(this.message);
         }
         this.imageMessage = true;

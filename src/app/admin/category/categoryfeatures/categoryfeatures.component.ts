@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { CategoryService } from '../../../services/category.service';
 import { CategoryModel } from '../category';
@@ -28,7 +29,7 @@ export class CategoryfeaturesComponent implements OnInit {
   @ViewChild('imagePath') imagePath: ElementRef;
   categoryCheckMessage = '';
 
-  constructor(private categoryService: CategoryService, private toastr: ToastrService,
+  constructor(private categoryService: CategoryService, private toastr: ToastrService, private translate: TranslateService,
     private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService) {
     this.model = {
       categoryID: 0,
@@ -57,7 +58,7 @@ export class CategoryfeaturesComponent implements OnInit {
       this.categoryService.Detail(this.id)
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
-          this.pageTitle = 'Edit';
+          this.pageTitle = this.translate.instant('category-detail.edit');
           this.model = result;
           if (!this.model.parentCategory) { this.showChild = true; }
           if (result.imageContent !== null) {
@@ -66,7 +67,7 @@ export class CategoryfeaturesComponent implements OnInit {
         });
     } else {
       this.editPage = false;
-      this.pageTitle = 'Add';
+      this.pageTitle = this.translate.instant('category-detail.add');
     }
     this.getCategoryList();
   }
@@ -98,7 +99,7 @@ export class CategoryfeaturesComponent implements OnInit {
     this.categoryService.Listing('', 1, 5, this.model.createdDate, false, true, false).
       subscribe((result: any) => {
         if (result.status === 404) {
-          this.message = 'No record found.';
+          this.message = this.translate.instant('common.not-found');
         } else {
           this.CategoryArr = result;
         }
@@ -133,9 +134,11 @@ export class CategoryfeaturesComponent implements OnInit {
           }
           if (!isNullOrUndefined(xhr.response.categoryObj)) {
             if (this.id) {
-              this.toastr.success('Category Updated !', '', { positionClass: 'toast-top-right' });
+              this.toastr.success(this.translate.instant('common.update', { object: 'Category' }), '',
+                { positionClass: 'toast-top-right' });
             } else {
-              this.toastr.success('Category Inserted !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.insert', { object: 'Category' }), '',
+                { positionClass: 'toast-top-right', timeOut: 5000 });
             }
             this.resetForm(form);
           }
