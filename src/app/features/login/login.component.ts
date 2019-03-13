@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
             }
           } else {
             this.errorCheck = true;
-            this.toastr.error(this.translate.instant('login.err-details'), '', { positionClass: 'toast-bottom-center', timeOut: 5000 });
+            this.toastr.error(this.translate.instant('login.err-details'), '');
           }
         }, error => {
           console.log('error: ' + error);

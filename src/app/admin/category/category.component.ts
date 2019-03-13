@@ -48,7 +48,7 @@ export class CategoryComponent implements OnInit {
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();
-                this.message = this.translate.instant('common.not-present', {object: 'category'});
+                this.message = this.translate.instant('common.not-present', {param: 'category'});
             });
     }
 
@@ -71,21 +71,20 @@ export class CategoryComponent implements OnInit {
     }
 
     delete(id: number, productCount?) {
-        const del = confirm(this.translate.instant('common.confirm-delete', { object: 'category' }));
+        const del = confirm(this.translate.instant('common.confirm-delete', { param: 'category' }));
         if (del && productCount > 0) {
             const result = confirm(this.translate.instant('category.confirm-delete', { count: productCount }));
             if (result) {
                 this.categoryService.Delete(id).
                     subscribe(() => {
-                        this.toastr.success(this.translate.instant('common.delete'), '',
-                            { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.delete'), '');
                         this.listing('', 1, this.pageSize);
                     });
             }
         } else if (del) {
             this.categoryService.Delete(id).
                 subscribe(() => {
-                    this.toastr.success(this.translate.instant('common.delete'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                    this.toastr.success(this.translate.instant('common.delete'), '');
                     this.listing('', 1, this.pageSize);
                 });
         }

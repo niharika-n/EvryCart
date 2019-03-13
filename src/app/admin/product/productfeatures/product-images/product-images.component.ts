@@ -67,8 +67,7 @@ export class ProductImagesComponent implements OnInit {
         if (data === 'image deleted') {
           const index: number = this.urls.findIndex(x => x.id === imgID);
           this.urls.splice(index, 1);
-          this.toastr.success(this.translate.instant('common.delete'), '',
-            { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           if (this.urls.length === 0) {
             this.imageMessage = true;
           }
@@ -103,8 +102,7 @@ export class ProductImagesComponent implements OnInit {
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              this.toastr.success(this.translate.instant('common.insert', { object: 'Images' }), '',
-                { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.insert', { param: 'Images' }), '');
               this.getImageList();
             }
           }

@@ -160,8 +160,7 @@ export class ProductfeaturesComponent implements OnInit {
             if (this.id) {
                 this.productService.update(form.value).subscribe((result: any) => {
                     if (!isNullOrUndefined(result.product)) {
-                        this.toastr.success(this.translate.instant('common.update', { object: 'Product' }), '',
-                            { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.update', { param: 'Product' }), '');
                         this.router.navigate(['admin/product']);
                         this.resetForm(form);
                     }
@@ -179,8 +178,7 @@ export class ProductfeaturesComponent implements OnInit {
             } else {
                 this.productService.add(this.model).subscribe((result: any) => {
                     if (!isNullOrUndefined(result.productObj)) {
-                        this.toastr.success(this.translate.instant('common.insert', { object: 'Product' }), '',
-                            { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.insert', { param: 'Product' }), '');
                         this.resetForm(form.value);
                     }
                     if (!isNullOrUndefined(result.sameNameMessage)) {

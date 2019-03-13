@@ -134,11 +134,9 @@ export class CategoryfeaturesComponent implements OnInit {
           }
           if (!isNullOrUndefined(xhr.response.categoryObj)) {
             if (this.id) {
-              this.toastr.success(this.translate.instant('common.update', { object: 'Category' }), '',
-                { positionClass: 'toast-top-right' });
+              this.toastr.success(this.translate.instant('common.update', { param: 'Category' }), '');
             } else {
-              this.toastr.success(this.translate.instant('common.insert', { object: 'Category' }), '',
-                { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.insert', { param: 'Category' }), '');
             }
             this.resetForm(form);
           }

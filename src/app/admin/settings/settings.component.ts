@@ -117,8 +117,7 @@ export class SettingsComponent implements OnInit {
             if (!isNullOrUndefined(xhr.response.user)) {
               localStorage.removeItem('user');
               localStorage.setItem('user', JSON.stringify(formValue.value));
-              this.toastr.success(this.translate.instant('common.update', { object: 'Settings' }), '',
-                { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.update', { param: 'Settings' }), '');
             }
           }
         }

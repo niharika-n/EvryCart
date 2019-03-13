@@ -50,7 +50,7 @@ export class ProductAttributesComponent implements OnInit {
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
-        this.message = this.translate.instant('common.not-present', {object: 'attribute'});
+        this.message = this.translate.instant('common.not-present', {param: 'attribute'});
       });
   }
 
@@ -73,20 +73,20 @@ export class ProductAttributesComponent implements OnInit {
   }
 
   delete(id: number, attrValueCount?) {
-    const del = confirm(this.translate.instant('common.confirm-delete', {object: 'Attribute'}));
+    const del = confirm(this.translate.instant('common.confirm-delete', {param: 'Attribute'}));
     if (del && attrValueCount > 0) {
-      const result = confirm(this.translate.instant('attribute.confirm-delete', {object: attrValueCount}));
+      const result = confirm(this.translate.instant('attribute.confirm-delete', {param: attrValueCount}));
       if (result) {
         this.productAttributeService.delete(id).
           subscribe(() => {
-            this.toastr.success(this.translate.instant('common.delete'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.delete'), '');
             this.listing('', 1, this.pageSize);
           });
       }
     } else if (del) {
       this.productAttributeService.delete(id).
         subscribe(() => {
-          this.toastr.success(this.translate.instant('common.delete'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         });
     }

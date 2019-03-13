@@ -47,10 +47,10 @@ export class AdminChangePasswordComponent implements OnInit {
       } else {
         this.settingsService.changePassword(form.value.oldPassword, form.value.newPassword).
           subscribe((result: any) => {
-            this.toastr.success(this.translate.instant('common.update'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.update'), '');
           }, (error: any) => {
             this.wrongPassword = true;
-            this.toastr.error(this.translate.instant('common.err-update'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.error(this.translate.instant('common.err-update'), '');
           });
       }
     }

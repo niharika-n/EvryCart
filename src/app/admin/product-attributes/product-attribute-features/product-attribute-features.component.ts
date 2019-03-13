@@ -62,8 +62,7 @@ export class ProductAttributeFeaturesComponent implements OnInit {
       if (this.id) {
         this.attributeService.update(form.value).subscribe((result: any) => {
           if (!isNullOrUndefined(result.attribute)) {
-            this.toastr.success(this.translate.instant('common.update', { object: 'Attribute' }), '',
-              { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
           }
           if (!isNullOrUndefined(result.message)) {
             this.nameCheckMessage = this.translate.instant('attribute.present');
@@ -74,8 +73,7 @@ export class ProductAttributeFeaturesComponent implements OnInit {
       } else {
         this.attributeService.add(form.value).subscribe((result: any) => {
           if (!isNullOrUndefined(result.attribute)) {
-            this.toastr.success(this.translate.instant('common.insert', { object: 'Attribute' }), '',
-              { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
             this.resetForm(form);
           }
           if (!isNullOrUndefined(result.message)) {

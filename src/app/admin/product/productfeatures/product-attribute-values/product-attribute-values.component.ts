@@ -93,8 +93,7 @@ export class ProductAttributeValuesComponent implements OnInit {
                 this.productService.addProductAttributeValue(this.model).
                     subscribe((result: any) => {
                         if (!isNullOrUndefined(result.attributeVal)) {
-                            this.toastr.success(this.translate.instant('common.insert', { object: 'Attribute' }), '',
-                                { positionClass: 'toast-top-right', timeOut: 5000 });
+                            this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
                             this.listAttribute(1, this.pageSize);
                             this.isAttribute = true;
                             this.resetForm(form);
@@ -114,8 +113,7 @@ export class ProductAttributeValuesComponent implements OnInit {
                     this.productService.updateProductAttributeValue(this.model).
                         subscribe((result: any) => {
                             if (!isNullOrUndefined(result.attributeVal)) {
-                                this.toastr.success(this.translate.instant('common.update', { object: 'Attribute' }), '',
-                                    { positionClass: 'toast-top-right', timeOut: 5000 });
+                                this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
                                 this.listAttribute(1, this.pageSize);
                                 this.isAttribute = false;
                             }
@@ -152,8 +150,7 @@ export class ProductAttributeValuesComponent implements OnInit {
                 if (data === 'attribute deleted') {
                     const index: number = this.attributeValues.findIndex(x => x.id === attrID);
                     this.attributeValues.splice(index, 1);
-                    this.toastr.success(this.translate.instant('common.delete'), '',
-                        { positionClass: 'toast-top-right', timeOut: 5000 });
+                    this.toastr.success(this.translate.instant('common.delete'), '');
                 }
             });
         }
@@ -183,7 +180,7 @@ export class ProductAttributeValuesComponent implements OnInit {
             }, (error: any) => {
                 this.attributeMessage = true;
                 if (error.status === 404) {
-                    this.message = this.translate.instant('common.not-present', {object: 'attribute'});
+                    this.message = this.translate.instant('common.not-present', {param: 'attribute'});
                     console.log(this.message);
                 }
                 this.attributeMessage = true;

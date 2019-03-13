@@ -100,19 +100,18 @@ export class RegisterAdminComponent implements OnInit {
         xhr.onreadystatechange = (result: any) => {
           if (xhr.readyState === 4) {
             if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-              this.existingUsername = this.translate.instant('register-user.username-exists', {object: 'username'});
+              this.existingUsername = this.translate.instant('register-user.username-exists', {param: 'username'});
             } else {
               this.existingUsername = '';
             }
             if (!isNullOrUndefined(xhr.response.emailMessage)) {
-              this.existingEmail = this.translate.instant('register-user.object-exists', {object: 'email address'});
+              this.existingEmail = this.translate.instant('register-user.object-exists', {param: 'email address'});
             } else {
               this.existingEmail = '';
             }
             if (xhr.status === 200) {
               if (!isNullOrUndefined(xhr.response.user)) {
-                this.toastr.success(this.translate.instant('common.create', { object: 'User' }), '',
-                  { positionClass: 'toast-top-right', timeOut: 5000 });
+                this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
                 this.resetForm(form);
               }
             }

@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
         }
       }, (error: any) => {
         this.spinnerService.endRequest();
-        this.message = this.translate.instant('common.not-present', {object: 'product'});
+        this.message = this.translate.instant('common.not-present', {param: 'product'});
         console.log(error);
       });
   }
@@ -76,9 +76,9 @@ export class ProductComponent implements OnInit {
   delete(id: number) {
     this.productService.delete(id).
       subscribe(() => {
-        const del = confirm(this.translate.instant('common.confirm-delete', { object: 'Product' }));
+        const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
         if (del) {
-          this.toastr.success(this.translate.instant('common.delete'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         }
       });

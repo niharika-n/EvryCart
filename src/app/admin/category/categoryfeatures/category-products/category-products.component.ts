@@ -62,13 +62,13 @@ export class CategoryProductsComponent implements OnInit {
   }
 
   deleteProduct(pdtID: number) {
-    const del = confirm(this.translate.instant('common.confirm-delete', { object: 'product' }));
+    const del = confirm(this.translate.instant('common.confirm-delete', { param: 'product' }));
     if (del) {
       this.productService.delete(pdtID).
         subscribe(() => {
           const index: number = this.ProductsArr.findIndex(x => x.id === pdtID);
           this.ProductsArr.splice(index, 1);
-          this.toastr.success(this.translate.instant('common.delete'), '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
         });
     }
   }

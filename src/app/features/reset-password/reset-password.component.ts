@@ -51,8 +51,7 @@ export class ResetPasswordComponent implements OnInit {
         this.loginService.resetPassword(this.token, form.value.newPassword).
           subscribe((result: any) => {
             if (!isNullOrUndefined(result.success)) {
-              this.toastr.success(this.translate.instant('common.update', { object: 'Password' }), '',
-                { positionClass: 'toast-bottom-center', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.update', { param: 'Password' }), '');
               this.router.navigate(['/login']);
             }
           }, (error: any) => {
