@@ -39,6 +39,10 @@ export class SettingsComponent implements OnInit {
   get model() { return this.settingsForm.controls; }
 
   ngOnInit() {
+    this.pageStart();
+  }
+
+  pageStart() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.id = this.user.userID;
     this.spinnerService.startRequest();
@@ -133,7 +137,7 @@ export class SettingsComponent implements OnInit {
       this.fileSelected = false;
       this.submitted = false;
       this.url = '';
-      this.ngOnInit();
+      this.pageStart();
       this.imagePath.nativeElement.value = '';
     }
   }

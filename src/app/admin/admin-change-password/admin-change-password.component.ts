@@ -61,7 +61,6 @@ export class AdminChangePasswordComponent implements OnInit {
     if (form != null) {
       this.submitted = false;
       this.wrongPassword = false;
-      this.ngOnInit();
     }
   }
 }

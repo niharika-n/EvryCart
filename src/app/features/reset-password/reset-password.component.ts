@@ -27,6 +27,10 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pageStart();
+  }
+
+  pageStart() {
     this.token = this.activatedRoute.snapshot.paramMap.get('id');
     this.loginService.validateToken(this.token).
       subscribe((result: any) => {
@@ -67,7 +71,7 @@ export class ResetPasswordComponent implements OnInit {
     if (form != null) {
       this.submitted = false;
       this.wrongPassword = false;
-      this.ngOnInit();
+      this.pageStart();
     }
   }
 }
