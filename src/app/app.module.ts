@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +10,9 @@ import { MatTabsModule, MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {ToastOptions} from './custom.toast';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
@@ -63,9 +65,16 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     MatTabsModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot( ToastOptions),
     MatProgressSpinnerModule,
-    CKEditorModule
+    CKEditorModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   declarations: [
     AppComponent,
@@ -112,3 +121,6 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
 })
 export class AppModule { }
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { SigninService } from '../../services/login.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,7 +15,8 @@ export class ForgotPasswordComponent implements OnInit {
   model: any = {};
   submitted = false;
   error = '';
-  constructor(private router: Router, private toastr: ToastrService, private loginService: SigninService) { }
+  constructor(private router: Router, private toastr: ToastrService,
+    private loginService: SigninService, private translate: TranslateService) { }
 
   ngOnInit() { }
 
@@ -23,10 +25,10 @@ export class ForgotPasswordComponent implements OnInit {
       this.loginService.forgotPassword(form.value.username).
         subscribe((result: any) => {
           if (!isNullOrUndefined(result.success)) {
-            this.toastr.success('Link has been sent', '', { positionClass: 'toast-bottom-center' });
+            this.toastr.success(this.translate.instant('common.link-sent'), '');
           }
         }, (error: any) => {
-          this.error = 'This email address does not exist';
+          this.error = this.translate.instant('common.not-exist', { param: 'email address' });
         });
     }
     this.submitted = true;

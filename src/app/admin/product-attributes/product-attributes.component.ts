@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductAttributeService } from '../../services/product-attributes.service';
 import { ProductAttributeModel } from './product-attribute';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-attributes',
@@ -23,7 +24,7 @@ export class ProductAttributesComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
 
-  constructor(private router: Router, private pagerService: PagerService,
+  constructor(private router: Router, private pagerService: PagerService, private translate: TranslateService,
     private toastr: ToastrService, private productAttributeService: ProductAttributeService,
     private spinnerService: SpinnerService) { }
 
@@ -42,14 +43,14 @@ export class ProductAttributesComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         if (result.status === 404) {
-          this.message = 'No record found.';
+          this.message = this.translate.instant('common.not-found');
         } else {
           this.model = result.productAttributeResult;
           this.totalCount = result.totalCount;
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
-        this.message = 'No attribute found';
+        this.message = this.translate.instant('common.not-present', {param: 'attribute'});
       });
   }
 
@@ -72,20 +73,20 @@ export class ProductAttributesComponent implements OnInit {
   }
 
   delete(id: number, attrValueCount?) {
-    const del = confirm('Are you sure you want to delete this Attribute?');
+    const del = confirm(this.translate.instant('common.confirm-delete', {param: 'Attribute'}));
     if (del && attrValueCount > 0) {
-      const result = confirm('This attribute has ' + attrValueCount + ' value(s) in various Products. Do you want to proceed ?');
+      const result = confirm(this.translate.instant('attribute.confirm-delete', {param: attrValueCount}));
       if (result) {
         this.productAttributeService.delete(id).
           subscribe(() => {
-            this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.delete'), '');
             this.listing('', 1, this.pageSize);
           });
       }
     } else if (del) {
       this.productAttributeService.delete(id).
         subscribe(() => {
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         });
     }

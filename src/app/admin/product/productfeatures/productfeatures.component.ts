@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined, isDate } from 'util';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../services/product.service';
 import { ProductModel } from '../product';
@@ -36,8 +37,9 @@ export class ProductfeaturesComponent implements OnInit {
     keys: any;
 
     constructor(private productService: ProductService, private router: Router,
-        private route: ActivatedRoute, private categoryservice: CategoryService,
-        private toastr: ToastrService, private spinnerService: SpinnerService) {
+        private translate: TranslateService, private route: ActivatedRoute,
+        private categoryservice: CategoryService, private toastr: ToastrService,
+        private spinnerService: SpinnerService) {
         this.keys = Object.keys(this.quantityType);
         this.model = {
             productId: 0,
@@ -81,7 +83,7 @@ export class ProductfeaturesComponent implements OnInit {
             this.productService.detail(this.id)
                 .subscribe((result: any) => {
                     this.spinnerService.endRequest();
-                    this.pageTitle = 'Edit';
+                    this.pageTitle = this.translate.instant('product-detail.edit');
                     this.model = result.product;
                     if (this.model.taxExempted) {
                         this.isTax = false;
@@ -95,7 +97,7 @@ export class ProductfeaturesComponent implements OnInit {
                 });
         } else {
             this.editPage = false;
-            this.pageTitle = 'Add';
+            this.pageTitle = this.translate.instant('product-detail.add');
         }
         this.getCategoryList();
     }
@@ -128,7 +130,7 @@ export class ProductfeaturesComponent implements OnInit {
         this.categoryservice.Listing('', 1, 5, this.model.createdDate, false, true, true).
             subscribe((result: any) => {
                 if (result.status === 404) {
-                    this.message = 'No record found.';
+                    this.message = this.translate.instant('common.not-found');
                 } else {
                     this.CategoryArr = result;
                 }
@@ -158,7 +160,7 @@ export class ProductfeaturesComponent implements OnInit {
             if (this.id) {
                 this.productService.update(form.value).subscribe((result: any) => {
                     if (!isNullOrUndefined(result.product)) {
-                        this.toastr.success('Product Updated !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.update', { param: 'Product' }), '');
                         this.router.navigate(['admin/product']);
                         this.resetForm(form);
                     }
@@ -176,7 +178,7 @@ export class ProductfeaturesComponent implements OnInit {
             } else {
                 this.productService.add(this.model).subscribe((result: any) => {
                     if (!isNullOrUndefined(result.productObj)) {
-                        this.toastr.success('Product Added !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.insert', { param: 'Product' }), '');
                         this.resetForm(form.value);
                     }
                     if (!isNullOrUndefined(result.sameNameMessage)) {

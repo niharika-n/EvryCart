@@ -5,6 +5,7 @@ import { CategoryService } from '../../services/category.service';
 import { PagerService } from '../../services/pagination.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-category',
@@ -23,7 +24,7 @@ export class CategoryComponent implements OnInit {
     currentPage = 1;
     getAll = false;
     sortOrder = false;
-    constructor(private categoryService: CategoryService, private router: Router,
+    constructor(private categoryService: CategoryService, private router: Router, private translate: TranslateService,
         private pagerService: PagerService, private toastr: ToastrService,
         private spinnerService: SpinnerService) { }
 
@@ -37,9 +38,9 @@ export class CategoryComponent implements OnInit {
         this.spinnerService.startRequest();
         this.categoryService.Listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', false, this.getAll, false).
             subscribe((result: any) => {
-               this.spinnerService.endRequest();
+                this.spinnerService.endRequest();
                 if (result.status === 404) {
-                    this.message = 'No record found.';
+                    this.message = this.translate.instant('common.not-found');
                 } else {
                     this.model = result.categoryResult;
                     this.totalCount = result.totalCount;
@@ -47,7 +48,7 @@ export class CategoryComponent implements OnInit {
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();
-                this.message = 'No category found';
+                this.message = this.translate.instant('common.not-present', {param: 'category'});
             });
     }
 
@@ -70,20 +71,20 @@ export class CategoryComponent implements OnInit {
     }
 
     delete(id: number, productCount?) {
-        const del = confirm('Are you sure you want to delete this Category?');
+        const del = confirm(this.translate.instant('common.confirm-delete', { param: 'category' }));
         if (del && productCount > 0) {
-            const result = confirm('This category has ' + productCount + ' product(s). Do you want to proceed ?');
+            const result = confirm(this.translate.instant('category.confirm-delete', { count: productCount }));
             if (result) {
                 this.categoryService.Delete(id).
                     subscribe(() => {
-                        this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                        this.toastr.success(this.translate.instant('common.delete'), '');
                         this.listing('', 1, this.pageSize);
                     });
             }
         } else if (del) {
             this.categoryService.Delete(id).
                 subscribe(() => {
-                    this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                    this.toastr.success(this.translate.instant('common.delete'), '');
                     this.listing('', 1, this.pageSize);
                 });
         }
