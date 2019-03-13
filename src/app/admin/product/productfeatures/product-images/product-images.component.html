@@ -1,18 +1,17 @@
-<a title="Add Image" value="add Image" #addnewImage class="addnewLink" id="addnewImage" (click)="showImageForm()">add
-    new Image
-  </a>
+<a title="{{'product-detail.add-img' | translate}}" #addnewImage class="addnewLink" id="addnewImage" (click)="showImageForm()" translate>
+product-detail.add-img  </a>
 
 <div *ngIf="isImage">
     <br><br>
     <div class="product-images" *ngIf="selectedImg.length > 0">
         <div class="pdt-img" *ngFor='let selectimg of selectedImg'>
             <figure>
-                <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage(selectimg.id)"></i>
+                <i class="fa fa-times-circle img-close" title="{{'common.delete-title' | translate}}" (click)="deleteImage(selectimg.id)"></i>
                 <img [src]="selectimg.src">
             </figure>
         </div>
         <br>
-        <button type="button" class="btn btn-info" title="Add" (click)="addImages()">Add</button>
+        <button type="button" class="btn btn-info" title="{{'common.add' | translate}}" (click)="addImages()" translate>common.add</button>
     </div>
     <br>
     <input type='file' (change)="onSelectFile($event)" multiple />
@@ -23,13 +22,13 @@
     <div class="product-images">
         <div class="pdt-img" *ngFor='let url of urls'>
             <figure>
-                <i class="fa fa-times-circle img-close" title="Delete" (click)="deleteImage(url.id)"></i>
+                <i class="fa fa-times-circle img-close" title="{{'common.delete-title' | translate}}" (click)="deleteImage(url.id)"></i>
                 <img [src]="url.src">
             </figure>
         </div>
     </div>
 
-    <h5 *ngIf="imageMessage">
-        <br> Product images do not exist.
+    <h5 *ngIf="imageMessage" translate>
+        <br> product-detail.img-message
     </h5>
 </div>

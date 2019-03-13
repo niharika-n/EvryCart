@@ -6,6 +6,7 @@ import { ProductAttributeModel } from '../product-attribute';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-attribute-features',
@@ -21,7 +22,7 @@ export class ProductAttributeFeaturesComponent implements OnInit {
   id = 0;
   nameCheckMessage = '';
 
-  constructor(private attributeService: ProductAttributeService, private builder: FormBuilder,
+  constructor(private attributeService: ProductAttributeService, private builder: FormBuilder, private translate: TranslateService,
     private route: ActivatedRoute, private toastr: ToastrService, private spinnerService: SpinnerService) {
     this.model = {
       attributeID: 0,
@@ -42,11 +43,11 @@ export class ProductAttributeFeaturesComponent implements OnInit {
       this.attributeService.detail(this.id)
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
-          this.pageTitle = 'Edit';
+          this.pageTitle = this.translate.instant('attribute-detail.edit');
           this.model = result;
         });
     } else {
-      this.pageTitle = 'Add';
+      this.pageTitle = this.translate.instant('attribute-detail.add');
     }
   }
 
@@ -61,17 +62,22 @@ export class ProductAttributeFeaturesComponent implements OnInit {
       if (this.id) {
         this.attributeService.update(form.value).subscribe((result: any) => {
           if (!isNullOrUndefined(result.attribute)) {
-            this.toastr.success('Updated successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
+          }
+          if (!isNullOrUndefined(result.message)) {
+            this.nameCheckMessage = this.translate.instant('attribute.present');
+          } else {
+            this.nameCheckMessage = '';
           }
         });
       } else {
         this.attributeService.add(form.value).subscribe((result: any) => {
           if (!isNullOrUndefined(result.attribute)) {
-            this.toastr.success('Added successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
-          this.resetForm(form);
+            this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
+            this.resetForm(form);
           }
           if (!isNullOrUndefined(result.message)) {
-            this.nameCheckMessage = 'Attribute field exists already';
+            this.nameCheckMessage = this.translate.instant('attribute.present');
           } else {
             this.nameCheckMessage = '';
           }

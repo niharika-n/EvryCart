@@ -4,6 +4,7 @@ import { isNullOrUndefined } from 'util';
 import { ProductModel } from '../../admin/product/product';
 import { isNavigationCancelingError } from '@angular/router/src/shared';
 import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   productArr = [];
   categoryArr = [];
   productImageMessage = false;
-  constructor(private homeService: HomeService,
+  constructor(private homeService: HomeService, private translate: TranslateService,
     private spinnerService: SpinnerService
   ) { }
 
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
                   });
                 }
               }, (error: any) => {
-                const message = 'Product Image does not exist';
+                const message = this.translate.instant('product.image-present');
                 console.log(message);
               });
           }

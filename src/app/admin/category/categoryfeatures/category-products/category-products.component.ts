@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { CategoryService } from '../../../../services/category.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -22,7 +23,7 @@ export class CategoryProductsComponent implements OnInit {
   currentPage = 1;
   totalCount = 0;
 
-  constructor(private categoryService: CategoryService, private builder: FormBuilder,
+  constructor(private categoryService: CategoryService, private builder: FormBuilder, private translate: TranslateService,
     private router: Router, private activatedRoute: ActivatedRoute,
     private productService: ProductService, private toastr: ToastrService,
     private pagerService: PagerService, private spinnerService: SpinnerService) { }
@@ -50,8 +51,9 @@ export class CategoryProductsComponent implements OnInit {
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
+        this.spinnerService.endRequest();
         this.productMessage = true;
-        console.log('Prodcuts do not exist.');
+        console.log(this.translate.instant('category.null-product'));
       });
   }
 
@@ -60,13 +62,13 @@ export class CategoryProductsComponent implements OnInit {
   }
 
   deleteProduct(pdtID: number) {
-    const del = confirm('Confirm delete');
+    const del = confirm(this.translate.instant('common.confirm-delete', { param: 'product' }));
     if (del) {
       this.productService.delete(pdtID).
         subscribe(() => {
           const index: number = this.ProductsArr.findIndex(x => x.id === pdtID);
           this.ProductsArr.splice(index, 1);
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
         });
     }
   }

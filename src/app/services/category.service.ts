@@ -27,53 +27,9 @@ export class CategoryService {
         return this.httpclient.get('/api/category/listing', { params: queryParameters });
     }
 
-    // Add(category: CategoryModel, file?: File) {
-    //     const currentUser = JSON.parse(localStorage.getItem('token'));
-    //     const body = JSON.stringify(category);
-    //     const formData = new FormData();
-    //     formData.append('category', body);
-    //     if (file !== null) {
-    //         formData.append('file', file);
-    //     }
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open('POST', '/api/category/insertcategory');
-    //     xhr.setRequestHeader('accept', 'application/json');
-    //     xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
-    //     xhr.onreadystatechange = () => {
-    //         if (xhr.readyState === 4) {
-    //             if (xhr.status === 200) {
-    //                 this.toastr.success('Category Inserted !', '', { positionClass: 'toast-top-center' });
-    //             }
-    //         }
-    //     };
-    //     xhr.send(formData);
-    // }
-
     Detail(id) {
         return this.httpclient.get('/api/category/detail/' + id);
     }
-
-    // Update(category: CategoryModel, file?: File) {
-    //     const currentUser = JSON.parse(localStorage.getItem('token'));
-    //     const body = JSON.stringify(category);
-    //     const formData = new FormData();
-    //     formData.append('category', body);
-    //     if (file !== null) {
-    //         formData.append('file', file);
-    //     }
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open('PUT', '/api/category/updatecategory');
-    //     xhr.setRequestHeader('accept', 'application/json');
-    //     xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
-    //     xhr.onreadystatechange = () => {
-    //         if (xhr.readyState === 4) {
-    //             if (xhr.status === 200) {
-    //                 this.toastr.success('Category Updated !', '', { positionClass: 'toast-top-center' });
-    //             }
-    //         }
-    //     };
-    //     xhr.send(formData);
-    // }
 
     Delete(id) {
         const queryParameters = new HttpParams().set('ID', id);

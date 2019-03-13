@@ -5,6 +5,7 @@ import { ProductModel } from './product';
 import { ProductService } from '../../services/product.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
@@ -23,7 +24,7 @@ export class ProductComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
 
-  constructor(private productService: ProductService, private router: Router,
+  constructor(private productService: ProductService, private router: Router, private translate: TranslateService,
     private pagerService: PagerService, private toastr: ToastrService, private spinnerService: SpinnerService) { }
 
   ngOnInit() {
@@ -41,7 +42,7 @@ export class ProductComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         if (result.status === 404) {
-          this.message = 'No record found.';
+          this.message = this.translate.instant('common.not-found');
         } else {
           this.model = result.productResult;
           this.totalCount = result.totalCount;
@@ -49,7 +50,7 @@ export class ProductComponent implements OnInit {
         }
       }, (error: any) => {
         this.spinnerService.endRequest();
-        this.message = 'No product found';
+        this.message = this.translate.instant('common.not-present', {param: 'product'});
         console.log(error);
       });
   }
@@ -75,9 +76,9 @@ export class ProductComponent implements OnInit {
   delete(id: number) {
     this.productService.delete(id).
       subscribe(() => {
-        const del = confirm('Are you sure you wan to delete this product?');
+        const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
         if (del) {
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         }
       });

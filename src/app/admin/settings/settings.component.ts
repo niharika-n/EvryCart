@@ -5,6 +5,7 @@ import { SettingsService } from '../../services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +26,7 @@ export class SettingsComponent implements OnInit {
   existingEmail = '';
 
   constructor(private formbuilder: FormBuilder, private settingsService: SettingsService,
-    private toastr: ToastrService, private spinnerService: SpinnerService) {
+    private toastr: ToastrService, private spinnerService: SpinnerService, private translate: TranslateService) {
     this.settingsForm = this.formbuilder.group({
       userID: [''],
       firstName: ['', Validators.required],
@@ -38,6 +39,10 @@ export class SettingsComponent implements OnInit {
   get model() { return this.settingsForm.controls; }
 
   ngOnInit() {
+    this.pageStart();
+  }
+
+  pageStart() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.id = this.user.userID;
     this.spinnerService.startRequest();
@@ -103,12 +108,12 @@ export class SettingsComponent implements OnInit {
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-            this.existingUsername = 'Username already exists';
+            this.existingUsername = this.translate.instant('register-user.username-exists');
           } else {
             this.existingUsername = '';
           }
           if (!isNullOrUndefined(xhr.response.emailMessage)) {
-            this.existingEmail = 'This Email already exists';
+            this.existingEmail = this.translate.instant('register-user.email-exists');
           } else {
             this.existingEmail = '';
           }
@@ -116,7 +121,7 @@ export class SettingsComponent implements OnInit {
             if (!isNullOrUndefined(xhr.response.user)) {
               localStorage.removeItem('user');
               localStorage.setItem('user', JSON.stringify(formValue.value));
-              this.toastr.success('Settings Updated !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.update', { param: 'Settings' }), '');
             }
           }
         }
@@ -132,7 +137,7 @@ export class SettingsComponent implements OnInit {
       this.fileSelected = false;
       this.submitted = false;
       this.url = '';
-      this.ngOnInit();
+      this.pageStart();
       this.imagePath.nativeElement.value = '';
     }
   }

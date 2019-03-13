@@ -1,6 +1,6 @@
 <div class="container body-content">
-    <h3>
-        Product Attributes
+    <h3 translate>
+        attribute.title
     </h3>
     <hr>
     <div>
@@ -9,12 +9,12 @@
                 <input autocomplete="off" class="form-control" name="search" #search />
             </div>
             <div class="col-md-9">
-                <input type="submit" value="Search" class="btn btn-info" title="Submit" (click)="listing(search.value)" /> &nbsp;
-                <input type="submit" value="Clear" class="btn btn-info" title="Clear" (click)="listing(search.value='')" name="Clear" />&nbsp;
-                <button type="button" class="btn btn-info" value="add new" [routerLink]="['add']" title="Add New Attribute"><i class="fa fa-plus-circle add-icon"></i> Add</button>
+                <input type="submit" value="{{'common.search' | translate}}" class="btn btn-info" title="{{'common.search' | translate}}" (click)="listing(search.value)" /> &nbsp;
+                <input type="submit" value="{{'common.clear' | translate}}" class="btn btn-info" title="{{'common.clear' | translate}}" (click)="listing(search.value='')" name="Clear" />&nbsp;
+                <button type="button" class="btn btn-info" value="{{'common.add' | translate}}" [routerLink]="['add']" title="{{'common.add' | translate}}" translate><i class="fa fa-plus-circle add-icon"></i> common.add</button>
             </div>
             <div class="col-md-12 page-size">
-                <b>Page Size</b> &nbsp;
+                <b translate>common.page-size</b> &nbsp;
                 <select #pageSize (change)="sizeSelect(pageSize.value)">
           <option value=5 >5</option>
           <option value=7 >7</option>
@@ -25,10 +25,10 @@
         <div class="table-responsive" *ngIf="!message">
             <table class="table table-bordered">
                 <tr>
-                    <th hidden>Attribute ID</th>
-                    <th appSort [data]="model" [sortKey]="'attributeName'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Name <i *ngIf="sortColumn=='attributeName' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='attributeName' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
-                    <th>Created By</th>
-                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Created Date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
+                    <th hidden translate>attribute.attributeID</th>
+                    <th appSort [data]="model" [sortKey]="'attributeName'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)" translate>attribute.name <i *ngIf="sortColumn=='attributeName' && sortOrder" class="fa fa-arrow-circle-up" title="{{'common.asc' | translate}}"></i><i *ngIf="sortColumn=='attributeName' && !sortOrder" class="fa fa-arrow-circle-down" title="{{'common.desc' | translate}}"></i></th>
+                    <th translate>attribute.created-by</th>
+                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)" translate>attribute.created-date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="{{'common.asc' | translate}}"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="{{'common.desc' | translate}}"></i></th>
                     <th></th>
                 </tr>
                 <tr *ngFor="let attribute of model">
@@ -38,10 +38,10 @@
                     <td>{{attribute.createdDate | date}}</td>
                     <td class="message">
                         <a [routerLink]="['detail',(attribute.attributeID)]">
-                            <i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+                            <i class="fa fa-pencil icon" aria-hidden="true" title="{{'common.edit-title' | translate}}"></i>
                         </a>&nbsp;
                         <a (click)="delete(attribute.attributeID, attribute.associatedProductValues)">
-                            <i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+                            <i class="fa fa-times icon" aria-hidden="true" title="{{'common.delete-title' | translate}}"></i>
                         </a>
                     </td>
                 </tr>

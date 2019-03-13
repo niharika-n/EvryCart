@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { LoginUser } from '../../shared/login-model';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-admin',
@@ -27,7 +28,7 @@ export class RegisterAdminComponent implements OnInit {
   userRoles: any = [];
   @ViewChild('imagePath') imagePath: ElementRef;
 
-  constructor(private toastr: ToastrService, private formbuilder: FormBuilder) {
+  constructor(private toastr: ToastrService, private formbuilder: FormBuilder, private translate: TranslateService) {
     this.adminForm = this.formbuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -99,18 +100,18 @@ export class RegisterAdminComponent implements OnInit {
         xhr.onreadystatechange = (result: any) => {
           if (xhr.readyState === 4) {
             if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-              this.existingUsername = 'Username already exists';
+              this.existingUsername = this.translate.instant('register-user.username-exists', {param: 'username'});
             } else {
               this.existingUsername = '';
             }
             if (!isNullOrUndefined(xhr.response.emailMessage)) {
-              this.existingEmail = 'Email Address already exists';
+              this.existingEmail = this.translate.instant('register-user.object-exists', {param: 'email address'});
             } else {
               this.existingEmail = '';
             }
             if (xhr.status === 200) {
-              if (!isNullOrUndefined(xhr.response.success)) {
-                this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              if (!isNullOrUndefined(xhr.response.user)) {
+                this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
                 this.resetForm(form);
               }
             }

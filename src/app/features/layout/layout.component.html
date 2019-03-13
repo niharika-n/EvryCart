@@ -3,8 +3,8 @@
         <div class="navbar-brand">
             <a>
                 <img src="../../assets/images/logo_training.png" />
-                <h2>
-                    Application
+                <h2 translate>
+                    admin-layout.title
                 </h2>
             </a>
         </div>
@@ -29,13 +29,13 @@
                 </ng-template>
                 </a>
                 <a class="dropdown-item">{{loginModel.firstName}}&nbsp;{{loginModel.lastName}}</a>
-                <a class="dropdown-item">Settings</a>
+                <a class="dropdown-item" translate>admin-layout.settings</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a>
+                <a class="dropdown-item" href="javascript:void(0)" (click)="logout()" translate>admin-layout.logout</a>
                 </span>
                 <span *ngIf="loginModel == null">
-              <a class="dropdown-item" [routerLink]="['/login']">Login</a>
-              <a class="dropdown-item" [routerLink]="['/register']">Sign Up</a>
+              <a class="dropdown-item" [routerLink]="['/login']" translate>layout.login</a>
+              <a class="dropdown-item" [routerLink]="['/register']" translate>layout.sign-up</a>
             </span>
 </div>
 </span>
@@ -101,9 +101,9 @@
     </div>
     <div class="footer-copyright text-center py-3">
         <h6>Follow us on:&nbsp;&nbsp;</h6>
-        <i class="fa fa-facebook-square icons" title="Facebook"></i>&nbsp;
-        <i class="fa fa-twitter icons" title="Twitter"></i>&nbsp;
-        <i class="fa fa-instagram icons" title="Instagram"></i>&nbsp;
+        <i class="fa fa-facebook-square icons" title="{{'layout.facebook' | translate}}"></i>&nbsp;
+        <i class="fa fa-twitter icons" title="{{'layout.twitter' | translate}}"></i>&nbsp;
+        <i class="fa fa-instagram icons" title="{{'layout.instagram' | translate}}"></i>&nbsp;
     </div>
 </footer>
 </div>

@@ -1,15 +1,17 @@
 <div class="container body-content">
-    <h3>
-        DashBoard
+    <h3 translate>
+        dashboard.title
     </h3>
     <hr>
     <div class="card-deck">
         <div class="card">
-            <div class="card-header bg-light text-dark" [routerLink]="['/admin/category']" title="Categories">
+            <div class="card-header bg-light text-dark" [routerLink]="['/admin/category']" title="{{'category.title' | translate}}">
                 <h5>
-                    Categories ({{statistics.categoryCount}})
+                    {{'dashboard.categories' | translate}} ({{statistics.categoryCount}})
                 </h5>
-                <sub><p class="text-muted">updated on : {{categoryUpdateDate | date}}</p></sub>
+                <sub>
+          <p class="text-muted" > {{'dashboard.updated-on' | translate}} : {{categoryUpdateDate | date}}</p>
+        </sub>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush" *ngFor="let category of CategoryArr">
@@ -19,12 +21,14 @@
         </div>
 
         <div class="card">
-            <div class="card-header bg-light text-dark" [routerLink]="['/admin/product']" title="Products
+            <div class="card-header bg-light text-dark" [routerLink]="['/admin/product']" title="{{'product.title' | translate}}
             ">
                 <h5>
-                    Products ({{statistics.productCount}})
+                    {{'dashboard.products' | translate}} ({{statistics.productCount}})
                 </h5>
-                <sub><p class="text-muted">updated on : {{productUpdateDate | date}}</p></sub>
+                <sub>
+          <p class="text-muted"> {{'dashboard.updated-on' | translate}} : {{productUpdateDate | date}}</p>
+        </sub>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush" *ngFor="let product of ProductArr">
