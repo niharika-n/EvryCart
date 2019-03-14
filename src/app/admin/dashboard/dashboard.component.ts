@@ -31,18 +31,18 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getStatistics().
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        this.statistics.categoryCount = result.categoryCount;
-        this.statistics.productCount = result.productCount;
-        this.categoryUpdateDate = result.categoryLastUpdated;
-        this.productUpdateDate = result.productLastUpdated;
-        if (result.categoryResult.length > 0) {
-          for (let i = 0; i < result.categoryResult.length; i++) {
-            this.CategoryArr.push(result.categoryResult[i]);
+        this.statistics.categoryCount = result.body.categoryCount;
+        this.statistics.productCount = result.body.productCount;
+        this.categoryUpdateDate = result.body.categoryLastUpdated;
+        this.productUpdateDate = result.body.productLastUpdated;
+        if (result.body.categoryResult.length > 0) {
+          for (let i = 0; i < result.body.categoryResult.length; i++) {
+            this.CategoryArr.push(result.body.categoryResult[i]);
           }
         }
-        if (result.productResult.length > 0) {
-          for (let i = 0; i < result.productResult.length; i++) {
-            this.ProductArr.push(result.productResult[i]);
+        if (result.body.productResult.length > 0) {
+          for (let i = 0; i < result.body.productResult.length; i++) {
+            this.ProductArr.push(result.body.productResult[i]);
           }
         }
       });
