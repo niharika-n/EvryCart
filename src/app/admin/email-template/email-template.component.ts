@@ -3,6 +3,8 @@ import { TemplateService } from '../../services/content-template.service';
 import { EmailTemplateModel } from './email-template';
 import { SpinnerService } from '../../services/spinner.service';
 import { TemplateType } from './template.enum';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-email-template',
@@ -18,7 +20,8 @@ export class EmailTemplateComponent implements OnInit {
   keys: any;
   selectCheck = false;
 
-  constructor(private contentService: TemplateService, private spinnerService: SpinnerService) {
+  constructor(private contentService: TemplateService, private spinnerService: SpinnerService,
+    private translate: TranslateService, private toastr: ToastrService) {
     this.keys = Object.keys(this.templateType);
     this.model = {
       id: 0,
@@ -38,10 +41,10 @@ export class EmailTemplateComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         this.heading = TemplateType[newVal];
-        this.model = result;
-        this.emailContent = result.content;
+        this.model = result.body;
+        this.emailContent = result.body.content;
       }, (error: any) => {
-        const message = 'Selected template does not exist.';
+        const message = this.translate.instant('templates.empty-template');
         console.log(message);
       });
   }
@@ -50,7 +53,9 @@ export class EmailTemplateComponent implements OnInit {
     this.model.content = templateValue;
     this.contentService.updateEmail(this.model).subscribe(
       (result: any) => {
-        console.log(result);
+        if (result.status === true) {
+          this.toastr.success(this.translate.instant('common.update', { param: 'Template' }), '');
+        }
       });
   }
 

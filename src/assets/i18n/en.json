@@ -89,7 +89,8 @@
     "templates": {
         "title": "Edit Templates",
         "choose": "Choose Template",
-        "select": "-select-"
+        "select": "-select-",
+        "empty-template": "Selected template does not exist."
     },
 
     "product": {
