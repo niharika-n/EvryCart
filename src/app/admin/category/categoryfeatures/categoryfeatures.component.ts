@@ -59,10 +59,10 @@ export class CategoryfeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('category-detail.edit');
-          this.model = result;
+          this.model = result.body;
           if (!this.model.parentCategory) { this.showChild = true; }
-          if (result.imageContent !== null) {
-            this.model.imageContent = 'data:image/png;base64,' + result.imageContent;
+          if (result.body.imageContent !== null) {
+            this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
           }
         });
     } else {
@@ -107,7 +107,6 @@ export class CategoryfeaturesComponent implements OnInit {
   }
 
   add(form: NgForm) {
-    console.log(form.value);
     if (form.valid) {
       const currentUser = JSON.parse(localStorage.getItem('token'));
       const body = JSON.stringify(form.value);
@@ -127,12 +126,12 @@ export class CategoryfeaturesComponent implements OnInit {
       xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          if (!isNullOrUndefined(xhr.response.message)) {
-            this.categoryCheckMessage = xhr.response.message;
+          if (!isNullOrUndefined(xhr.response.body.message)) {
+            this.categoryCheckMessage = xhr.response.body.message;
           } else {
             this.categoryCheckMessage = '';
           }
-          if (!isNullOrUndefined(xhr.response.categoryObj)) {
+          if (!isNullOrUndefined(xhr.response.body.categoryObj)) {
             if (this.id) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Category' }), '');
             } else {

@@ -58,11 +58,11 @@ export class HomeComponent implements OnInit {
     this.homeService.getLatestCategories().
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (!isNullOrUndefined(result) && result.length > 0) {
-          for (let i = 0; i < result.length; i++) {
+        if (!isNullOrUndefined(result.body) && result.body.length > 0) {
+          for (let i = 0; i < result.body.length; i++) {
             this.categoryArr.push({
-              imageContent: 'data:image/png;base64,' + result[i].imageContent,
-              categoryValue: result[i]
+              imageContent: 'data:image/png;base64,' + result.body[i].imageContent,
+              categoryValue: result.body[i]
             });
           }
         }

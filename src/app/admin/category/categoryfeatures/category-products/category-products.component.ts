@@ -43,11 +43,11 @@ export class CategoryProductsComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         this.productMessage = false;
-        if (result.productResult.length > 0) {
-          for (let i = 0; i < result.productResult.length; i++) {
-            this.ProductsArr.push(result.productResult[i]);
+        if (result.body.productResult.length > 0) {
+          for (let i = 0; i < result.body.productResult.length; i++) {
+            this.ProductsArr.push(result.body.productResult[i]);
           }
-          this.totalCount = result.totalCount;
+          this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
         }
       }, (error: any) => {

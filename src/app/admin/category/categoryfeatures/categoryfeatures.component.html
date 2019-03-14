@@ -62,8 +62,8 @@
                     <img [src]="model.imageContent" width="250px">
                     <i class="fa fa-times-circle img-close" title="{{'common.delete-title' | translate}}" (click)="deleteImage()"></i>
                   </div>
-                  <ng-template #imageMessage translate>
-                    category-detail.image-message &nbsp;
+                  <ng-template #imageMessage >
+                    {{'category-detail.image-message' | translate}}
                   </ng-template>
                   <br>
                 </span>
