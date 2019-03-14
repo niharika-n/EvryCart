@@ -37,11 +37,11 @@ export class LoginComponent implements OnInit {
     if (form.valid) {
       this.signInService.login(this.model.username, this.model.password)
         .subscribe(result => {
-          if (result.statusCode === 200) {
-            localStorage.setItem('token', JSON.stringify((result.value.token)));
-            localStorage.setItem('user', JSON.stringify(result.value.user));
-            localStorage.setItem('userRole', result.value.user.roleID);
-            if (result.value.user.roleID.includes(2 || 1)) {
+          if (result.status === true) {
+            localStorage.setItem('token', JSON.stringify((result.body.value.token)));
+            localStorage.setItem('user', JSON.stringify(result.body.value.user));
+            localStorage.setItem('userRole', result.body.value.user.roleID);
+            if (result.body.value.user.roleID.includes(2 || 1)) {
               this.router.navigateByUrl(this.returnUrl);
             } else {
               this.router.navigate(['']);

@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
     if (form.valid) {
       this.loginService.forgotPassword(form.value.username).
         subscribe((result: any) => {
-          if (!isNullOrUndefined(result.success)) {
+          if (!isNullOrUndefined(result.body.success)) {
             this.toastr.success(this.translate.instant('common.link-sent'), '');
           }
         }, (error: any) => {
