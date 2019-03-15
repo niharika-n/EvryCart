@@ -44,7 +44,7 @@ export class ProductAttributeFeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('attribute-detail.edit');
-          this.model = result;
+          this.model = result.body;
         });
     } else {
       this.pageTitle = this.translate.instant('attribute-detail.add');
@@ -61,10 +61,10 @@ export class ProductAttributeFeaturesComponent implements OnInit {
     if (form.valid) {
       if (this.id) {
         this.attributeService.update(form.value).subscribe((result: any) => {
-          if (!isNullOrUndefined(result.attribute)) {
+          if (!isNullOrUndefined(result.body.attribute)) {
             this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
           }
-          if (!isNullOrUndefined(result.message)) {
+          if (!isNullOrUndefined(result.body.message)) {
             this.nameCheckMessage = this.translate.instant('attribute.present');
           } else {
             this.nameCheckMessage = '';
@@ -72,11 +72,11 @@ export class ProductAttributeFeaturesComponent implements OnInit {
         });
       } else {
         this.attributeService.add(form.value).subscribe((result: any) => {
-          if (!isNullOrUndefined(result.attribute)) {
+          if (!isNullOrUndefined(result.body.attribute)) {
             this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
             this.resetForm(form);
           }
-          if (!isNullOrUndefined(result.message)) {
+          if (!isNullOrUndefined(result.body.message)) {
             this.nameCheckMessage = this.translate.instant('attribute.present');
           } else {
             this.nameCheckMessage = '';

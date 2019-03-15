@@ -42,15 +42,15 @@ export class ProductAttributesComponent implements OnInit {
     this.productAttributeService.listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', this.sortOrder, false).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.status === 404) {
+        if (result.status === false) {
           this.message = this.translate.instant('common.not-found');
         } else {
-          this.model = result.productAttributeResult;
-          this.totalCount = result.totalCount;
+          this.model = result.body.productAttributeResult;
+          this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
-        this.message = this.translate.instant('common.not-present', {param: 'attribute'});
+        this.message = this.translate.instant('common.not-present', { param: 'attribute' });
       });
   }
 
@@ -73,21 +73,25 @@ export class ProductAttributesComponent implements OnInit {
   }
 
   delete(id: number, attrValueCount?) {
-    const del = confirm(this.translate.instant('common.confirm-delete', {param: 'Attribute'}));
+    const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Attribute' }));
     if (del && attrValueCount > 0) {
-      const result = confirm(this.translate.instant('attribute.confirm-delete', {param: attrValueCount}));
-      if (result) {
+      const delValues = confirm(this.translate.instant('attribute.confirm-delete', { param: attrValueCount }));
+      if (delValues) {
         this.productAttributeService.delete(id).
-          subscribe(() => {
-            this.toastr.success(this.translate.instant('common.delete'), '');
-            this.listing('', 1, this.pageSize);
+          subscribe((result: any) => {
+            if (result.status === true) {
+              this.toastr.success(this.translate.instant('common.delete'), '');
+              this.listing('', 1, this.pageSize);
+            }
           });
       }
     } else if (del) {
       this.productAttributeService.delete(id).
-        subscribe(() => {
-          this.toastr.success(this.translate.instant('common.delete'), '');
-          this.listing('', 1, this.pageSize);
+        subscribe((result: any) => {
+          if (result.status === true) {
+            this.toastr.success(this.translate.instant('common.delete'), '');
+            this.listing('', 1, this.pageSize);
+          }
         });
     }
   }
