@@ -34,7 +34,7 @@ export class ResetPasswordComponent implements OnInit {
     this.token = this.activatedRoute.snapshot.paramMap.get('id');
     this.loginService.validateToken(this.token).
       subscribe((result: any) => {
-        if (!isNullOrUndefined(result.body.invalidToken)) {
+        if (result.status !== 1) {
           this.badRequestMessage = this.translate.instant('password.invalid-link');
         }
       }, (error: any) => {
@@ -57,7 +57,7 @@ export class ResetPasswordComponent implements OnInit {
       } else {
         this.loginService.resetPassword(this.token, form.value.newPassword).
           subscribe((result: any) => {
-            if (!isNullOrUndefined(result.body.success)) {
+            if (result.status === 1) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Password' }), '');
               this.router.navigate(['/login']);
             }
