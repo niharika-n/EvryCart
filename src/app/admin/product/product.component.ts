@@ -41,16 +41,16 @@ export class ProductComponent implements OnInit {
     this.productService.listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', this.sortOrder).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.status === 404) {
+        if (result.status === false) {
           this.message = this.translate.instant('common.not-found');
         } else {
-          this.model = result.productResult;
-          this.totalCount = result.totalCount;
+          this.model = result.body.productResult;
+          this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
         }
       }, (error: any) => {
         this.spinnerService.endRequest();
-        this.message = this.translate.instant('common.not-present', {param: 'product'});
+        this.message = this.translate.instant('common.not-present', { param: 'product' });
         console.log(error);
       });
   }
@@ -74,14 +74,15 @@ export class ProductComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.productService.delete(id).
-      subscribe(() => {
-        const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
-        if (del) {
+    const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
+    if (del) {
+      this.productService.delete(id).subscribe((result: any) => {
+        if (result.status === true) {
           this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         }
       });
+    }
   }
 
   setPage(page: number) {

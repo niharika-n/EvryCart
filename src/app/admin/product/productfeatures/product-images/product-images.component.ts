@@ -63,8 +63,8 @@ export class ProductImagesComponent implements OnInit {
 
   deleteImage(imgID: number) {
     if (!this.existingImages) {
-      this.productService.deleteProductImage(this.id, imgID).subscribe((data: any) => {
-        if (data === 'image deleted') {
+      this.productService.deleteProductImage(this.id, imgID).subscribe((result: any) => {
+        if (result.status === true) {
           const index: number = this.urls.findIndex(x => x.id === imgID);
           this.urls.splice(index, 1);
           this.toastr.success(this.translate.instant('common.delete'), '');
@@ -118,20 +118,22 @@ export class ProductImagesComponent implements OnInit {
     this.productService.listProductImages(this.id).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.productImageResult.length > 0 && !isNullOrUndefined(result.productImageResult)) {
-          this.imageMessage = false;
-          this.urls = [];
-          Object.keys(result.productImageResult).forEach((elt) => {
-            this.urls.push({
-              id: result.productImageResult[elt].id,
-              src: 'data:image/png;base64,' + result.productImageResult[elt].imageContent
+        if (result.status === true) {
+          if (result.body.productImageResult.length > 0 && !isNullOrUndefined(result.body.productImageResult)) {
+            this.imageMessage = false;
+            this.urls = [];
+            Object.keys(result.body.productImageResult).forEach((elt) => {
+              this.urls.push({
+                id: result.body.productImageResult[elt].id,
+                src: 'data:image/png;base64,' + result.body.productImageResult[elt].imageContent
+              });
             });
-          });
+          }
         } else {
           this.imageMessage = true;
         }
       }, (error: any) => {
-        if (error.status === 404) {
+        if (error.status === false) {
           this.message = this.translate.instant('product.image-present');
           console.log(this.message);
         }

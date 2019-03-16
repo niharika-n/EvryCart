@@ -1,11 +1,11 @@
 <a title="{{'product-detail.add-attr' | translate}}" class="addnewLink" id="addnewAttribute" (click)="showAttributeValueForm()" translate>product-detail.add-attr</a>
 <div *ngIf="isAttribute">
-    <form #attributeForm="ngForm" (ngSubmit)="addAttribute(AttributeID.value,Value.value,attributeForm)" class="form-group" novalidate>
+    <form #attributeForm="ngForm" (ngSubmit)="addAttribute(AttributeID.value,AttrValue.value,attributeForm)" class="form-group" novalidate>
         <br>
         <br>
         <div>
             <label for="AttributeID" translate>product-detail.attr</label>
-            <select class="form-control form-input" name="AttributeID" #AttributeID="ngModel" [(ngModel)]="model.attributeID" [ngClass]="{ 'is-invalid': AttributeID.errors && submitted}" id="AttributeID" required>            
+            <select id="AttributeID" class="form-control form-input" name="AttributeID" #AttributeID [(ngModel)]="model.attributeID" [ngClass]="{ 'is-invalid': AttributeID.errors && submitted}" required>            
 <option value="0" selected="true" disabled translate>product-detail.select</option>
 <option [value]="attribute.attributeID" *ngFor="let attribute of AttributeArr">{{attribute.attributeName}}</option>
 </select>
@@ -13,10 +13,10 @@
         </div>
         <br>
         <div>
-            <label for="Value" translate>product-detail.val </label>
-            <input type="text" maxlength="20" class="form-control form-input" autocomplete="off" name="Value" #Value="ngModel" [(ngModel)]="model.value" [ngClass]="{ 'is-invalid ': Value.errors && submitted}" (keyup)="attributeValMessage=='' || attributeValCheck($event)"
-                id="Value" required />
-            <div *ngIf="submitted && Value.errors?.required" class="error-message" translate>required</div>
+            <label for="AttrValue" translate>product-detail.val </label>
+            <input type="text" maxlength="20" class="form-control form-input" autocomplete="off" name="AttrValue" #AttrValue [(ngModel)]="model.value" [ngClass]="{ 'is-invalid ': AttrValue.errors && submitted}" (keyup)="attributeValMessage=='' || attributeValCheck($event)"
+                id="AttrValue" required />
+            <div *ngIf="submitted && AttrValue.errors?.required" class="error-message" translate>required</div>
             <div *ngIf="attributeValMessage!=''" class="error-message">{{attributeValMessage}}</div>
         </div>
         <br>

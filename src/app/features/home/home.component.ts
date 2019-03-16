@@ -28,9 +28,9 @@ export class HomeComponent implements OnInit {
     this.spinnerService.startRequest();
     this.homeService.getProducts().
       subscribe((result: any) => {
-        if (!isNullOrUndefined(result) && result.length > 0) {
-          for (let i = 0; i < result.length; i++) {
-            this.productArr.push(result[i]);
+        if (!isNullOrUndefined(result.body) && result.body.length > 0) {
+          for (let i = 0; i < result.body.length; i++) {
+            this.productArr.push(result.body[i]);
           }
         }
         if (!isNullOrUndefined(this.productArr)) {
@@ -38,10 +38,10 @@ export class HomeComponent implements OnInit {
             this.homeService.getProductImages(this.productArr[i].productID)
               .subscribe((imageResult: any) => {
                 this.spinnerService.endRequest();
-                if (!isNullOrUndefined(imageResult)) {
+                if (!isNullOrUndefined(imageResult.body)) {
                   this.productImages.push({
                     id: imageResult.id,
-                    src: 'data:image/png;base64,' + imageResult.imageContent,
+                    src: 'data:image/png;base64,' + imageResult.body.imageContent,
                     heading: this.productArr[i].productName,
                     description: this.productArr[i].shortDescription
                   });

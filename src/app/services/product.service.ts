@@ -95,7 +95,7 @@ export class ProductService {
         const Order = JSON.stringify(order);
         const queryParameters = new HttpParams().set('Search', search).set('PageNumber', Page)
             .set('SortOrder', Order).set('SortColumn', column).set('PageSize', Size);
-        return this.httpclient.get('api/product/listProductAttributeValue/' + id, { params: queryParameters });
+        return this.httpclient.get('api/product/getlistproductattributevalue/' + id, { params: queryParameters });
     }
 
     detailProductAttributeValue(id) {

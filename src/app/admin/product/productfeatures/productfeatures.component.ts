@@ -84,15 +84,17 @@ export class ProductfeaturesComponent implements OnInit {
                 .subscribe((result: any) => {
                     this.spinnerService.endRequest();
                     this.pageTitle = this.translate.instant('product-detail.edit');
-                    this.model = result.product;
-                    if (this.model.taxExempted) {
-                        this.isTax = false;
-                    }
-                    if (this.model.isDiscounted) {
-                        this.isDiscount = true;
-                    }
-                    if (!this.model.shipingEnabled) {
-                        this.isShipping = false;
+                    if (result.status === true) {
+                        this.model = result.body;
+                        if (this.model.taxExempted) {
+                            this.isTax = false;
+                        }
+                        if (this.model.isDiscounted) {
+                            this.isDiscount = true;
+                        }
+                        if (!this.model.shipingEnabled) {
+                            this.isShipping = false;
+                        }
                     }
                 });
         } else {
@@ -129,10 +131,10 @@ export class ProductfeaturesComponent implements OnInit {
     getCategoryList() {
         this.categoryservice.Listing('', 1, 5, this.model.createdDate, false, true, true).
             subscribe((result: any) => {
-                if (result.status === 404) {
+                if (result.status === false) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
-                    this.CategoryArr = result;
+                    this.CategoryArr = result.body;
                 }
             });
     }
@@ -159,35 +161,35 @@ export class ProductfeaturesComponent implements OnInit {
         if (form.valid) {
             if (this.id) {
                 this.productService.update(form.value).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.product)) {
+                    if (!isNullOrUndefined(result.body)) {
                         this.toastr.success(this.translate.instant('common.update', { param: 'Product' }), '');
                         this.router.navigate(['admin/product']);
                         this.resetForm(form);
                     }
-                    if (!isNullOrUndefined(result.sameNameMessage)) {
-                        this.sameNameCheck = result.sameNameMessage;
+                    if (!isNullOrUndefined(result.message === 'SameName')) {
+                        this.sameNameCheck = this.translate.instant('product-detail.same-name-message');
                     } else {
                         this.sameNameCheck = '';
                     }
-                    if (!isNullOrUndefined(result.sameModelMessage)) {
-                        this.sameModelCheck = result.sameModelMessage;
+                    if (!isNullOrUndefined(result.message === 'SameModel')) {
+                        this.sameModelCheck = this.translate.instant('product-detail.same-model-message');
                     } else {
                         this.sameModelCheck = '';
                     }
                 });
             } else {
                 this.productService.add(this.model).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.productObj)) {
+                    if (!isNullOrUndefined(result.body)) {
                         this.toastr.success(this.translate.instant('common.insert', { param: 'Product' }), '');
-                        this.resetForm(form.value);
+                        this.resetForm(form);
                     }
-                    if (!isNullOrUndefined(result.sameNameMessage)) {
-                        this.sameNameCheck = result.sameNameMessage;
+                    if (!isNullOrUndefined(result.message === 'SameName')) {
+                        this.sameNameCheck = this.translate.instant('product-detail.same-name-message');
                     } else {
                         this.sameNameCheck = '';
                     }
-                    if (!isNullOrUndefined(result.sameModelMessage)) {
-                        this.sameModelCheck = result.sameModelMessage;
+                    if (!isNullOrUndefined(result.message === 'SameModel')) {
+                        this.sameModelCheck = this.translate.instant('product-detail.same-model-message');
                     } else {
                         this.sameModelCheck = '';
                     }

@@ -121,7 +121,7 @@
         "allow-reviews": "Allow Customer Reviews",
         "price-in-rupee": "Price (in ₹)",
         "is-discount": "Is Discounted",
-        "discount-precent": "Discount (in %)",
+        "discount-percent": "Discount (in %)",
         "tax": "Tax Exempted",
         "tax-percent": "Tax (in %)",
         "inventory": "Inventory",
@@ -139,7 +139,9 @@
         "val": "Value",
         "attr-message": "Product attributes do not exist.",
         "add-img": "add new Image",
-        "img-message": "Product images do not exist."
+        "img-message": "Product images do not exist.",
+        "same-name-message": "This product already exists in the Category",
+        "same-model-message": "Product with this Model Number already exists"
     },
 
     "attribute": {
