@@ -39,7 +39,7 @@ export class CategoryComponent implements OnInit {
         this.categoryService.Listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', false, this.getAll, false).
             subscribe((result: any) => {
                 this.spinnerService.endRequest();
-                if (result.status === false) {
+                if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
                     this.model = result.body.categoryResult;
