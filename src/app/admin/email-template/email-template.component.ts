@@ -5,6 +5,7 @@ import { SpinnerService } from '../../services/spinner.service';
 import { TemplateType } from './template.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-email-template',
@@ -42,8 +43,10 @@ export class EmailTemplateComponent implements OnInit {
         this.spinnerService.endRequest();
         if (result.status === 1) {
           this.heading = TemplateType[newVal];
+          if (!isNullOrUndefined(result.body)) {
           this.model = result.body;
           this.emailContent = result.body.content;
+          }
         }
       }, (error: any) => {
         const message = this.translate.instant('templates.empty-template');

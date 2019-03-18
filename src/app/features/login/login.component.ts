@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       this.signInService.login(this.model.username, this.model.password)
         .subscribe((result: any) => {
           if (result.status === 1) {
+            if (!isNullOrUndefined(result.body)) {
             localStorage.setItem('token', JSON.stringify((result.body.value.token)));
             localStorage.setItem('user', JSON.stringify(result.body.value.user));
             localStorage.setItem('userRole', result.body.value.user.roleID);
@@ -46,6 +47,7 @@ export class LoginComponent implements OnInit {
             } else {
               this.router.navigate(['']);
             }
+          }
           } else {
             this.errorCheck = true;
             this.toastr.error(this.translate.instant('login.err-details'), '');

@@ -6,6 +6,7 @@ import { ProductAttributeService } from '../../services/product-attributes.servi
 import { ProductAttributeModel } from './product-attribute';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-product-attributes',
@@ -45,9 +46,11 @@ export class ProductAttributesComponent implements OnInit {
         if (result.status === false) {
           this.message = this.translate.instant('common.not-found');
         } else {
+          if (!isNullOrUndefined(result.body)) {
           this.model = result.body.productAttributeResult;
           this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
+          }
         }
       }, (error: any) => {
         this.message = this.translate.instant('common.not-present', { param: 'attribute' });

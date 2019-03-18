@@ -8,6 +8,7 @@ import { CategoryService } from '../../../../services/category.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { PagerService } from '../../../../services/pagination.service';
 import { ProductService } from '../../../../services/product.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-category-products',
@@ -43,6 +44,7 @@ export class CategoryProductsComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         this.productMessage = false;
+        if (!isNullOrUndefined(result.body)) {
         if (result.body.productResult.length > 0) {
           for (let i = 0; i < result.body.productResult.length; i++) {
             this.ProductsArr.push(result.body.productResult[i]);
@@ -50,6 +52,7 @@ export class CategoryProductsComponent implements OnInit {
           this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
         }
+      }
       }, (error: any) => {
         this.spinnerService.endRequest();
         this.productMessage = true;

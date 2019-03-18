@@ -60,12 +60,14 @@ export class CategoryfeaturesComponent implements OnInit {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('category-detail.edit');
           if (result.status === 1) {
+            if (!isNullOrUndefined(result.body)) {
             this.model = result.body;
             if (!this.model.parent) { this.showChild = true; }
             if (result.body.imageContent !== null) {
               this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
             }
           }
+        }
         });
     } else {
       this.editPage = false;
@@ -100,11 +102,13 @@ export class CategoryfeaturesComponent implements OnInit {
   getCategoryList() {
     this.categoryService.Listing('', 1, 5, this.model.createdDate, false, true, false).
       subscribe((result: any) => {
-        if (result.status === 404) {
+        if (result.status !== 1) {
           this.message = this.translate.instant('common.not-found');
         } else {
+          if (!isNullOrUndefined(result.body)) {
           this.CategoryArr = result.body.categoryResult;
         }
+      }
       });
   }
 

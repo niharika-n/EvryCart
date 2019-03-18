@@ -85,7 +85,9 @@ export class ProductfeaturesComponent implements OnInit {
                     this.spinnerService.endRequest();
                     this.pageTitle = this.translate.instant('product-detail.edit');
                     if (result.status === 1) {
+                        if (!isNullOrUndefined(result.body)) {
                         this.model = result.body;
+                        }
                         if (this.model.taxExempted) {
                             this.isTax = false;
                         }
@@ -134,7 +136,9 @@ export class ProductfeaturesComponent implements OnInit {
                 if (result.status === false) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
+                    if (!isNullOrUndefined(result.body)) {
                     this.CategoryArr = result.body;
+                    }
                 }
             });
     }
@@ -161,7 +165,7 @@ export class ProductfeaturesComponent implements OnInit {
         if (form.valid) {
             if (this.id) {
                 this.productService.update(form.value).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.body)) {
+                    if (result.status === 1) {
                         this.toastr.success(this.translate.instant('common.update', { param: 'Product' }), '');
                         this.router.navigate(['admin/product']);
                         this.resetForm(form);

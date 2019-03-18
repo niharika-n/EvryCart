@@ -44,7 +44,9 @@ export class ProductAttributeFeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('attribute-detail.edit');
+          if (!isNullOrUndefined(result.body)) {
           this.model = result.body;
+          }
         });
     } else {
       this.pageTitle = this.translate.instant('attribute-detail.add');

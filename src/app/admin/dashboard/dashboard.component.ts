@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getStatistics().
       subscribe((result: any) => {
         this.spinnerService.endRequest();
+        if (!isNullOrUndefined(result.body)) {
         this.statistics.categoryCount = result.body.categoryCount;
         this.statistics.productCount = result.body.productCount;
         this.categoryUpdateDate = result.body.categoryLastUpdated;
@@ -45,6 +46,7 @@ export class DashboardComponent implements OnInit {
             this.ProductArr.push(result.body.productResult[i]);
           }
         }
+      }
       });
   }
 

@@ -48,11 +48,13 @@ export class SettingsComponent implements OnInit {
     this.spinnerService.startRequest();
     this.settingsService.Detail(this.id).subscribe((result: any) => {
       this.spinnerService.endRequest();
+      if (!isNullOrUndefined(result.body)) {
       this.user = result.body;
       if (result.body.imageContent != null) {
         this.userImg = 'data:image/png;base64,' + result.body.imageContent;
         this.fileSelected = true;
       }
+    }
       this.formValue();
     });
   }

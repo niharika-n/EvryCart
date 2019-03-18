@@ -80,7 +80,9 @@ export class ProductAttributeValuesComponent implements OnInit {
                 if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
+                    if (!isNullOrUndefined(result.body)) {
                     this.AttributeArr = result.body;
+                    }
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();
@@ -143,9 +145,11 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.isAttribute = true;
         this.productService.detailProductAttributeValue(attrValueID).
             subscribe((result: any) => {
+                if (!isNullOrUndefined(result.body)) {
                 this.attrValueID = result.body.id;
                 this.pdtAttributeID.nativeElement.value = result.body.attributeID;
                 this.pdtAttributeValue.nativeElement.value = result.body.value;
+                }
             });
     }
 
@@ -170,7 +174,8 @@ export class ProductAttributeValuesComponent implements OnInit {
                 if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                     this.attributeMessage = true;
-                } else if (!isNullOrUndefined(result.body.productAttributeValueResult)
+                } else if (!isNullOrUndefined(result.body)) {
+                if (!isNullOrUndefined(result.body.productAttributeValueResult)
                     && result.body.productAttributeValueResult.length > 0) {
                     this.attributeValues = [];
                     this.existingAttributes = true;
@@ -183,6 +188,7 @@ export class ProductAttributeValuesComponent implements OnInit {
                     this.totalCount = result.body.totalCount;
                     this.setPage(this.currentPage);
                 }
+            }
             }, (error: any) => {
                 this.attributeMessage = true;
                 if (error.status !== 1) {

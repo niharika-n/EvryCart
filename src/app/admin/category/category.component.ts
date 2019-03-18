@@ -6,6 +6,7 @@ import { PagerService } from '../../services/pagination.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
+import { isNullOrUndefined } from 'util';
 
 @Component({
     selector: 'app-category',
@@ -42,9 +43,11 @@ export class CategoryComponent implements OnInit {
                 if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
+                    if (!isNullOrUndefined(result.body)) {
                     this.model = result.body.categoryResult;
                     this.totalCount = result.body.totalCount;
                     this.setPage(this.currentPage);
+                    }
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();

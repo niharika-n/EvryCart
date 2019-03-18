@@ -44,9 +44,11 @@ export class ProductComponent implements OnInit {
         if (result.status !== 1) {
           this.message = this.translate.instant('common.not-found');
         } else {
+          if (!isNullOrUndefined(result.body)) {
           this.model = result.body.productResult;
           this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
+          }
         }
       }, (error: any) => {
         this.spinnerService.endRequest();

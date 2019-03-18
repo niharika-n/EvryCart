@@ -119,6 +119,7 @@ export class ProductImagesComponent implements OnInit {
       subscribe((result: any) => {
         this.spinnerService.endRequest();
         if (result.status === 1) {
+          if (!isNullOrUndefined(result.body)) {
           if (result.body.productImageResult.length > 0 && !isNullOrUndefined(result.body.productImageResult)) {
             this.imageMessage = false;
             this.urls = [];
@@ -129,7 +130,8 @@ export class ProductImagesComponent implements OnInit {
               });
             });
           }
-        } else {
+        }
+       } else {
           this.imageMessage = true;
         }
       }, (error: any) => {
