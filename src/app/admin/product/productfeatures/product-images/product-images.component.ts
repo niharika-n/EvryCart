@@ -64,7 +64,7 @@ export class ProductImagesComponent implements OnInit {
   deleteImage(imgID: number) {
     if (!this.existingImages) {
       this.productService.deleteProductImage(this.id, imgID).subscribe((result: any) => {
-        if (result.status === true) {
+        if (result.status === 1) {
           const index: number = this.urls.findIndex(x => x.id === imgID);
           this.urls.splice(index, 1);
           this.toastr.success(this.translate.instant('common.delete'), '');
@@ -118,7 +118,7 @@ export class ProductImagesComponent implements OnInit {
     this.productService.listProductImages(this.id).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.status === true) {
+        if (result.status === 1) {
           if (result.body.productImageResult.length > 0 && !isNullOrUndefined(result.body.productImageResult)) {
             this.imageMessage = false;
             this.urls = [];
@@ -133,7 +133,8 @@ export class ProductImagesComponent implements OnInit {
           this.imageMessage = true;
         }
       }, (error: any) => {
-        if (error.status === false) {
+        if (error.status !== 1) {
+          this.spinnerService.endRequest();
           this.message = this.translate.instant('product.image-present');
           console.log(this.message);
         }

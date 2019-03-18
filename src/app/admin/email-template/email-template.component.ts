@@ -40,9 +40,11 @@ export class EmailTemplateComponent implements OnInit {
     this.contentService.getEmail(newVal).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        this.heading = TemplateType[newVal];
-        this.model = result.body;
-        this.emailContent = result.body.content;
+        if (result.status === 1) {
+          this.heading = TemplateType[newVal];
+          this.model = result.body;
+          this.emailContent = result.body.content;
+        }
       }, (error: any) => {
         const message = this.translate.instant('templates.empty-template');
         console.log(message);
@@ -53,9 +55,12 @@ export class EmailTemplateComponent implements OnInit {
     this.model.content = templateValue;
     this.contentService.updateEmail(this.model).subscribe(
       (result: any) => {
-        if (result.status === true) {
+        if (result.status === 1) {
           this.toastr.success(this.translate.instant('common.update', { param: 'Template' }), '');
         }
+      }, (error: any) => {
+        const message = this.translate.instant('templates.empty-template');
+        console.log(message);
       });
   }
 

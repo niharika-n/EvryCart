@@ -42,7 +42,7 @@ export class ProductfeaturesComponent implements OnInit {
         private spinnerService: SpinnerService) {
         this.keys = Object.keys(this.quantityType);
         this.model = {
-            productId: 0,
+            productID: 0,
             productName: '',
             shortDescription: '',
             longDescription: '',
@@ -84,7 +84,7 @@ export class ProductfeaturesComponent implements OnInit {
                 .subscribe((result: any) => {
                     this.spinnerService.endRequest();
                     this.pageTitle = this.translate.instant('product-detail.edit');
-                    if (result.status === true) {
+                    if (result.status === 1) {
                         this.model = result.body;
                         if (this.model.taxExempted) {
                             this.isTax = false;
@@ -179,16 +179,16 @@ export class ProductfeaturesComponent implements OnInit {
                 });
             } else {
                 this.productService.add(this.model).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.body)) {
+                    if (result.status === 1) {
                         this.toastr.success(this.translate.instant('common.insert', { param: 'Product' }), '');
                         this.resetForm(form);
                     }
-                    if (!isNullOrUndefined(result.message === 'SameName')) {
+                    if (result.message === 'SameName') {
                         this.sameNameCheck = this.translate.instant('product-detail.same-name-message');
                     } else {
                         this.sameNameCheck = '';
                     }
-                    if (!isNullOrUndefined(result.message === 'SameModel')) {
+                    if (result.message === 'SameModel') {
                         this.sameModelCheck = this.translate.instant('product-detail.same-model-message');
                     } else {
                         this.sameModelCheck = '';

@@ -41,7 +41,7 @@ export class ProductComponent implements OnInit {
     this.productService.listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', this.sortOrder).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.status === false) {
+        if (result.status !== 1) {
           this.message = this.translate.instant('common.not-found');
         } else {
           this.model = result.body.productResult;
@@ -77,7 +77,7 @@ export class ProductComponent implements OnInit {
     const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
     if (del) {
       this.productService.delete(id).subscribe((result: any) => {
-        if (result.status === true) {
+        if (result.status === 1) {
           this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         }

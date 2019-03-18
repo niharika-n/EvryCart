@@ -32,15 +32,15 @@ export class CategoryfeaturesComponent implements OnInit {
   constructor(private categoryService: CategoryService, private toastr: ToastrService, private translate: TranslateService,
     private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService) {
     this.model = {
-      categoryID: 0,
-      categoryName: '',
-      categoryDescription: '',
+      id: 0,
+      name: '',
+      description: '',
       isActive: false,
       createdBy: 0,
       createdDate: null,
       createdUser: '',
-      parentCategory: true,
-      childCategory: null,
+      parent: true,
+      child: null,
       imageContent: null,
       imageID: 0,
     };
@@ -59,10 +59,12 @@ export class CategoryfeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('category-detail.edit');
-          this.model = result.body;
-          if (!this.model.parentCategory) { this.showChild = true; }
-          if (result.body.imageContent !== null) {
-            this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
+          if (result.status === 1) {
+            this.model = result.body;
+            if (!this.model.parent) { this.showChild = true; }
+            if (result.body.imageContent !== null) {
+              this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
+            }
           }
         });
     } else {
@@ -73,7 +75,7 @@ export class CategoryfeaturesComponent implements OnInit {
   }
 
   SelectChild() {
-    if (!this.model.parentCategory) {
+    if (!this.model.parent) {
       this.showChild = true;
     } else {
       this.showChild = false;
@@ -101,7 +103,7 @@ export class CategoryfeaturesComponent implements OnInit {
         if (result.status === 404) {
           this.message = this.translate.instant('common.not-found');
         } else {
-          this.CategoryArr = result;
+          this.CategoryArr = result.body.categoryResult;
         }
       });
   }
@@ -126,12 +128,12 @@ export class CategoryfeaturesComponent implements OnInit {
       xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          if (!isNullOrUndefined(xhr.response.body.message)) {
-            this.categoryCheckMessage = xhr.response.body.message;
+          if (!isNullOrUndefined(xhr.response.message)) {
+            this.categoryCheckMessage = xhr.response.message;
           } else {
             this.categoryCheckMessage = '';
           }
-          if (!isNullOrUndefined(xhr.response.body.categoryObj)) {
+          if (xhr.response.status === 1) {
             if (this.id) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Category' }), '');
             } else {

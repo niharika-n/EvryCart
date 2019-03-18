@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     if (form.valid) {
       this.signInService.login(this.model.username, this.model.password)
-        .subscribe(result => {
+        .subscribe((result: any) => {
           if (result.status === 1) {
             localStorage.setItem('token', JSON.stringify((result.body.value.token)));
             localStorage.setItem('user', JSON.stringify(result.body.value.user));
@@ -50,8 +50,10 @@ export class LoginComponent implements OnInit {
             this.errorCheck = true;
             this.toastr.error(this.translate.instant('login.err-details'), '');
           }
-        }, error => {
+        }, (error: any) => {
           console.log('error: ' + error);
+          this.errorCheck = true;
+          this.toastr.error(this.translate.instant('login.err-details'), '');
         });
     }
   }

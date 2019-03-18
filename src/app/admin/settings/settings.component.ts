@@ -48,9 +48,9 @@ export class SettingsComponent implements OnInit {
     this.spinnerService.startRequest();
     this.settingsService.Detail(this.id).subscribe((result: any) => {
       this.spinnerService.endRequest();
-      this.user = result;
-      if (result.imageContent != null) {
-        this.userImg = 'data:image/png;base64,' + result.imageContent;
+      this.user = result.body;
+      if (result.body.imageContent != null) {
+        this.userImg = 'data:image/png;base64,' + result.body.imageContent;
         this.fileSelected = true;
       }
       this.formValue();
@@ -107,20 +107,20 @@ export class SettingsComponent implements OnInit {
       xhr.responseType = 'json';
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          if (!isNullOrUndefined(xhr.response.usernameMessage)) {
+          if (xhr.response.message === 'usernameMessage') {
             this.existingUsername = this.translate.instant('register-user.username-exists');
           } else {
             this.existingUsername = '';
           }
-          if (!isNullOrUndefined(xhr.response.emailMessage)) {
+          if (xhr.response.message === 'emailMessage') {
             this.existingEmail = this.translate.instant('register-user.email-exists');
           } else {
             this.existingEmail = '';
           }
           if (xhr.status === 200) {
-            if (!isNullOrUndefined(xhr.response.user)) {
+            if (xhr.response.status === 1) {
               localStorage.removeItem('user');
-              localStorage.setItem('user', JSON.stringify(formValue.value));
+              localStorage.setItem('user', JSON.stringify(xhr.response.body));
               this.toastr.success(this.translate.instant('common.update', { param: 'Settings' }), '');
             }
           }

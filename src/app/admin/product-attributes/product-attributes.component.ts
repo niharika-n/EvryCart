@@ -79,7 +79,7 @@ export class ProductAttributesComponent implements OnInit {
       if (delValues) {
         this.productAttributeService.delete(id).
           subscribe((result: any) => {
-            if (result.status === true) {
+            if (result.status === 1) {
               this.toastr.success(this.translate.instant('common.delete'), '');
               this.listing('', 1, this.pageSize);
             }
@@ -88,7 +88,7 @@ export class ProductAttributesComponent implements OnInit {
     } else if (del) {
       this.productAttributeService.delete(id).
         subscribe((result: any) => {
-          if (result.status === true) {
+          if (result.status === 1) {
             this.toastr.success(this.translate.instant('common.delete'), '');
             this.listing('', 1, this.pageSize);
           }

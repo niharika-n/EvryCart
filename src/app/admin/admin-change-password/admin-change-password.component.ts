@@ -2,7 +2,7 @@ import { Component, OnInit, Directive } from '@angular/core';
 import { SettingsService } from '../../services/settings.service';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-change-password',
@@ -47,7 +47,10 @@ export class AdminChangePasswordComponent implements OnInit {
       } else {
         this.settingsService.changePassword(form.value.oldPassword, form.value.newPassword).
           subscribe((result: any) => {
-            this.toastr.success(this.translate.instant('common.update'), '');
+            if (result.status === 1) {
+              this.toastr.success(this.translate.instant('common.update', { param: 'Password' }), '');
+              this.resetForm(form);
+            }
           }, (error: any) => {
             this.wrongPassword = true;
             this.toastr.error(this.translate.instant('common.err-update'), '');
@@ -57,7 +60,8 @@ export class AdminChangePasswordComponent implements OnInit {
     this.submitted = true;
   }
 
-  resetForm(form: NgForm) {
+  resetForm(form: FormGroup) {
+    form.reset();
     if (form != null) {
       this.submitted = false;
       this.wrongPassword = false;

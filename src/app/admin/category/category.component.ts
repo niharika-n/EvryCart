@@ -77,7 +77,7 @@ export class CategoryComponent implements OnInit {
             if (pdtDelete) {
                 this.categoryService.Delete(id).
                     subscribe((result: any) => {
-                        if (result.status === true) {
+                        if (result.status === 1) {
                             this.toastr.success(this.translate.instant('common.delete'), '');
                             this.listing('', 1, this.pageSize);
                         }
@@ -86,7 +86,7 @@ export class CategoryComponent implements OnInit {
         } else if (del) {
             this.categoryService.Delete(id).
                 subscribe((result: any) => {
-                    if (result.status === true) {
+                    if (result.status === 1) {
                         this.toastr.success(this.translate.instant('common.delete'), '');
                         this.listing('', 1, this.pageSize);
                     }

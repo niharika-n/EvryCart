@@ -77,30 +77,33 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.attributeservice.listing('', 1, 5, new Date(), false, true).
             subscribe((result: any) => {
                 this.spinnerService.endRequest();
-                if (result.status === false) {
+                if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                 } else {
                     this.AttributeArr = result.body;
+                }
+            }, (error: any) => {
+                this.spinnerService.endRequest();
+                if (error.status !== 1) {
+                    this.message = this.translate.instant('common.not-found');
                 }
             });
         this.listAttribute(1, this.pageSize);
     }
 
     addAttribute(attrID: number, attrValue: string, form: NgForm) {
-        debugger;
         this.submitted = true;
         if (form.valid) {
             if (this.attrValueID === 0) {
                 this.productService.addProductAttributeValue(this.model).
                     subscribe((result: any) => {
-                        debugger;
-                        if (!isNullOrUndefined(result.body)) {
+                        if (result.status === 1) {
                             this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
                             this.listAttribute(1, this.pageSize);
                             this.isAttribute = true;
                             this.resetForm(form);
                         }
-                        if (!isNullOrUndefined(result.message) && result.message !== '') {
+                        if (result.message === 'isValue') {
                             this.attributeValMessage = this.translate.instant('product.attribute-present');
                         } else {
                             this.attributeValMessage = '';
@@ -114,13 +117,12 @@ export class ProductAttributeValuesComponent implements OnInit {
                 if (!isNullOrUndefined(this.model)) {
                     this.productService.updateProductAttributeValue(this.model).
                         subscribe((result: any) => {
-                            debugger;
-                            if (!isNullOrUndefined(result.body) && result.status === true) {
+                            if (result.status === 1) {
                                 this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
                                 this.listAttribute(1, this.pageSize);
                                 this.isAttribute = false;
                             }
-                            if (!isNullOrUndefined(result.message)) {
+                            if (result.message) {
                                 this.attributeValMessage = this.translate.instant('product.attribute-present');
                             } else {
                                 this.attributeValMessage = '';
@@ -141,7 +143,6 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.isAttribute = true;
         this.productService.detailProductAttributeValue(attrValueID).
             subscribe((result: any) => {
-                console.log(result);
                 this.attrValueID = result.body.id;
                 this.pdtAttributeID.nativeElement.value = result.body.attributeID;
                 this.pdtAttributeValue.nativeElement.value = result.body.value;
@@ -151,7 +152,7 @@ export class ProductAttributeValuesComponent implements OnInit {
     deleteAttribute(attrID: number) {
         if (this.existingAttributes) {
             this.productService.deleteProductAttributeValue(attrID).subscribe((result: any) => {
-                if (result.status === true) {
+                if (result.status === 1) {
                     const index: number = this.attributeValues.findIndex(x => x.id === attrID);
                     this.attributeValues.splice(index, 1);
                     this.toastr.success(this.translate.instant('common.delete'), '');
@@ -166,7 +167,7 @@ export class ProductAttributeValuesComponent implements OnInit {
     listAttribute(selectedPage: number, selectedSize: number) {
         this.productService.listProductAttributeValue(this.id, '', selectedPage, selectedSize, 'ID', false).
             subscribe((result: any) => {
-                if (result.status === false) {
+                if (result.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                     this.attributeMessage = true;
                 } else if (!isNullOrUndefined(result.body.productAttributeValueResult)
@@ -184,7 +185,7 @@ export class ProductAttributeValuesComponent implements OnInit {
                 }
             }, (error: any) => {
                 this.attributeMessage = true;
-                if (error.status === 404) {
+                if (error.status !== 1) {
                     this.message = this.translate.instant('common.not-present', { param: 'attribute' });
                     console.log(this.message);
                 }

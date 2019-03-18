@@ -9,7 +9,7 @@ export class DashboardService {
     constructor(private http: HttpClient) { }
 
     getStatistics() {
-        return this.http.get('api/dashboard');
+        return this.http.get('api/dashboard/getcount');
     }
 }
 

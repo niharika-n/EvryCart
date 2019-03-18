@@ -33,9 +33,9 @@ export class LayoutComponent implements OnInit {
     this.layoutService.getCategories().
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.body.categoryResult.length !== 0 && !isNullOrUndefined(result.body.categoryResult)) {
-          for (let i = 0; i < result.body.categoryResult.length; i++) {
-            this.AllCategoryArr.push(result.body.categoryResult[i]);
+        if (result.body.length !== 0 && !isNullOrUndefined(result.body)) {
+          for (let i = 0; i < result.body.length; i++) {
+            this.AllCategoryArr.push(result.body[i]);
           }
           for (let i = 0; i < 5; i++) {
             this.CategoryArr.push(this.AllCategoryArr[i]);
