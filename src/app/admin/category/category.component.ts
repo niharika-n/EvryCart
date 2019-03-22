@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 import { isNullOrUndefined } from 'util';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
     selector: 'app-category',
@@ -27,7 +28,7 @@ export class CategoryComponent implements OnInit {
     sortOrder = false;
     constructor(private categoryService: CategoryService, private router: Router, private translate: TranslateService,
         private pagerService: PagerService, private toastr: ToastrService,
-        private spinnerService: SpinnerService) { }
+        private spinnerService: SpinnerService, private errorService: ErrorService) { }
 
     ngOnInit() {
         this.listing('', this.currentPage, this.pageSize);
@@ -36,21 +37,25 @@ export class CategoryComponent implements OnInit {
     listing(search: string, selectedPage: number, selectedSize: number) {
         this.message = '';
         this.searchText = search;
+        if (isNullOrUndefined(selectedPage)) { selectedPage = this.currentPage; }
+        if (isNullOrUndefined(selectedSize)) { selectedSize = this.pageSize; }
         this.spinnerService.startRequest();
         this.categoryService.Listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', false, this.getAll, false).
             subscribe((result: any) => {
                 this.spinnerService.endRequest();
                 if (result.status !== 1) {
+                    this.errorService.handleFailure(result.statusCode);
                     this.message = this.translate.instant('common.not-found');
                 } else {
                     if (!isNullOrUndefined(result.body)) {
-                    this.model = result.body.categoryResult;
-                    this.totalCount = result.body.totalCount;
-                    this.setPage(this.currentPage);
+                        this.model = result.body.categoryResult;
+                        this.totalCount = result.body.totalCount;
+                        this.setPage(this.currentPage);
                     }
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
                 this.message = this.translate.instant('common.not-present', { param: 'category' });
             });
     }
@@ -83,7 +88,13 @@ export class CategoryComponent implements OnInit {
                         if (result.status === 1) {
                             this.toastr.success(this.translate.instant('common.delete'), '');
                             this.listing('', 1, this.pageSize);
+                        } else {
+                            this.errorService.handleFailure(result.statusCode);
+                            this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                         }
+                    }, (error: any) => {
+                        this.errorService.handleError(error.status);
+                        this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                     });
             }
         } else if (del) {
@@ -92,7 +103,13 @@ export class CategoryComponent implements OnInit {
                     if (result.status === 1) {
                         this.toastr.success(this.translate.instant('common.delete'), '');
                         this.listing('', 1, this.pageSize);
+                    } else {
+                        this.errorService.handleFailure(result.statusCode);
+                        this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                     }
+                }, (error: any) => {
+                    this.errorService.handleError(error.status);
+                    this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                 });
         }
     }

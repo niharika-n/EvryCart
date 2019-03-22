@@ -3,6 +3,7 @@ import { SettingsService } from '../../services/settings.service';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-admin-change-password',
@@ -15,7 +16,7 @@ export class AdminChangePasswordComponent implements OnInit {
   wrongPassword = false;
   passwordMatchCheck = false;
   constructor(private settingsService: SettingsService, private formBuilder: FormBuilder,
-    private toastr: ToastrService, private translate: TranslateService) {
+    private toastr: ToastrService, private translate: TranslateService, private errorService: ErrorService) {
     this.passwordForm = this.formBuilder.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^[a-z]/)]],
@@ -50,9 +51,12 @@ export class AdminChangePasswordComponent implements OnInit {
             if (result.status === 1) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Password' }), '');
               this.resetForm(form);
+            } else {
+              this.errorService.handleFailure(result.statusCode);
             }
           }, (error: any) => {
             this.wrongPassword = true;
+            this.errorService.handleError(error.status);
             this.toastr.error(this.translate.instant('common.err-update'), '');
           });
       }

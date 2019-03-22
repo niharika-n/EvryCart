@@ -6,6 +6,7 @@ import { TemplateType } from './template.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-email-template',
@@ -22,7 +23,7 @@ export class EmailTemplateComponent implements OnInit {
   selectCheck = false;
 
   constructor(private contentService: TemplateService, private spinnerService: SpinnerService,
-    private translate: TranslateService, private toastr: ToastrService) {
+    private translate: TranslateService, private toastr: ToastrService, private errorService: ErrorService) {
     this.keys = Object.keys(this.templateType);
     this.model = {
       id: 0,
@@ -44,11 +45,15 @@ export class EmailTemplateComponent implements OnInit {
         if (result.status === 1) {
           this.heading = TemplateType[newVal];
           if (!isNullOrUndefined(result.body)) {
-          this.model = result.body;
-          this.emailContent = result.body.content;
+            this.model = result.body;
+            this.emailContent = result.body.content;
           }
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
       }, (error: any) => {
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
         const message = this.translate.instant('templates.empty-template');
         console.log(message);
       });

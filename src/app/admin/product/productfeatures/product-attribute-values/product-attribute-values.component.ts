@@ -5,6 +5,7 @@ import { ProductAttributeService } from '../../../../services/product-attributes
 import { isNullOrUndefined } from 'util';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorService } from '../../../../services/error.service';
 
 import { ProductService } from '../../../../services/product.service';
 import { ProductAttributeValueModel } from '../../product-attribute-value';
@@ -36,7 +37,7 @@ export class ProductAttributeValuesComponent implements OnInit {
     attributeValMessage = '';
     submitted = false;
 
-    constructor(private productService: ProductService, private route: ActivatedRoute,
+    constructor(private productService: ProductService, private route: ActivatedRoute, private errorService: ErrorService,
         private pagerService: PagerService, private toastr: ToastrService, private translate: TranslateService,
         private attributeservice: ProductAttributeService, private spinnerService: SpinnerService) {
         this.model = {
@@ -78,14 +79,16 @@ export class ProductAttributeValuesComponent implements OnInit {
             subscribe((result: any) => {
                 this.spinnerService.endRequest();
                 if (result.status !== 1) {
+                    this.errorService.handleFailure(result.statusCode);
                     this.message = this.translate.instant('common.not-found');
                 } else {
                     if (!isNullOrUndefined(result.body)) {
-                    this.AttributeArr = result.body;
+                        this.AttributeArr = result.body;
                     }
                 }
             }, (error: any) => {
                 this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
                 if (error.status !== 1) {
                     this.message = this.translate.instant('common.not-found');
                 }
@@ -110,6 +113,9 @@ export class ProductAttributeValuesComponent implements OnInit {
                         } else {
                             this.attributeValMessage = '';
                         }
+                    }, (error: any) => {
+                        this.spinnerService.endRequest();
+                        this.errorService.handleError(error.status);
                     });
             } else {
                 this.model = ({
@@ -129,6 +135,9 @@ export class ProductAttributeValuesComponent implements OnInit {
                             } else {
                                 this.attributeValMessage = '';
                             }
+                        }, (error: any) => {
+                            this.spinnerService.endRequest();
+                            this.errorService.handleError(error.status);
                         });
                 }
             }
@@ -146,10 +155,13 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.productService.detailProductAttributeValue(attrValueID).
             subscribe((result: any) => {
                 if (!isNullOrUndefined(result.body)) {
-                this.attrValueID = result.body.id;
-                this.pdtAttributeID.nativeElement.value = result.body.attributeID;
-                this.pdtAttributeValue.nativeElement.value = result.body.value;
+                    this.attrValueID = result.body.id;
+                    this.pdtAttributeID.nativeElement.value = result.body.attributeID;
+                    this.pdtAttributeValue.nativeElement.value = result.body.value;
                 }
+            }, (error: any) => {
+                this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
             });
     }
 
@@ -172,25 +184,27 @@ export class ProductAttributeValuesComponent implements OnInit {
         this.productService.listProductAttributeValue(this.id, '', selectedPage, selectedSize, 'ID', false).
             subscribe((result: any) => {
                 if (result.status !== 1) {
+                    this.errorService.handleFailure(result.statusCode);
                     this.message = this.translate.instant('common.not-found');
                     this.attributeMessage = true;
                 } else if (!isNullOrUndefined(result.body)) {
-                if (!isNullOrUndefined(result.body.productAttributeValueResult)
-                    && result.body.productAttributeValueResult.length > 0) {
-                    this.attributeValues = [];
-                    this.existingAttributes = true;
-                    this.attributeMessage = false;
-                    for (let i = 0; i < result.body.productAttributeValueResult.length; i++) {
-                        this.attributeValues.push(result.body.productAttributeValueResult[i]);
-                        this.attrID = result.body.productAttributeValueResult[0].id;
-                        this.attrID++;
+                    if (!isNullOrUndefined(result.body.productAttributeValueResult)
+                        && result.body.productAttributeValueResult.length > 0) {
+                        this.attributeValues = [];
+                        this.existingAttributes = true;
+                        this.attributeMessage = false;
+                        for (let i = 0; i < result.body.productAttributeValueResult.length; i++) {
+                            this.attributeValues.push(result.body.productAttributeValueResult[i]);
+                            this.attrID = result.body.productAttributeValueResult[0].id;
+                            this.attrID++;
+                        }
+                        this.totalCount = result.body.totalCount;
+                        this.setPage(this.currentPage);
                     }
-                    this.totalCount = result.body.totalCount;
-                    this.setPage(this.currentPage);
                 }
-            }
             }, (error: any) => {
                 this.attributeMessage = true;
+                this.errorService.handleError(error.status);
                 if (error.status !== 1) {
                     this.message = this.translate.instant('common.not-present', { param: 'attribute' });
                     console.log(this.message);

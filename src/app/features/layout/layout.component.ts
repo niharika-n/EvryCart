@@ -5,6 +5,7 @@ import { isNullOrUndefined, debug } from 'util';
 import { LoginUser } from '../../shared/login-model';
 import { SigninService } from '../../services/login.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-layout',
@@ -14,7 +15,7 @@ import { SpinnerService } from '../../services/spinner.service';
 export class LayoutComponent implements OnInit {
 
   constructor(private layoutService: LayoutService, private loginService: SigninService,
-    private router: Router, private spinnerService: SpinnerService) { }
+    private router: Router, private spinnerService: SpinnerService, private errorService: ErrorService) { }
   loginModel: LoginUser;
   CategoryArr = [];
   AllCategoryArr = [];
@@ -40,8 +41,13 @@ export class LayoutComponent implements OnInit {
           for (let i = 0; i < 5; i++) {
             this.CategoryArr.push(this.AllCategoryArr[i]);
           }
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
-      });
+      }, (error: any) => {
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
+       });
   }
 
   logout() {

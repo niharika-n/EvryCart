@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { Router } from '@angular/router';
 import { SpinnerService } from '../../services/spinner.service';
+import { isNullOrUndefined } from 'util';
+import {ErrorService} from '../../services/error.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +18,8 @@ export class DashboardComponent implements OnInit {
   categoryUpdateDate: Date;
   productUpdateDate: Date;
 
-  constructor(private dashboardService: DashboardService, private router: Router, private spinnerService: SpinnerService) {
+  constructor(private dashboardService: DashboardService, private router: Router,
+    private spinnerService: SpinnerService, private errorService: ErrorService, private translate: TranslateService) {
     this.statistics = {
       categoryCount: 0,
       productCount: 0
@@ -46,7 +50,11 @@ export class DashboardComponent implements OnInit {
             this.ProductArr.push(result.body.productResult[i]);
           }
         }
-      }
+      } else {
+        this.errorService.handleFailure(result.statusCode);
+      }}, (error: any) => {
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
       });
   }
 

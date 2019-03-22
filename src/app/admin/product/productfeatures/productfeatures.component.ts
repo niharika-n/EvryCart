@@ -11,6 +11,7 @@ import { ProductService } from '../../../services/product.service';
 import { ProductModel } from '../product';
 import { CategoryService } from '../../../services/category.service';
 import { QuantityType } from './product.enum';
+import {ErrorService} from '../../../services/error.service';
 
 @Component({
     selector: 'app-productfeatures',
@@ -39,7 +40,7 @@ export class ProductfeaturesComponent implements OnInit {
     constructor(private productService: ProductService, private router: Router,
         private translate: TranslateService, private route: ActivatedRoute,
         private categoryservice: CategoryService, private toastr: ToastrService,
-        private spinnerService: SpinnerService) {
+        private spinnerService: SpinnerService, private errorService: ErrorService) {
         this.keys = Object.keys(this.quantityType);
         this.model = {
             productID: 0,
@@ -133,14 +134,19 @@ export class ProductfeaturesComponent implements OnInit {
     getCategoryList() {
         this.categoryservice.Listing('', 1, 5, this.model.createdDate, false, true, true).
             subscribe((result: any) => {
-                if (result.status === false) {
+                if (result.status !== 1) {
+                    this.errorService.handleError(result.statusCode);
                     this.message = this.translate.instant('common.not-found');
                 } else {
                     if (!isNullOrUndefined(result.body)) {
                     this.CategoryArr = result.body;
                     }
                 }
-            });
+            }, (error: any) => {
+                this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
+                this.message = this.translate.instant('common.not-present', { param: 'attribute' });
+              });
     }
 
     endDate(visibleStartDate: Date) {

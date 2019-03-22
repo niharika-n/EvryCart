@@ -215,5 +215,12 @@
 
     "location": {
         "title": "Location"
+    },
+
+    "error": {
+        "requestError400": "Result does not exist for this request.",
+        "requestError401": "You are not authorized to view this page.",
+        "requestError404": "Service not found.",
+        "requestError500": "There is some issue in the backend."
     }
 }

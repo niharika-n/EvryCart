@@ -8,6 +8,7 @@ import { CategoryService } from '../../../services/category.service';
 import { CategoryModel } from '../category';
 import { isNullOrUndefined } from 'util';
 import { SpinnerService } from '../../../services/spinner.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-categoryfeatures',
@@ -29,8 +30,10 @@ export class CategoryfeaturesComponent implements OnInit {
   @ViewChild('imagePath') imagePath: ElementRef;
   categoryCheckMessage = '';
 
-  constructor(private categoryService: CategoryService, private toastr: ToastrService, private translate: TranslateService,
-    private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService) {
+  constructor(private categoryService: CategoryService, private toastr: ToastrService,
+    private translate: TranslateService, private router: Router,
+    private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService,
+    private errorService: ErrorService) {
     this.model = {
       id: 0,
       name: '',
@@ -61,13 +64,19 @@ export class CategoryfeaturesComponent implements OnInit {
           this.pageTitle = this.translate.instant('category-detail.edit');
           if (result.status === 1) {
             if (!isNullOrUndefined(result.body)) {
-            this.model = result.body;
-            if (!this.model.parent) { this.showChild = true; }
-            if (result.body.imageContent !== null) {
-              this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
+              this.model = result.body;
+              if (!this.model.parent) { this.showChild = true; }
+              if (result.body.imageContent !== null) {
+                this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
+              }
             }
+          } else {
+            this.errorService.handleFailure(result.statusCode);
+            this.message = this.translate.instant('common.not-found');
           }
-        }
+        }, (error: any) => {
+          this.spinnerService.endRequest();
+          this.errorService.handleError(error.status);
         });
     } else {
       this.editPage = false;
@@ -106,9 +115,9 @@ export class CategoryfeaturesComponent implements OnInit {
           this.message = this.translate.instant('common.not-found');
         } else {
           if (!isNullOrUndefined(result.body)) {
-          this.CategoryArr = result.body.categoryResult;
+            this.CategoryArr = result.body.categoryResult;
+          }
         }
-      }
       });
   }
 

@@ -5,6 +5,7 @@ import { ProductModel } from '../../admin/product/product';
 import { isNavigationCancelingError } from '@angular/router/src/shared';
 import { SpinnerService } from '../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
+import {ErrorService} from '../../services/error.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
   categoryArr = [];
   productImageMessage = false;
   constructor(private homeService: HomeService, private translate: TranslateService,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService, private errorService: ErrorService
   ) { }
 
   ngOnInit() {
@@ -32,6 +33,8 @@ export class HomeComponent implements OnInit {
           for (let i = 0; i < result.body.length; i++) {
             this.productArr.push(result.body[i]);
           }
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
         if (!isNullOrUndefined(this.productArr)) {
           for (let i = 0; i < this.productArr.length; i++) {
@@ -47,6 +50,8 @@ export class HomeComponent implements OnInit {
                   });
                 }
               }, (error: any) => {
+                this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
                 const message = this.translate.instant('product.image-present');
                 console.log(message);
               });
@@ -65,8 +70,12 @@ export class HomeComponent implements OnInit {
               categoryValue: result.body[i]
             });
           }
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
       }, (error: any) => {
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
         console.log(error);
       });
   }

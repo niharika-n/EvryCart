@@ -12,7 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {ToastOptions} from './custom.toast';
+import { ToastOptions } from './custom.toast';
+import { ErrorService } from './services/error.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
@@ -115,7 +116,8 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     },
     AuthService,
     AuthGuard,
-    PagerService
+    PagerService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })

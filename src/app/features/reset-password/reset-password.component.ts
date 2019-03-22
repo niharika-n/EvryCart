@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,8 @@ export class ResetPasswordComponent implements OnInit {
   passwordMatchCheck = false;
   token = '';
   badRequestMessage = '';
-  constructor(private loginService: SigninService, private formBuilder: FormBuilder, private router: Router,
+  constructor(private loginService: SigninService, private formBuilder: FormBuilder,
+    private router: Router, private errorService: ErrorService,
     private toastr: ToastrService, private activatedRoute: ActivatedRoute, private translate: TranslateService) {
     this.resetPasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern(/^[a-z]/)]],
@@ -60,9 +62,12 @@ export class ResetPasswordComponent implements OnInit {
             if (result.status === 1) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Password' }), '');
               this.router.navigate(['/login']);
+            } else {
+              this.errorService.handleFailure(result.statusCode);
             }
           }, (error: any) => {
             this.wrongPassword = true;
+            this.errorService.handleError(error.status);
             console.log(error);
           });
       }

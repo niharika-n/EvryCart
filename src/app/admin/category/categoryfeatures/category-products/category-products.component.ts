@@ -9,6 +9,7 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { PagerService } from '../../../../services/pagination.service';
 import { ProductService } from '../../../../services/product.service';
 import { isNullOrUndefined } from 'util';
+import { ErrorService } from '../../../../services/error.service';
 
 @Component({
   selector: 'app-category-products',
@@ -25,7 +26,7 @@ export class CategoryProductsComponent implements OnInit {
   totalCount = 0;
 
   constructor(private categoryService: CategoryService, private builder: FormBuilder, private translate: TranslateService,
-    private router: Router, private activatedRoute: ActivatedRoute,
+    private router: Router, private activatedRoute: ActivatedRoute, private errorService: ErrorService,
     private productService: ProductService, private toastr: ToastrService,
     private pagerService: PagerService, private spinnerService: SpinnerService) { }
 
@@ -45,16 +46,19 @@ export class CategoryProductsComponent implements OnInit {
         this.spinnerService.endRequest();
         this.productMessage = false;
         if (!isNullOrUndefined(result.body)) {
-        if (result.body.productResult.length > 0) {
-          for (let i = 0; i < result.body.productResult.length; i++) {
-            this.ProductsArr.push(result.body.productResult[i]);
+          if (result.body.productResult.length > 0) {
+            for (let i = 0; i < result.body.productResult.length; i++) {
+              this.ProductsArr.push(result.body.productResult[i]);
+            }
+            this.totalCount = result.body.totalCount;
+            this.setPage(this.currentPage);
           }
-          this.totalCount = result.body.totalCount;
-          this.setPage(this.currentPage);
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
-      }
       }, (error: any) => {
         this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
         this.productMessage = true;
         console.log(this.translate.instant('category.null-product'));
       });
