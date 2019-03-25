@@ -1,9 +1,10 @@
 export interface ProductModel {
-    productId: number;
+    productID: number;
     productName: string;
     shortDescription: string;
     longDescription?: string;
     categoryID: number;
+    categoryName?: string;
     isActive: boolean;
     createdBy: number;
     createdDate: Date;

@@ -12,13 +12,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {ToastOptions} from './custom.toast';
+import { ToastOptions } from './custom.toast';
+import { ErrorService } from './services/error.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
-import { APPROUTERMODULE } from 'src/app/routes/app.route';
-import { AuthInterceptor } from 'src/app/shared/Interceptor';
+import { APPROUTERMODULE } from './routes/app.route';
+import { AuthInterceptor } from './shared/Interceptor';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
@@ -117,7 +118,8 @@ import { UserDetailComponent } from './admin/user-detail/user-detail.component';
     },
     AuthService,
     AuthGuard,
-    PagerService
+    PagerService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })

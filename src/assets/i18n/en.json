@@ -89,7 +89,8 @@
     "templates": {
         "title": "Edit Templates",
         "choose": "Choose Template",
-        "select": "-select-"
+        "select": "-select-",
+        "empty-template": "Selected template does not exist."
     },
 
     "product": {
@@ -120,7 +121,7 @@
         "allow-reviews": "Allow Customer Reviews",
         "price-in-rupee": "Price (in ₹)",
         "is-discount": "Is Discounted",
-        "discount-precent": "Discount (in %)",
+        "discount-percent": "Discount (in %)",
         "tax": "Tax Exempted",
         "tax-percent": "Tax (in %)",
         "inventory": "Inventory",
@@ -138,7 +139,9 @@
         "val": "Value",
         "attr-message": "Product attributes do not exist.",
         "add-img": "add new Image",
-        "img-message": "Product images do not exist."
+        "img-message": "Product images do not exist.",
+        "same-name-message": "This product already exists in the Category",
+        "same-model-message": "Product with this Model Number already exists"
     },
 
     "attribute": {
@@ -219,6 +222,14 @@
         "userID": "UserID",
         "username": "Username",
         "emailID": "Email Address",
-        "access": "Assigned Roles"
+        "access": "Assigned Roles",
+        "no-role-message": "No new role has been selected."
+    },
+
+    "error": {
+        "requestError400": "Result does not exist for this request.",
+        "requestError401": "You are not authorized to view this page.",
+        "requestError404": "Service not found.",
+        "requestError500": "There is some issue in the backend."
     }
 }

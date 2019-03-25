@@ -35,5 +35,14 @@ export class SettingsService {
             .set('SortColumn', column).set('PageSize', Size);
         return this.httpclient.get('api/user/getuserlist', { params: queryParameters });
     }
+
+    changeUserRoles(id, check, rolesArr) {
+        const userID = JSON.stringify(id);
+        const addCheck = JSON.stringify(check);
+        const roles = JSON.stringify(rolesArr);
+        const selectedRoles = roles.substring(1, roles.length - 1);
+        const queryParameters = new HttpParams().set('id', userID).set('add', addCheck).set('selectedRoles', selectedRoles);
+        return this.httpclient.get('api/user/changeuserrole', { params: queryParameters });
+    }
 }
 

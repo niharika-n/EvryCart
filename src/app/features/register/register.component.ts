@@ -69,13 +69,12 @@ export class RegisterComponent implements OnInit {
             this.existingEmail = '';
           }
           if (xhr.status === 200) {
-            if (!isNullOrUndefined(xhr.response.success)) {
-              console.log(xhr.response.success);
+            if (xhr.response.status === 1) {
               this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
               this.resetForm(form);
               this.router.navigate(['/login']);
             }
-            if (!isNullOrUndefined(xhr.response.fail)) {
+            if (xhr.response.status !== 1) {
               this.toastr.error(this.translate.instant('common.err-create', { param: 'User' }), '');
               this.resetForm(form);
             }

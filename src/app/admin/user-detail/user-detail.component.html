@@ -36,12 +36,14 @@
                     <td>{{user.emailID}}</td>
                     <td>
                         Admin
-                        <input type="checkbox" #adminCheck name="adminCheck" value=2 [checked]="user.roleID.includes(2)" />&nbsp; &nbsp;&nbsp; Customer
-                        <input type="checkbox" #customerCheck name="customerCheck" value=3 [checked]="user.roleID.includes(3)" (change)="onChange(user.userID, customerCheck.value, $event.target.checked, null)" />
+                        <input type="checkbox" #adminCheck name="adminCheck" value=2 [checked]="user.roleID.includes(2)" (change)="onChange(user.userID, adminCheck.value, $event.target.checked, customerCheck.checked ? null : customerCheck.value)" />&nbsp;
+                        &nbsp;&nbsp; Customer
+                        <input type="checkbox" #customerCheck name="customerCheck" value=3 [checked]="user.roleID.includes(3) || adminCheck.checked" (change)="onChange(user.userID, customerCheck.value, $event.target.checked, null)" [disabled]="adminCheck.checked ? true : false"
+                        />
                     </td>
                     <td>
                         <a>
-                            <i class="fa fa-save icon" aria-hidden="true" (click)="save(user.userID)"></i>
+                            <i class="fa fa-save icon" aria-hidden="true" (click)="save(user.userID)" title="{{'common.update-title' | translate}}"></i>
                         </a>
                     </td>
                 </tr>
