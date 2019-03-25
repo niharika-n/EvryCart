@@ -4,7 +4,7 @@ import { PagerService } from '../../services/pagination.service';
 import { ToastrService } from 'ngx-toastr';
 import { ProductAttributeService } from '../../services/product-attributes.service';
 import { ProductAttributeModel } from './product-attribute';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 import { isNullOrUndefined } from 'util';
 import { ErrorService } from '../../services/error.service';

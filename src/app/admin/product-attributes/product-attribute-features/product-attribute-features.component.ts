@@ -5,7 +5,7 @@ import { ProductAttributeService } from '../../../services/product-attributes.se
 import { ProductAttributeModel } from '../product-attribute';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

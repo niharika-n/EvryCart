@@ -55,7 +55,6 @@ export class EmailTemplateComponent implements OnInit {
         this.spinnerService.endRequest();
         this.errorService.handleError(error.status);
         const message = this.translate.instant('templates.empty-template');
-        console.log(message);
       });
   }
 
@@ -65,10 +64,12 @@ export class EmailTemplateComponent implements OnInit {
       (result: any) => {
         if (result.status === 1) {
           this.toastr.success(this.translate.instant('common.update', { param: 'Template' }), '');
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
       }, (error: any) => {
+        this.errorService.handleError(error.status);
         const message = this.translate.instant('templates.empty-template');
-        console.log(message);
       });
   }
 

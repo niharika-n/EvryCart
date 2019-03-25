@@ -10,7 +10,7 @@ import { ErrorService } from '../../../../services/error.service';
 import { ProductService } from '../../../../services/product.service';
 import { ProductAttributeValueModel } from '../../product-attribute-value';
 import { PagerService } from '../../../../services/pagination.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../../services/spinner.service';
 
 @Component({
     selector: 'app-product-attribute-values',
@@ -207,7 +207,6 @@ export class ProductAttributeValuesComponent implements OnInit {
                 this.errorService.handleError(error.status);
                 if (error.status !== 1) {
                     this.message = this.translate.instant('common.not-present', { param: 'attribute' });
-                    console.log(this.message);
                 }
                 this.attributeMessage = true;
             });

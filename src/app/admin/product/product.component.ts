@@ -4,7 +4,7 @@ import { PagerService } from '../../services/pagination.service';
 import { ProductModel } from './product';
 import { ProductService } from '../../services/product.service';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 import { isNullOrUndefined } from 'util';
 import { ErrorService } from '../../services/error.service';
@@ -60,7 +60,6 @@ export class ProductComponent implements OnInit {
         this.spinnerService.endRequest();
         this.errorService.handleError(error.status);
         this.message = this.translate.instant('common.not-present', { param: 'product' });
-        console.log(error);
       });
   }
 

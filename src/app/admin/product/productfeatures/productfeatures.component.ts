@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined, isDate } from 'util';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../services/product.service';

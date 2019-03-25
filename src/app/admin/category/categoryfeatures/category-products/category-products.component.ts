@@ -19,7 +19,7 @@ import { ErrorService } from '../../../../services/error.service';
 export class CategoryProductsComponent implements OnInit {
   id = 0;
   productMessage = false;
-  ProductsArr = [];
+  productsArr = [];
   pager: any = [];
   pageSize = 4;
   currentPage = 1;
@@ -48,7 +48,7 @@ export class CategoryProductsComponent implements OnInit {
         if (!isNullOrUndefined(result.body)) {
           if (result.body.productResult.length > 0) {
             for (let i = 0; i < result.body.productResult.length; i++) {
-              this.ProductsArr.push(result.body.productResult[i]);
+              this.productsArr.push(result.body.productResult[i]);
             }
             this.totalCount = result.body.totalCount;
             this.setPage(this.currentPage);
@@ -60,7 +60,6 @@ export class CategoryProductsComponent implements OnInit {
         this.spinnerService.endRequest();
         this.errorService.handleError(error.status);
         this.productMessage = true;
-        console.log(this.translate.instant('category.null-product'));
       });
   }
 
@@ -73,8 +72,8 @@ export class CategoryProductsComponent implements OnInit {
     if (del) {
       this.productService.delete(pdtID).
         subscribe(() => {
-          const index: number = this.ProductsArr.findIndex(x => x.id === pdtID);
-          this.ProductsArr.splice(index, 1);
+          const index: number = this.productsArr.findIndex(x => x.id === pdtID);
+          this.productsArr.splice(index, 1);
           this.toastr.success(this.translate.instant('common.delete'), '');
         });
     }

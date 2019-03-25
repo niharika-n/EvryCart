@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../../services/product.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../../services/spinner.service';
 import { ErrorService } from '../../../../services/error.service';
 
 @Component({
@@ -141,7 +141,6 @@ export class ProductImagesComponent implements OnInit {
         this.errorService.handleError(error.status);
         if (error.status !== 1) {
           this.message = this.translate.instant('product.image-present');
-          console.log(this.message);
         }
         this.imageMessage = true;
       });

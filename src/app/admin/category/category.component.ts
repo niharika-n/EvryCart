@@ -4,7 +4,7 @@ import { CategoryModel } from './category';
 import { CategoryService } from '../../services/category.service';
 import { PagerService } from '../../services/pagination.service';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 import { isNullOrUndefined } from 'util';
 import { ErrorService } from '../../services/error.service';
@@ -93,8 +93,7 @@ export class CategoryComponent implements OnInit {
                             this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                         }
                     }, (error: any) => {
-                        this.errorService.handleError(error.status);
-                        this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
+                        this.errorService.handleError(error.status);                        
                     });
             }
         } else if (del) {
@@ -109,7 +108,6 @@ export class CategoryComponent implements OnInit {
                     }
                 }, (error: any) => {
                     this.errorService.handleError(error.status);
-                    this.toastr.error(this.translate.instant('common.err-delete', { param: 'Category' }), '');
                 });
         }
     }

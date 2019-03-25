@@ -40,6 +40,7 @@ export class ResetPasswordComponent implements OnInit {
           this.badRequestMessage = this.translate.instant('password.invalid-link');
         }
       }, (error: any) => {
+        this.errorService.handleError(error.status);
         this.badRequestMessage = this.translate.instant('password.invalid-link');
       });
   }
@@ -68,7 +69,6 @@ export class ResetPasswordComponent implements OnInit {
           }, (error: any) => {
             this.wrongPassword = true;
             this.errorService.handleError(error.status);
-            console.log(error);
           });
       }
     }

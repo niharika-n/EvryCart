@@ -57,7 +57,6 @@ export class AdminChangePasswordComponent implements OnInit {
           }, (error: any) => {
             this.wrongPassword = true;
             this.errorService.handleError(error.status);
-            this.toastr.error(this.translate.instant('common.err-update'), '');
           });
       }
     }

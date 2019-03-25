@@ -4,7 +4,7 @@ import { LoginUser } from '../../shared/login-model';
 import { SettingsService } from '../../services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

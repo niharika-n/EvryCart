@@ -53,7 +53,6 @@ export class HomeComponent implements OnInit {
                 this.spinnerService.endRequest();
                 this.errorService.handleError(error.status);
                 const message = this.translate.instant('product.image-present');
-                console.log(message);
               });
           }
         }
@@ -76,7 +75,6 @@ export class HomeComponent implements OnInit {
       }, (error: any) => {
         this.spinnerService.endRequest();
         this.errorService.handleError(error.status);
-        console.log(error);
       });
   }
 }
