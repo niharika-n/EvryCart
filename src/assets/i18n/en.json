@@ -212,5 +212,13 @@
 
     "location": {
         "title": "Location"
+    },
+
+    "user-detail": {
+        "title": "User Details",
+        "userID": "UserID",
+        "username": "Username",
+        "emailID": "Email Address",
+        "access": "Assigned Roles"
     }
 }

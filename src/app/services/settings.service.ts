@@ -26,5 +26,14 @@ export class SettingsService {
                 return x;
             }));
     }
+
+    userList(search, page, size, column, order) {
+        const Size = JSON.stringify(size);
+        const Page = JSON.stringify(page);
+        const Order = JSON.stringify(order);
+        const queryParameters = new HttpParams().set('Search', search).set('PageNumber', Page).set('SortOrder', Order)
+            .set('SortColumn', column).set('PageSize', Size);
+        return this.httpclient.get('api/user/getuserlist', { params: queryParameters });
+    }
 }
 

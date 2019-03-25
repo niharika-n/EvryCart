@@ -22,6 +22,7 @@ import { LogoutComponent } from '../features/logout/logout.component';
 import { LayoutComponent } from '../features/layout/layout.component';
 import { HomeComponent } from '../features/home/home.component';
 import { EmailTemplateComponent } from '../admin/email-template/email-template.component';
+import { UserDetailComponent } from '../admin/user-detail/user-detail.component';
 
 const routes: Routes = [
     {
@@ -114,14 +115,18 @@ const routes: Routes = [
         ]
     },
     {
-        path: 'admin/user/create',
+        path: 'admin/user',
         component: AdminLayoutComponent,
         canActivate: [AuthGuard],
-        data: { roles: ['admin'] },
+        data: { roles: ['superadmin'] },
         children: [
             {
-                path: '',
+                path: 'create',
                 component: RegisterAdminComponent
+            },
+            {
+                path: 'list',
+                component: UserDetailComponent
             }
         ]
     },
