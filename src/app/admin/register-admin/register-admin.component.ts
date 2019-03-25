@@ -99,18 +99,18 @@ export class RegisterAdminComponent implements OnInit {
         xhr.responseType = 'json';
         xhr.onreadystatechange = (result: any) => {
           if (xhr.readyState === 4) {
-            if (!isNullOrUndefined(xhr.response.usernameMessage)) {
+            if (xhr.response.message === 'usernameMessage' && xhr.response.status !== 1) {
               this.existingUsername = this.translate.instant('register-user.username-exists', {param: 'username'});
             } else {
               this.existingUsername = '';
             }
-            if (!isNullOrUndefined(xhr.response.emailMessage)) {
+            if (xhr.response.message === 'emailMessage' && xhr.response.status !== 1) {
               this.existingEmail = this.translate.instant('register-user.object-exists', {param: 'email address'});
             } else {
               this.existingEmail = '';
             }
             if (xhr.status === 200) {
-              if (!isNullOrUndefined(xhr.response.user)) {
+              if (xhr.response.status === 1) {
                 this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
                 this.resetForm(form);
               }
@@ -124,6 +124,7 @@ export class RegisterAdminComponent implements OnInit {
   }
 
   resetForm(form: FormGroup) {
+    form.reset();
     if (form != null) {
       this.fileSelected = false;
       this.submitted = false;

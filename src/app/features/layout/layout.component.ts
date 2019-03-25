@@ -5,6 +5,7 @@ import { isNullOrUndefined, debug } from 'util';
 import { LoginUser } from '../../shared/login-model';
 import { SigninService } from '../../services/login.service';
 import { SpinnerService } from '../../services/spinner.service';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-layout',
@@ -14,7 +15,7 @@ import { SpinnerService } from '../../services/spinner.service';
 export class LayoutComponent implements OnInit {
 
   constructor(private layoutService: LayoutService, private loginService: SigninService,
-    private router: Router, private spinnerService: SpinnerService) { }
+    private router: Router, private spinnerService: SpinnerService, private errorService: ErrorService) { }
   loginModel: LoginUser;
   CategoryArr = [];
   AllCategoryArr = [];
@@ -33,15 +34,20 @@ export class LayoutComponent implements OnInit {
     this.layoutService.getCategories().
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.categoryResult.length !== 0 && !isNullOrUndefined(result.categoryResult)) {
-          for (let i = 0; i < result.categoryResult.length; i++) {
-            this.AllCategoryArr.push(result.categoryResult[i]);
+        if (result.body.length !== 0 && !isNullOrUndefined(result.body)) {
+          for (let i = 0; i < result.body.length; i++) {
+            this.AllCategoryArr.push(result.body[i]);
           }
           for (let i = 0; i < 5; i++) {
             this.CategoryArr.push(this.AllCategoryArr[i]);
           }
+        } else {
+          this.errorService.handleFailure(result.statusCode);
         }
-      });
+      }, (error: any) => {
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
+       });
   }
 
   logout() {

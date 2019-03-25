@@ -8,6 +8,7 @@ import { CategoryService } from '../../../services/category.service';
 import { CategoryModel } from '../category';
 import { isNullOrUndefined } from 'util';
 import { SpinnerService } from '../../../services/spinner.service';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-categoryfeatures',
@@ -29,18 +30,20 @@ export class CategoryfeaturesComponent implements OnInit {
   @ViewChild('imagePath') imagePath: ElementRef;
   categoryCheckMessage = '';
 
-  constructor(private categoryService: CategoryService, private toastr: ToastrService, private translate: TranslateService,
-    private router: Router, private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService) {
+  constructor(private categoryService: CategoryService, private toastr: ToastrService,
+    private translate: TranslateService, private router: Router,
+    private activatedRoute: ActivatedRoute, private spinnerService: SpinnerService,
+    private errorService: ErrorService) {
     this.model = {
-      categoryID: 0,
-      categoryName: '',
-      categoryDescription: '',
+      id: 0,
+      name: '',
+      description: '',
       isActive: false,
       createdBy: 0,
       createdDate: null,
       createdUser: '',
-      parentCategory: true,
-      childCategory: null,
+      parent: true,
+      child: null,
       imageContent: null,
       imageID: 0,
     };
@@ -59,11 +62,21 @@ export class CategoryfeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('category-detail.edit');
-          this.model = result;
-          if (!this.model.parentCategory) { this.showChild = true; }
-          if (result.imageContent !== null) {
-            this.model.imageContent = 'data:image/png;base64,' + result.imageContent;
+          if (result.status === 1) {
+            if (!isNullOrUndefined(result.body)) {
+              this.model = result.body;
+              if (!this.model.parent) { this.showChild = true; }
+              if (result.body.imageContent !== null) {
+                this.model.imageContent = 'data:image/png;base64,' + result.body.imageContent;
+              }
+            }
+          } else {
+            this.errorService.handleFailure(result.statusCode);
+            this.message = this.translate.instant('common.not-found');
           }
+        }, (error: any) => {
+          this.spinnerService.endRequest();
+          this.errorService.handleError(error.status);
         });
     } else {
       this.editPage = false;
@@ -73,7 +86,7 @@ export class CategoryfeaturesComponent implements OnInit {
   }
 
   SelectChild() {
-    if (!this.model.parentCategory) {
+    if (!this.model.parent) {
       this.showChild = true;
     } else {
       this.showChild = false;
@@ -98,16 +111,17 @@ export class CategoryfeaturesComponent implements OnInit {
   getCategoryList() {
     this.categoryService.Listing('', 1, 5, this.model.createdDate, false, true, false).
       subscribe((result: any) => {
-        if (result.status === 404) {
+        if (result.status !== 1) {
           this.message = this.translate.instant('common.not-found');
         } else {
-          this.CategoryArr = result;
+          if (!isNullOrUndefined(result.body)) {
+            this.CategoryArr = result.body.categoryResult;
+          }
         }
       });
   }
 
   add(form: NgForm) {
-    console.log(form.value);
     if (form.valid) {
       const currentUser = JSON.parse(localStorage.getItem('token'));
       const body = JSON.stringify(form.value);
@@ -132,7 +146,7 @@ export class CategoryfeaturesComponent implements OnInit {
           } else {
             this.categoryCheckMessage = '';
           }
-          if (!isNullOrUndefined(xhr.response.categoryObj)) {
+          if (xhr.response.status === 1) {
             if (this.id) {
               this.toastr.success(this.translate.instant('common.update', { param: 'Category' }), '');
             } else {

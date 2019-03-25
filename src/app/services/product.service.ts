@@ -34,22 +34,6 @@ export class ProductService {
     }
 
     add(product: ProductModel) {
-        // const productFile = JSON.stringify(product);
-        // const _headers = new HttpHeaders();
-        // const headers = _headers.append('Content-Type', 'application/json')
-        //     .append('Accept', 'application/json');
-        // const req = new HttpRequest<any>(
-        //     'POST', 'api/product/insertproduct', productFile,
-        //     {
-        //         headers: headers,
-        //         params: new HttpParams(),
-        //         responseType: 'json'
-        //     }
-        // );
-        // return this.httpclient.request<any>(req).
-        //     pipe(map(x => {
-        //         return x;
-        //     }));
         return this.httpclient.post('api/product/insertproduct', product).
         pipe(map(x => {
             return x;
@@ -74,11 +58,11 @@ export class ProductService {
     }
 
     listProductImages(id) {
-        return this.httpclient.get('api/product/getProductImages/' + id);
+        return this.httpclient.get('api/product/getproductimages/' + id);
     }
 
     addProductAttributeValue(attributeValue: ProductAttributeValueModel) {
-        return this.httpclient.post('api/product/InsertProductAttributeValue', attributeValue).
+        return this.httpclient.post('api/product/insertproductattributevalue', attributeValue).
             pipe(map(x => {
                 return x;
             }));
@@ -86,7 +70,7 @@ export class ProductService {
 
     deleteProductAttributeValue(id) {
         const queryParameters = new HttpParams().set('ID', id);
-        return this.httpclient.delete('api/product/deleteProductAttributeValue', { params: queryParameters });
+        return this.httpclient.delete('api/product/deleteproductattributevalue', { params: queryParameters });
     }
 
     listProductAttributeValue(id, search, page, size, column, order) {
@@ -95,14 +79,14 @@ export class ProductService {
         const Order = JSON.stringify(order);
         const queryParameters = new HttpParams().set('Search', search).set('PageNumber', Page)
             .set('SortOrder', Order).set('SortColumn', column).set('PageSize', Size);
-        return this.httpclient.get('api/product/listProductAttributeValue/' + id, { params: queryParameters });
+        return this.httpclient.get('api/product/getlistproductattributevalue/' + id, { params: queryParameters });
     }
 
     detailProductAttributeValue(id) {
-        return this.httpclient.get('api/product/getDetailProductAttributeValue/' + id);
+        return this.httpclient.get('api/product/getdetailproductattributevalue/' + id);
     }
 
     updateProductAttributeValue(attributeValue: any) {
-        return this.httpclient.put('api/Product/UpdateProductAttributeValue', attributeValue);
+        return this.httpclient.put('api/product/updateproductattributevalue', attributeValue);
     }
 }

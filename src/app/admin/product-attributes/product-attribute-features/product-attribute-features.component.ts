@@ -5,7 +5,7 @@ import { ProductAttributeService } from '../../../services/product-attributes.se
 import { ProductAttributeModel } from '../product-attribute';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../services/spinner.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -44,7 +44,9 @@ export class ProductAttributeFeaturesComponent implements OnInit {
         .subscribe((result: any) => {
           this.spinnerService.endRequest();
           this.pageTitle = this.translate.instant('attribute-detail.edit');
-          this.model = result;
+          if (!isNullOrUndefined(result.body)) {
+          this.model = result.body;
+          }
         });
     } else {
       this.pageTitle = this.translate.instant('attribute-detail.add');
@@ -61,10 +63,10 @@ export class ProductAttributeFeaturesComponent implements OnInit {
     if (form.valid) {
       if (this.id) {
         this.attributeService.update(form.value).subscribe((result: any) => {
-          if (!isNullOrUndefined(result.attribute)) {
+          if (result.status === 1) {
             this.toastr.success(this.translate.instant('common.update', { param: 'Attribute' }), '');
           }
-          if (!isNullOrUndefined(result.message)) {
+          if (result.message === 'isPresent') {
             this.nameCheckMessage = this.translate.instant('attribute.present');
           } else {
             this.nameCheckMessage = '';
@@ -72,11 +74,11 @@ export class ProductAttributeFeaturesComponent implements OnInit {
         });
       } else {
         this.attributeService.add(form.value).subscribe((result: any) => {
-          if (!isNullOrUndefined(result.attribute)) {
+          if (result.status === 1) {
             this.toastr.success(this.translate.instant('common.insert', { param: 'Attribute' }), '');
             this.resetForm(form);
           }
-          if (!isNullOrUndefined(result.message)) {
+          if (result.message === 'isPresent') {
             this.nameCheckMessage = this.translate.instant('attribute.present');
           } else {
             this.nameCheckMessage = '';

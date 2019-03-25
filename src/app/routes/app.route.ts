@@ -1,9 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from 'src/app/admin/dashboard/dashboard.component';
-import { AdminLayoutComponent } from 'src/app/admin/admin-layout/admin-layout.component';
+import { DashboardComponent } from '../admin/dashboard/dashboard.component';
+import { AdminLayoutComponent } from '../admin/admin-layout/admin-layout.component';
 import { AuthGuard } from '../services/auth.guard';
-import { CategoryComponent } from 'src/app/admin/category/category.component';
-import { CategoryfeaturesComponent } from 'src/app/admin/category/categoryfeatures/categoryfeatures.component';
+import { CategoryComponent } from '../admin/category/category.component';
+import { CategoryfeaturesComponent } from '../admin/category/categoryfeatures/categoryfeatures.component';
 import { SettingsComponent } from '../admin/settings/settings.component';
 import { LocationComponent } from '../shared/location/location.component';
 import { ProductComponent } from '../admin/product/product.component';

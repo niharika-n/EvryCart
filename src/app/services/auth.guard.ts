@@ -28,8 +28,6 @@ export class AuthGuard implements CanActivate {
           this.currentRole.push(UserRoles[currentUserRoleId[role]]);
         }
         const result = this.verifyUser(roles, this.currentRole);
-        // if (roles.indexOf(this.key.toLowerCase()) > -1
-        // && (this.key.toLowerCase() === 'superadmin' || this.key.toLowerCase() === 'admin'))
         if (result) {
           return true;
         } else {
