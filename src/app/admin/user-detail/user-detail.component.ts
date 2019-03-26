@@ -135,7 +135,7 @@ export class UserDetailComponent implements OnInit {
   save(id: number) {
     let check = false;
     let difference = null;
-    if (!isNullOrUndefined(this.preselectedRole) && this.proselectedRole.length > 0) {
+    if (!isNullOrUndefined(this.preselectedRole) && this.preselectedRole.length > 0) {
       difference = this.preselectedRole.filter(x =>
         !this.userRoles.includes(x)).concat(this.userRoles.filter(x =>
           !this.preselectedRole.includes(x)));
