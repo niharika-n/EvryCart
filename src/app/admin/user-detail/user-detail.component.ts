@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { isNullOrUndefined } from 'util';
 import { PagerService } from '../../services/pagination.service';
-// import { HttpClient } from '@angular/common/http';
 import { ErrorService } from '../../services/error.service';
 
 @Component({

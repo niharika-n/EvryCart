@@ -9,11 +9,11 @@
                 <input autocomplete="off" class="form-control" name="search" #search />
             </div>
             <div class="col-md-9">
-                <input type="submit" value="{{'common.search' | translate}}" class="btn btn-info" title="{{'common.search' | translate}}" (click)="listing(search.value)" /> &nbsp;
-                <input type="submit" value="{{'common.clear' | translate}}" class="btn btn-info" title="{{'common.clear' | translate}}" (click)="listing(search.value='')" name="all" /> &nbsp;
+                <input type="submit" value="{{'common.search' | translate}}" class="btn btn-info custom-margin" title="{{'common.search' | translate}}" (click)="listing(search.value)" />
+                <input type="submit" value="{{'common.clear' | translate}}" class="btn btn-info custom-margin" title="{{'common.clear' | translate}}" (click)="listing(search.value='')" name="all" />
             </div>
             <div class=" col-md-12 page-size">
-                <b translate>common.page-size</b> &nbsp;
+                <b class="custom-margin" translate>common.page-size</b>
                 <select #pageSize (change)="sizeSelect(pageSize.value)">
           <option value=5>5</option>
           <option value=7>7</option>
@@ -36,8 +36,7 @@
                     <td>{{user.emailID}}</td>
                     <td>
                         Admin
-                        <input type="checkbox" #adminCheck name="adminCheck" value=2 [checked]="user.roleID.includes(2)" (change)="onChange(user.userID, adminCheck.value, $event.target.checked, customerCheck.checked ? null : customerCheck.value)" />&nbsp;
-                        &nbsp;&nbsp; Customer
+                        <input type="checkbox" #adminCheck name="adminCheck" value=2 id="adminCheck" [checked]="user.roleID.includes(2)" (change)="onChange(user.userID, adminCheck.value, $event.target.checked, customerCheck.checked ? null : customerCheck.value)" />Customer
                         <input type="checkbox" #customerCheck name="customerCheck" value=3 [checked]="user.roleID.includes(3) || adminCheck.checked" (change)="onChange(user.userID, customerCheck.value, $event.target.checked, null)" [disabled]="adminCheck.checked ? true : false"
                         />
                     </td>

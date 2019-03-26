@@ -48,3 +48,11 @@ hr {
 .add-icon {
     font-size: 1.3em;
 }
+
+.custom-margin {
+    margin-right: 10px;
+}
+
+#adminCheck {
+    margin-right: 40px;
+}
