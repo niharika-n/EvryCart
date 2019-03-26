@@ -26,5 +26,23 @@ export class SettingsService {
                 return x;
             }));
     }
+
+    userList(search, page, size, column, order) {
+        const Size = JSON.stringify(size);
+        const Page = JSON.stringify(page);
+        const Order = JSON.stringify(order);
+        const queryParameters = new HttpParams().set('Search', search).set('PageNumber', Page).set('SortOrder', Order)
+            .set('SortColumn', column).set('PageSize', Size);
+        return this.httpclient.get('api/user/getuserlist', { params: queryParameters });
+    }
+
+    changeUserRoles(id, check, rolesArr) {
+        const userID = JSON.stringify(id);
+        const addCheck = JSON.stringify(check);
+        const roles = JSON.stringify(rolesArr);
+        const selectedRoles = roles.substring(1, roles.length - 1);
+        const queryParameters = new HttpParams().set('id', userID).set('add', addCheck).set('selectedRoles', selectedRoles);
+        return this.httpclient.get('api/user/changeuserrole', { params: queryParameters });
+    }
 }
 

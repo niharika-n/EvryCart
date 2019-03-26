@@ -52,6 +52,7 @@ import { ResetPasswordComponent } from './features/reset-password/reset-password
 import { LogoutComponent } from './features/logout/logout.component';
 import { SpinnerDirective } from './shared/directives/spinner.directive';
 import { EmailTemplateComponent } from './admin/email-template/email-template.component';
+import { UserDetailComponent } from './admin/user-detail/user-detail.component';
 
 @NgModule({
   imports: [
@@ -105,7 +106,8 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     ResetPasswordComponent,
     LogoutComponent,
     SpinnerDirective,
-    EmailTemplateComponent
+    EmailTemplateComponent,
+    UserDetailComponent
   ],
 
   providers: [

@@ -217,6 +217,15 @@
         "title": "Location"
     },
 
+    "user-detail": {
+        "title": "User Details",
+        "userID": "UserID",
+        "username": "Username",
+        "emailID": "Email Address",
+        "access": "Assigned Roles",
+        "no-role-message": "No new role has been selected."
+    },
+
     "error": {
         "requestError400": "Result does not exist for this request.",
         "requestError401": "You are not authorized to view this page.",
