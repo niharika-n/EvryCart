@@ -19,21 +19,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.auth.isLoggednIn()) {
-     const result = this.activateUser(route, state);
-      if (result) {
-        return true;
-      } else {
-        this.router.navigate(['']);
-        return false;      }
-    }
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+    return this.getUserDetails(route, state);
   }
 
   canActivateChild(
     route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return this.getUserDetails(route, state);
+  }
+
+  getUserDetails(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.user = JSON.parse(localStorage.getItem('user'));
     if (this.auth.isLoggednIn()) {
@@ -51,7 +46,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   activateUser(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if (!isNullOrUndefined(route.data.roles)) {
+    if (!isNullOrUndefined(route.data.roles)) {
       const roles: any[] = route.data.roles;
       const currentUserRoleId = this.user.roleID;
       this.currentRole = [];
