@@ -1,69 +1,69 @@
 <div class="container body-content">
-    <h3>
-        Create User
+    <h3 translate>
+        register-user.create
     </h3>
     <hr>
     <div class="col-md-7">
         <form [formGroup]='adminForm' (submit)="CreateAdmin(adminForm)" id="adminForm" lass="form-group" novalidate>
 
             <div class="form-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName" translate>register-user.first-name</label>
                 <input type="text" class="form-control form-input" formControlName='firstName' #firstName id="firstName" [ngClass]="{ 'is-invalid': submitted && model.firstName.errors }" autocomplete="off" maxlength="20">
                 <div *ngIf="model.firstName.errors && submitted" class="invalid-feedback">
-                    <div *ngIf="model.firstName.errors.required">*required</div>
+                    <div *ngIf="model.firstName.errors.required" translate>required</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName" translate>register-user.last-name</label>
                 <input type="text" maxlength="20" class="form-control form-input" formControlName='lastName' #lastName id="lastName" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.lastName.errors }">
                 <div *ngIf="submitted && model.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="model.lastName.errors.required">*required</div>
+                    <div *ngIf="model.lastName.errors.required" translate>required</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username" translate>register-user.username</label>
                 <input type="text" maxlength="15" class="form-control form-input" (keyup)="existingUsername=='' || UsernameCheck($event)" formControlName='username' #username id="username" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.username.errors }">
                 <div *ngIf="submitted && model.username.errors" class="invalid-feedback">
-                    <div *ngIf="model.username.errors.required">*required</div>
+                    <div *ngIf="model.username.errors.required" translate>required</div>
                 </div>
-                <div *ngIf="existingUsername!=''" class="custom-error">{{existingUsername}}</div>
+                <div *ngIf="existingUsername!=''" class="custom-error" translate>{{existingUsername}}</div>
             </div>
 
             <div class="form-group">
-                <label for="emailID">Email Address</label>
+                <label for="emailID" translate>register-user.email</label>
                 <input type="text" formControlName="emailID" class="form-control form-input" (keyup)="existingEmail =='' || EmailCheck($event)" #emailID id="emailID" email autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.emailID.errors }" />
                 <div *ngIf="submitted && model.emailID.errors" class="invalid-feedback">
-                    <div *ngIf="model.emailID.errors.required">*required</div>
-                    <div *ngIf="model.emailID.errors.email">Enter a valid Email address</div>
+                    <div *ngIf="model.emailID.errors.required" translate>required</div>
+                    <div *ngIf="model.emailID.errors.email" translate>register-user.email-message</div>
                 </div>
-                <div *ngIf="existingEmail !=''" class="custom-error">{{existingEmail}}</div>
+                <div *ngIf="existingEmail !=''" class="custom-error" translate>{{existingEmail}}</div>
             </div>
 
             <div class="form-group">
-                <label>User Image </label>
+                <label translate>register-user.user-img </label>
                 <img *ngIf="url != ''" [src]="url" width="250px">
                 <br>
                 <label></label>
                 <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
-                <div *ngIf="submitted && !fileSelected" class="custom-error">*required</div>
+                <div *ngIf="submitted && !fileSelected" class="custom-error" translate>required</div>
             </div>
 
             <div class="form-group">
-                <label class="checkbox-label">Role Type</label>
+                <label class="checkbox-label" translate>register-user.role-type</label>
                 <div *ngFor="let role of rolesArray" class="form-input">
                     <input type="checkbox" [checked]="role.selected" (change)="onChange(role.value, $event.target.checked)" [ngClass]="{ 'is-invalid': submitted && !selectedRole}"> {{role.key}}
                 </div>
-                <div *ngIf="submitted && !selectedRole" class="custom-error">
-                    *required
+                <div *ngIf="submitted && !selectedRole" class="custom-error" translate>
+                    required
                 </div>
             </div>
 
             <div class="form-group">
                 <label></label>
-                <input type="submit" value="Create" title="Create" class="btn btn-info">&nbsp;
-                <input type="reset" value="Reset" title="Reset" (click)="resetForm(adminForm)" class="btn btn-secondary">
+                <input type="submit" value="{{'common.add' | translate}}" title="{{'common.add' | translate}}" class="btn btn-info">&nbsp;
+                <input type="reset" value="{{'common.reset' | translate}}" title="{{'common.reset' | translate}}" (click)="resetForm(adminForm)" class="btn btn-secondary">
             </div>
         </form>
     </div>

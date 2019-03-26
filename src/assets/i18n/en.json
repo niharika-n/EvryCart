@@ -1,0 +1,235 @@
+{
+    "common": {
+        "confirm-delete": "Are you sure you want to delete this {{param}} ?",
+        "create": "{{param}} created !",
+        "delete": "Deleted successfully!",
+        "update": "{{param}} updated !",
+        "insert": "{{param}} added !",
+        "err-create": "{{param}} could not be created.",
+        "err-delete": "{{param}} could not be deleted.",
+        "err-update": "{{param}} could not be updated.",
+        "not-found": "No record found.",
+        "not-present": "No {{param}} present",
+        "link-sent": "Link has been sent successfully.",
+        "not-exist": "This {{param}} does not exist",
+        "add": "Add",
+        "back": "back to list",
+        "submit": "Submit",
+        "reset": "Reset",
+        "page-size": "Page Size",
+        "edit-title": "Edit",
+        "delete-title": "Delete",
+        "update-title": "Update",
+        "search": "Search",
+        "clear": "Clear",
+        "asc": "Ascending",
+        "desc": "Descending",
+        "cancel": "Cancel"
+    },
+
+    "change-password": {
+        "title": "Change Password",
+        "old-password": "Old Password",
+        "new-password": "New Password",
+        "confirm-password": "Confirm Password",
+        "err-password": "Password entered is wrong",
+        "min-length": "Password must contain minimum 6 characters",
+        "max-length": "Password cannot contain more than 10 characters",
+        "pattern": "Password must be in lowercase characters only",
+        "unmatch": "Passwords do not match"
+    },
+
+    "admin-layout": {
+        "title": "Application",
+        "settings": "Settings",
+        "change-profile": "Change Profile",
+        "change-password": "Change Password",
+        "change-template": "Change Templates",
+        "manage-user": "Manage Users",
+        "create-user": "Create User",
+        "view-users": "View Users",
+        "logout": "Logout"
+    },
+
+    "required": "*required",
+
+    "category": {
+        "title": "Categories",
+        "categoryId": "Category ID",
+        "name": "Name",
+        "description": "Description",
+        "active": "Active",
+        "created-by": "Created By",
+        "created-date": "Cretaed Date",
+        "modified-by": "Modified By",
+        "confirm-delete": "This category has {{count}} product(s). Do you want to proceed?",
+        "null-product": "Prodcts do not exist for this category."
+    },
+
+    "category-detail": {
+        "add": "Add Category",
+        "edit": "Edit Category",
+        "ID": "ID",
+        "isActive": "Is Active",
+        "isParent": "Is Parent",
+        "parent": "Parent Category",
+        "image": "Category Image",
+        "image-message": "Category Image does not exist.",
+        "product": "Product",
+        "pdt-message": "Products do not exist for this category."
+    },
+
+    "dashboard": {
+        "title": "Dashboard",
+        "categories": "Categories",
+        "products": "Products",
+        "updated-on": "updated on"
+    },
+
+    "templates": {
+        "title": "Edit Templates",
+        "choose": "Choose Template",
+        "select": "-select-",
+        "empty-template": "Selected template does not exist."
+    },
+
+    "product": {
+        "title": "Products",
+        "productID": "Product ID",
+        "name": "Name",
+        "short-desc": "Description",
+        "category": "Category",
+        "quant": "Quantity",
+        "price": "Price",
+        "avail": "Available Till",
+        "created-date": "Created Date",
+        "active": "Active",
+        "attribute-present": "This attribute value already exists.",
+        "image-present": "Images for this product are not available."
+    },
+
+    "product-detail": {
+        "add": "Add Product",
+        "edit": "Edit Product",
+        "general-info": "General Information",
+        "long-desc": "Long Description",
+        "category": "Category",
+        "select": "-select-",
+        "model-num": "Model Number",
+        "on-home": "Show on Home Page",
+        "mark-new": "Mark as new",
+        "allow-reviews": "Allow Customer Reviews",
+        "price-in-rupee": "Price (in ₹)",
+        "is-discount": "Is Discounted",
+        "discount-percent": "Discount (in %)",
+        "tax": "Tax Exempted",
+        "tax-percent": "Tax (in %)",
+        "inventory": "Inventory",
+        "quant-stock": "Quantity in Stock",
+        "quant-type": "Quantity Type",
+        "start-date": "Visible Start Date",
+        "end-date": "Visible End Date",
+        "date-val": "*date cannot be less than start date",
+        "show-avail": "Show Availability",
+        "shipping": "Shipping",
+        "shipping-charge": "Shipping charges Enabled",
+        "ship-in-rupee": "Shipping Charges (in ₹)",
+        "add-attr": "add new Attribute",
+        "attr": "Attribute",
+        "val": "Value",
+        "attr-message": "Product attributes do not exist.",
+        "add-img": "add new Image",
+        "img-message": "Product images do not exist.",
+        "same-name-message": "This product already exists in the Category",
+        "same-model-message": "Product with this Model Number already exists"
+    },
+
+    "attribute": {
+        "title": "Product Attributes",
+        "attributeID": "Attribute ID",
+        "name": "Name",
+        "created-by": "Created By",
+        "created-date": "Created Date",
+        "confirm-delete": "This attribute has {{count}} value(s) in various Products. Do you want to proceed ?",
+        "present": "This attribute field exists already."
+    },
+
+    "attribute-detail": {
+        "add": "Add Attribute",
+        "edit": "Edit Attribute"
+    },
+
+    "register-user": {
+        "create": "Create User",
+        "create-acc": "Create Account",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "username": "Username",
+        "password": "Password",
+        "email": "Email Address",
+        "email-message": "Enter a valid email address",
+        "user-img": "User Image",
+        "img-message": "USer Image does not exist.",
+        "role-type": "Role Type",
+        "object-exists": "This {{param}} already exists.",
+        "user-exist": "Existing user?",
+        "sign-in": "Sign In"
+    },
+
+    "settings": {
+        "title": "User Profile",
+        "userID": "UserID"
+    },
+
+    "password": {
+        "heading-1": "Forgot Password ?",
+        "heading-2": "We will send you a link to reset your password.",
+        "button": "Send reset link",
+        "invalid-link": "This link is not valid, please generate the link again."
+    },
+
+    "home": {
+        "next": "Next",
+        "prev": "Previous",
+        "latest-addns": "Our Latest Additions"
+    },
+
+    "layout": {
+        "login": "Login",
+        "sign-up": "Sign up",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "instagram": "Instagram"
+    },
+
+    "login": {
+        "err-details": "Username or Password is incorrect."
+    },
+
+    "logout": {
+        "message": "You have successfully logged out.",
+        "home": "Return to Home",
+        "or": "or",
+        "login": "Login again"
+    },
+
+    "location": {
+        "title": "Location"
+    },
+
+    "user-detail": {
+        "title": "User Details",
+        "userID": "UserID",
+        "username": "Username",
+        "emailID": "Email Address",
+        "access": "Assigned Roles",
+        "no-role-message": "No new role has been selected."
+    },
+
+    "error": {
+        "requestError400": "Result does not exist for this request.",
+        "requestError401": "You are not authorized to view this page.",
+        "requestError404": "Service not found.",
+        "requestError500": "There is some issue in the backend."
+    }
+}

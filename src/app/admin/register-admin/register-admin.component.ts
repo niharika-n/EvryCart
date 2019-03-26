@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { LoginUser } from '../../shared/login-model';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-admin',
@@ -27,13 +28,12 @@ export class RegisterAdminComponent implements OnInit {
   userRoles: any = [];
   @ViewChild('imagePath') imagePath: ElementRef;
 
-  constructor(private toastr: ToastrService, private formbuilder: FormBuilder) {
+  constructor(private toastr: ToastrService, private formbuilder: FormBuilder, private translate: TranslateService) {
     this.adminForm = this.formbuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       username: ['', Validators.required],
       emailID: ['', [Validators.required, Validators.email]]
-      //  roleID: this.formbuilder.array([])
     });
   }
 
@@ -88,33 +88,30 @@ export class RegisterAdminComponent implements OnInit {
       if (this.fileSelected) {
         const currentUser = JSON.parse(localStorage.getItem('token'));
         const body = JSON.stringify(form.value);
-        // const roles = ('[').concat(this.userRoles).concat(']');
         const formData = new FormData();
         formData.append('model', body);
         formData.append('file', this.imageObj);
         formData.append('role', JSON.stringify(this.userRoles));
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/user/createuser');
+        xhr.open('POST', '/api/user/createuserfromadmin');
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
         xhr.responseType = 'json';
         xhr.onreadystatechange = (result: any) => {
           if (xhr.readyState === 4) {
-            debugger;
-            if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-              this.existingUsername = 'Username already exists';
+            if (xhr.response.message === 'usernameMessage' && xhr.response.status !== 1) {
+              this.existingUsername = this.translate.instant('register-user.username-exists', {param: 'username'});
             } else {
               this.existingUsername = '';
             }
-            if (!isNullOrUndefined(xhr.response.emailMessage)) {
-              this.existingEmail = 'Email Address already exists';
+            if (xhr.response.message === 'emailMessage' && xhr.response.status !== 1) {
+              this.existingEmail = this.translate.instant('register-user.object-exists', {param: 'email address'});
             } else {
               this.existingEmail = '';
             }
             if (xhr.status === 200) {
-              debugger;
-              if (!isNullOrUndefined(xhr.response.user)) {
-                this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              if (xhr.response.status === 1) {
+                this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
                 this.resetForm(form);
               }
             }
@@ -127,6 +124,7 @@ export class RegisterAdminComponent implements OnInit {
   }
 
   resetForm(form: FormGroup) {
+    form.reset();
     if (form != null) {
       this.fileSelected = false;
       this.submitted = false;

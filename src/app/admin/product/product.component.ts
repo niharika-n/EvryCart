@@ -4,7 +4,10 @@ import { PagerService } from '../../services/pagination.service';
 import { ProductModel } from './product';
 import { ProductService } from '../../services/product.service';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
+import { isNullOrUndefined } from 'util';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-product',
@@ -23,8 +26,9 @@ export class ProductComponent implements OnInit {
   pageSize = 5;
   currentPage = 1;
 
-  constructor(private productService: ProductService, private router: Router,
-    private pagerService: PagerService, private toastr: ToastrService, private spinnerService: SpinnerService) { }
+  constructor(private productService: ProductService, private router: Router, private translate: TranslateService,
+    private pagerService: PagerService, private toastr: ToastrService,
+    private spinnerService: SpinnerService, private errorService: ErrorService) { }
 
   ngOnInit() {
     this.listing('', this.currentPage, this.pageSize);
@@ -33,6 +37,8 @@ export class ProductComponent implements OnInit {
   listing(search: string, selectedPage: number, selectedSize: number) {
     this.message = '';
     this.searchText = search;
+    if (isNullOrUndefined(selectedPage)) {selectedPage = this.currentPage; }
+    if (isNullOrUndefined(selectedSize)) {selectedSize = this.pageSize; }
     if (this.sortColumn === '') {
       this.sortColumn = 'CreatedDate';
     }
@@ -40,17 +46,20 @@ export class ProductComponent implements OnInit {
     this.productService.listing(this.searchText, selectedPage, selectedSize, 'CreatedDate', this.sortOrder).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.status === 404) {
-          this.message = 'No record found.';
+        if (result.status !== 1) {
+          this.errorService.handleFailure(result.statusCode);
+          this.message = this.translate.instant('common.not-found');
         } else {
-          this.model = result.productResult;
-          this.totalCount = result.totalCount;
+          if (!isNullOrUndefined(result.body)) {
+          this.model = result.body.productResult;
+          this.totalCount = result.body.totalCount;
           this.setPage(this.currentPage);
+          }
         }
       }, (error: any) => {
         this.spinnerService.endRequest();
-        this.message = 'No product found';
-        console.log(error);
+        this.errorService.handleError(error.status);
+        this.message = this.translate.instant('common.not-present', { param: 'product' });
       });
   }
 
@@ -73,14 +82,15 @@ export class ProductComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.productService.delete(id).
-      subscribe(() => {
-        const del = confirm('Are you sure you wan to delete this product?');
-        if (del) {
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+    const del = confirm(this.translate.instant('common.confirm-delete', { param: 'Product' }));
+    if (del) {
+      this.productService.delete(id).subscribe((result: any) => {
+        if (result.status === 1) {
+          this.toastr.success(this.translate.instant('common.delete'), '');
           this.listing('', 1, this.pageSize);
         }
       });
+    }
   }
 
   setPage(page: number) {

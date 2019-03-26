@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../../services/product.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { ErrorService } from '../../../../services/error.service';
 
 @Component({
   selector: 'app-product-images',
@@ -22,9 +24,9 @@ export class ProductImagesComponent implements OnInit {
   imageObj = [];
   selectedImg = [];
 
-  constructor(private productService: ProductService,
+  constructor(private productService: ProductService, private translate: TranslateService,
     private route: ActivatedRoute, private spinnerService: SpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private errorService: ErrorService) { }
 
   ngOnInit() {
     this.pageStart();
@@ -62,11 +64,11 @@ export class ProductImagesComponent implements OnInit {
 
   deleteImage(imgID: number) {
     if (!this.existingImages) {
-      this.productService.deleteProductImage(this.id, imgID).subscribe((data: any) => {
-        if (data === 'image deleted') {
+      this.productService.deleteProductImage(this.id, imgID).subscribe((result: any) => {
+        if (result.status === 1) {
           const index: number = this.urls.findIndex(x => x.id === imgID);
           this.urls.splice(index, 1);
-          this.toastr.success('Deleted successfully !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+          this.toastr.success(this.translate.instant('common.delete'), '');
           if (this.urls.length === 0) {
             this.imageMessage = true;
           }
@@ -101,7 +103,7 @@ export class ProductImagesComponent implements OnInit {
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              this.toastr.success('Images Added !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              this.toastr.success(this.translate.instant('common.insert', { param: 'Images' }), '');
               this.getImageList();
             }
           }
@@ -117,22 +119,28 @@ export class ProductImagesComponent implements OnInit {
     this.productService.listProductImages(this.id).
       subscribe((result: any) => {
         this.spinnerService.endRequest();
-        if (result.productImageResult.length > 0 && !isNullOrUndefined(result.productImageResult)) {
-          this.imageMessage = false;
-          this.urls = [];
-          Object.keys(result.productImageResult).forEach((elt) => {
-            this.urls.push({
-              id: result.productImageResult[elt].id,
-              src: 'data:image/png;base64,' + result.productImageResult[elt].imageContent
-            });
-          });
+        if (result.status === 1) {
+          if (!isNullOrUndefined(result.body)) {
+            if (result.body.productImageResult.length > 0 && !isNullOrUndefined(result.body.productImageResult)) {
+              this.imageMessage = false;
+              this.urls = [];
+              Object.keys(result.body.productImageResult).forEach((elt) => {
+                this.urls.push({
+                  id: result.body.productImageResult[elt].id,
+                  src: 'data:image/png;base64,' + result.body.productImageResult[elt].imageContent
+                });
+              });
+            }
+          }
         } else {
+          this.errorService.handleFailure(result.statusCode);
           this.imageMessage = true;
         }
       }, (error: any) => {
-        if (error.status === 404) {
-          this.message = 'No Product Images present';
-          console.log(this.message);
+        this.spinnerService.endRequest();
+        this.errorService.handleError(error.status);
+        if (error.status !== 1) {
+          this.message = this.translate.instant('product.image-present');
         }
         this.imageMessage = true;
       });

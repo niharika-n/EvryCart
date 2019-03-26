@@ -1,73 +1,73 @@
 <div class="background">
     <nav class="navbar" [routerLink]="['']">
         <img class="application-image" src="../../assets/images/logo_training.png" />
-        <h4 class="application-heading">
-            Application
+        <h4 class="application-heading" translate>
+            admin-layout.title
         </h4>
     </nav>
     <div>
         <form class="form login-pop-over" #employeeForm="ngForm" (submit)="submitForm(employeeForm)" novalidate>
             <div class="form-group">
-                <h3>Create Account</h3>
+                <h3 translate>register-user.create-acc</h3>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="firstName">First Name</label>
+                    <label for="firstName" translate>register-user.first-name</label>
                     <input type="text" maxlength="20" class="form-control" autocomplete="off" name="firstName" #firstName="ngModel" [(ngModel)]="registerService.selectedUser.firstName" [ngClass]="{ 'is-invalid': firstName.errors && submitted}" required />
-                    <div *ngIf="submitted && firstName.errors?.required" class="invalid-feedback">*required</div>
+                    <div *ngIf="submitted && firstName.errors?.required" class="invalid-feedback" translate>required</div>
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="lastName">Last Name</label>
+                    <label for="lastName" translate>register-user.last-name</label>
                     <input type="text" maxlength="20" class="form-control" autocomplete="off" name="lastName" #lastName="ngModel" [(ngModel)]="registerService.selectedUser.lastName" [ngClass]="{ 'is-invalid': lastName.errors && submitted}" required />
-                    <div *ngIf="submitted && lastName.errors?.required" class="invalid-feedback">*required</div>
+                    <div *ngIf="submitted && lastName.errors?.required" class="invalid-feedback" translate>required</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="emailID">Email Address</label>
+                <label for="emailID" translate>register-user.email</label>
                 <input type="email" class="form-control" (keyup)="existingEmail=='' || EmailCheck($event)" autocomplete="off" name="emailID" #emailID="ngModel" [(ngModel)]="registerService.selectedUser.emailID" [ngClass]="{ 'is-invalid': emailID.errors && submitted}"
                     email pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required />
-                <div *ngIf="submitted && emailID.errors?.required" class="invalid-feedback">*required</div>
-                <div *ngIf="submitted && emailID.errors?.pattern" class="invalid-feedback">Enter a valid address</div>
+                <div *ngIf="submitted && emailID.errors?.required" class="invalid-feedback" translate>required</div>
+                <div *ngIf="submitted && emailID.errors?.pattern" class="invalid-feedback" translate>register-user.email-message</div>
                 <div *ngIf="existingEmail !=''" class="invalid-feedback">{{existingEmail}}</div>
             </div>
 
             <div class="form-group">
-                <label for="Username">Username</label>
+                <label for="Username" translate>register-user.username</label>
                 <input type="text" maxlength="15" class="form-control" (keyup)="existingUsername=='' || UsernameCheck($event)" autocomplete="off" name="username" #username="ngModel" [(ngModel)]="registerService.selectedUser.username" [ngClass]="{ 'is-invalid': username.errors && submitted}"
                     required />
-                <div *ngIf="submitted && username.errors?.required" class="invalid-feedback">*required</div>
+                <div *ngIf="submitted && username.errors?.required" class="invalid-feedback" translate>required</div>
                 <div *ngIf="existingUsername!=''" class="invalid-feedback">{{existingUsername}}</div>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password" translate>register-user.password</label>
                 <input type="password" class="form-control" autocomplete="off" name="password" #password="ngModel" [(ngModel)]="registerService.selectedUser.password" [ngClass]="{ 'is-invalid':password.errors && submitted}" required minlength="6" maxlength="10" [pattern]="pattern"
                 />
-                <div *ngIf="submitted && password.errors?.required" class="invalid-feedback">*required</div>
-                <div *ngIf="password.errors?.minlength" class="invalid-feedback">Password must contain atleast 6 characters</div>
-                <div *ngIf="password.errors?.pattern" class="invalid-feedback">Password must be in lowercase characters only</div>
+                <div *ngIf="submitted && password.errors?.required" class="invalid-feedback" translate>required</div>
+                <div *ngIf="password.errors?.minlength" class="invalid-feedback" translate>change-password.min-length</div>
+                <div *ngIf="password.errors?.pattern" class="invalid-feedback" translate>change-password.pattern</div>
             </div>
 
             <div class="form-group">
-                <label>User Image: &nbsp;&nbsp;</label>
+                <label translate>register-user.user-img &nbsp;&nbsp;</label>
                 <input type="file" class="image-input" (change)="onSelectFile($event)" name="imageContent" #imageContent accept=".png, .jpg, .jpeg" required />
                 <br>
-                <div *ngIf="submitted && !fileSelected" class="invalid-feedback">*required</div>
+                <div *ngIf="submitted && !fileSelected" class="invalid-feedback" translate>required</div>
                 <img [src]="url" height="170">
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-8">
-                    <button type="submit" [disabled]="loading" class="btn btn-lg btn-block btn-info">Submit</button>
+                    <button type="submit" [disabled]="loading" class="btn btn-lg btn-block btn-info" translate>common.submit</button>
                 </div>
                 <div class="form-group col-md-4">
-                    <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(employeeForm)">Reset</button>
+                    <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(employeeForm)" translate>common.reset</button>
                 </div>
             </div>
 
             <div>
-                <p>Existing user? <a class="login-link" [routerLink]="[ '/login']">Sign In</a></p>
+                <p translate>register-user.user-exist <a class="login-link" [routerLink]="[ '/login']" translate>register-user.sign-in</a></p>
             </div>
 
         </form>

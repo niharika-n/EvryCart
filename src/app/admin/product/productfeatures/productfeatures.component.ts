@@ -4,12 +4,14 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { isNullOrUndefined, isDate } from 'util';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ProductService } from '../../../services/product.service';
 import { ProductModel } from '../product';
 import { CategoryService } from '../../../services/category.service';
 import { QuantityType } from './product.enum';
+import {ErrorService} from '../../../services/error.service';
 
 @Component({
     selector: 'app-productfeatures',
@@ -36,11 +38,12 @@ export class ProductfeaturesComponent implements OnInit {
     keys: any;
 
     constructor(private productService: ProductService, private router: Router,
-        private route: ActivatedRoute, private categoryservice: CategoryService,
-        private toastr: ToastrService, private spinnerService: SpinnerService) {
+        private translate: TranslateService, private route: ActivatedRoute,
+        private categoryservice: CategoryService, private toastr: ToastrService,
+        private spinnerService: SpinnerService, private errorService: ErrorService) {
         this.keys = Object.keys(this.quantityType);
         this.model = {
-            productId: 0,
+            productID: 0,
             productName: '',
             shortDescription: '',
             longDescription: '',
@@ -81,21 +84,25 @@ export class ProductfeaturesComponent implements OnInit {
             this.productService.detail(this.id)
                 .subscribe((result: any) => {
                     this.spinnerService.endRequest();
-                    this.pageTitle = 'Edit';
-                    this.model = result.product;
-                    if (this.model.taxExempted) {
-                        this.isTax = false;
-                    }
-                    if (this.model.isDiscounted) {
-                        this.isDiscount = true;
-                    }
-                    if (!this.model.shipingEnabled) {
-                        this.isShipping = false;
+                    this.pageTitle = this.translate.instant('product-detail.edit');
+                    if (result.status === 1) {
+                        if (!isNullOrUndefined(result.body)) {
+                        this.model = result.body;
+                        }
+                        if (this.model.taxExempted) {
+                            this.isTax = false;
+                        }
+                        if (this.model.isDiscounted) {
+                            this.isDiscount = true;
+                        }
+                        if (!this.model.shipingEnabled) {
+                            this.isShipping = false;
+                        }
                     }
                 });
         } else {
             this.editPage = false;
-            this.pageTitle = 'Add';
+            this.pageTitle = this.translate.instant('product-detail.add');
         }
         this.getCategoryList();
     }
@@ -127,12 +134,19 @@ export class ProductfeaturesComponent implements OnInit {
     getCategoryList() {
         this.categoryservice.Listing('', 1, 5, this.model.createdDate, false, true, true).
             subscribe((result: any) => {
-                if (result.status === 404) {
-                    this.message = 'No record found.';
+                if (result.status !== 1) {
+                    this.errorService.handleError(result.statusCode);
+                    this.message = this.translate.instant('common.not-found');
                 } else {
-                    this.CategoryArr = result;
+                    if (!isNullOrUndefined(result.body)) {
+                    this.CategoryArr = result.body;
+                    }
                 }
-            });
+            }, (error: any) => {
+                this.spinnerService.endRequest();
+                this.errorService.handleError(error.status);
+                this.message = this.translate.instant('common.not-present', { param: 'attribute' });
+              });
     }
 
     endDate(visibleStartDate: Date) {
@@ -157,35 +171,35 @@ export class ProductfeaturesComponent implements OnInit {
         if (form.valid) {
             if (this.id) {
                 this.productService.update(form.value).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.product)) {
-                        this.toastr.success('Product Updated !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+                    if (result.status === 1) {
+                        this.toastr.success(this.translate.instant('common.update', { param: 'Product' }), '');
                         this.router.navigate(['admin/product']);
                         this.resetForm(form);
                     }
-                    if (!isNullOrUndefined(result.sameNameMessage)) {
-                        this.sameNameCheck = result.sameNameMessage;
+                    if (!isNullOrUndefined(result.message === 'SameName')) {
+                        this.sameNameCheck = this.translate.instant('product-detail.same-name-message');
                     } else {
                         this.sameNameCheck = '';
                     }
-                    if (!isNullOrUndefined(result.sameModelMessage)) {
-                        this.sameModelCheck = result.sameModelMessage;
+                    if (!isNullOrUndefined(result.message === 'SameModel')) {
+                        this.sameModelCheck = this.translate.instant('product-detail.same-model-message');
                     } else {
                         this.sameModelCheck = '';
                     }
                 });
             } else {
                 this.productService.add(this.model).subscribe((result: any) => {
-                    if (!isNullOrUndefined(result.productObj)) {
-                        this.toastr.success('Product Added !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
-                        this.resetForm(form.value);
+                    if (result.status === 1) {
+                        this.toastr.success(this.translate.instant('common.insert', { param: 'Product' }), '');
+                        this.resetForm(form);
                     }
-                    if (!isNullOrUndefined(result.sameNameMessage)) {
-                        this.sameNameCheck = result.sameNameMessage;
+                    if (result.message === 'SameName') {
+                        this.sameNameCheck = this.translate.instant('product-detail.same-name-message');
                     } else {
                         this.sameNameCheck = '';
                     }
-                    if (!isNullOrUndefined(result.sameModelMessage)) {
-                        this.sameModelCheck = result.sameModelMessage;
+                    if (result.message === 'SameModel') {
+                        this.sameModelCheck = this.translate.instant('product-detail.same-model-message');
                     } else {
                         this.sameModelCheck = '';
                     }

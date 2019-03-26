@@ -1,25 +1,25 @@
 <div class="wrapper">
     <nav id="sidebar">
         <ul class="list-unstyled components">
-            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Dashboard">
-                <a [routerLink]="['/admin/dashboard']">Dashboard</a>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="{{'dashboard.title' | translate}}">
+                <a [routerLink]="['/admin/dashboard']" translate>dashboard.title</a>
             </li>
-            <li [ngClass]="{'active':router.url.indexOf('/category')>-1}" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Categories">
-                <a [routerLink]="['/admin/category']">Categories</a>
+            <li [ngClass]="{'active':router.url.indexOf('/category')>-1}" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="{{'category.title' | translate}}">
+                <a [routerLink]="['/admin/category']" translate>category.title</a>
             </li>
             <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" title="Product Options">Products</a>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" title="{{'product.title' | translate}}" translate>product.title</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Products">
-                        <a [routerLink]="['/admin/product']">Products</a>
+                    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="{{'product.title' | translate}}">
+                        <a [routerLink]="['/admin/product']" translate>product.title</a>
                     </li>
                     <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Product Attributes">
-                        <a [routerLink]="['/admin/product/attribute']">Attributes</a>
+                        <a [routerLink]="['/admin/product/attribute']" translate>attribute.title</a>
                     </li>
                 </ul>
             </li>
-            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="Location">
-                <a [routerLink]="['/admin/location']">Location</a>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" title="{{'location.title' | translate}}">
+                <a [routerLink]="['/admin/location']" translate>location.title</a>
             </li>
         </ul>
     </nav>

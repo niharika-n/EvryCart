@@ -1,7 +1,7 @@
 export interface CategoryModel {
-    categoryID: number;
-    categoryName: string;
-    categoryDescription: string;
+    id: number;
+    name: string;
+    description: string;
     isActive: boolean;
     createdBy: number;
     createdDate: Date;
@@ -9,8 +9,8 @@ export interface CategoryModel {
     modifiedBy?: number;
     modifiedDate?: Date;
     modifiedUser?: string;
-    parentCategory: boolean;
-    childCategory?: number;
+    parent: boolean;
+    child?: number;
     imageContent?: any;
     imageID: number;
     associatedProducts?: number;

@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,12 +10,16 @@ import { MatTabsModule, MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ToastOptions } from './custom.toast';
+import { ErrorService } from './services/error.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
-import { APPROUTERMODULE } from 'src/app/routes/app.route';
-import { AuthInterceptor } from 'src/app/shared/Interceptor';
+import { APPROUTERMODULE } from './routes/app.route';
+import { AuthInterceptor } from './shared/Interceptor';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
@@ -49,6 +52,7 @@ import { ResetPasswordComponent } from './features/reset-password/reset-password
 import { LogoutComponent } from './features/logout/logout.component';
 import { SpinnerDirective } from './shared/directives/spinner.directive';
 import { EmailTemplateComponent } from './admin/email-template/email-template.component';
+import { UserDetailComponent } from './admin/user-detail/user-detail.component';
 
 @NgModule({
   imports: [
@@ -63,9 +67,16 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     MatTabsModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot( ToastOptions),
     MatProgressSpinnerModule,
-    CKEditorModule
+    CKEditorModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   declarations: [
     AppComponent,
@@ -95,7 +106,8 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     ResetPasswordComponent,
     LogoutComponent,
     SpinnerDirective,
-    EmailTemplateComponent
+    EmailTemplateComponent,
+    UserDetailComponent
   ],
 
   providers: [
@@ -106,9 +118,13 @@ import { EmailTemplateComponent } from './admin/email-template/email-template.co
     },
     AuthService,
     AuthGuard,
-    PagerService
+    PagerService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

@@ -1,71 +1,71 @@
 <div class="container body-content">
-    <h3>
-        User Profile
+    <h3 translate>
+        settings.title
     </h3>
     <hr>
     <div class="col-md-7">
         <form [formGroup]='settingsForm' (submit)="submitForm(settingsForm)" id="settingsForm" lass="form-group" novalidate>
 
             <div hidden class="form-group">
-                <label for="userID">userID</label>
+                <label for="userID" translate>settings.userID</label>
                 <input type="text" class="form-control form-input" formControlName='userID' #userID id="userID" autocomplete="off">
             </div>
 
             <div class="form-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName" translate>register-user.first-name</label>
                 <input type="text" maxlength="20" class="form-control form-input" formControlName='firstName' #firstName id="firstName" [ngClass]="{ 'is-invalid': submitted && model.firstName.errors }" autocomplete="off">
                 <div *ngIf="model.firstName.errors && submitted" class="invalid-feedback">
-                    <div *ngIf="model.firstName.errors.required">*required</div>
+                    <div *ngIf="model.firstName.errors.required" translate>required</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName" translate>register-user.last-name</label>
                 <input type="text" maxlength="20" class="form-control form-input" formControlName='lastName' #lastName id="lastName" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.lastName.errors }">
                 <div *ngIf="submitted && model.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="model.lastName.errors.required">*required</div>
+                    <div *ngIf="model.lastName.errors.required" translate>required</div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="emailID">Email Address</label>
+                <label for="emailID" translate>register-user.email</label>
                 <input type="text" formControlName="emailID" class="form-control form-input" #emailID id="emailID" email autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.emailID.errors }" (keyup)="existingEmail =='' || EmailCheck($event)" />
                 <div *ngIf="submitted && model.emailID.errors" class="invalid-feedback">
-                    <div *ngIf="model.emailID.errors.required">*required</div>
-                    <div *ngIf="model.emailID.errors.email">Enter a valid Email address</div>
+                    <div *ngIf="model.emailID.errors.required" translate>required</div>
+                    <div *ngIf="model.emailID.errors.email" translate>register-user.email-message</div>
                 </div>
                 <div *ngIf="existingEmail !=''" class="custom-error">{{existingEmail}}</div>
             </div>
 
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username" translate>register-user.username</label>
                 <input type="text" class="form-control form-input" maxlength="15" formControlName='username' #username id="username" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && model.username.errors }" (keyup)="existingUsername=='' || UsernameCheck($event)">
                 <div *ngIf="submitted && model.username.errors" class="invalid-feedback">
-                    <div *ngIf="model.username.errors.required">*required</div>
+                    <div *ngIf="model.username.errors.required" translate>required</div>
                 </div>
                 <div *ngIf="existingUsername!=''" class="custom-error">{{existingUsername}}</div>
             </div>
 
             <div class="form-group">
-                <label>User Image </label>
+                <label translate>register-user.user-img</label>
                 <span *ngIf="user.imageContent != ''; else imageMessage">
-                <img *ngIf="url == ''" src="{{userImg}}" width="250px">
-                <img *ngIf="url != ''" [src]="url" width="250px">
-                <br>
-                <br>
-                <label></label>
-                <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
-              </span>
-                <ng-template #imageMessage>
-                    User Image does not exist.
+          <img *ngIf="url == ''" src="{{userImg}}" width="250px">
+          <img *ngIf="url != ''" [src]="url" width="250px">
+          <br>
+          <br>
+          <label></label>
+          <input type="file" (change)="onSelectFile($event)" #imagePath id="imagePath" />
+        </span>
+                <ng-template #imageMessage translate>
+                    register-user.img-message
                 </ng-template>
-                <div *ngIf="submitted && !fileSelected" class="invalid-feedback">*required</div>
+                <div *ngIf="submitted && !fileSelected" class="invalid-feedback" translate>required</div>
             </div>
 
             <div class="form-group">
                 <label></label>
-                <input type="submit" value="Update" title="Update" class="btn btn-info">&nbsp;
-                <input type="reset" value="Reset" title="Reset" (click)="resetForm(settingsForm)" class="btn btn-secondary">
+                <input type="submit" value="{{'common.update-title' | translate}}" title="{{'common.update-title' | translate}}" class="btn btn-info">&nbsp;
+                <input type="reset" value="{{'common.reset' | translate}}" title="{{'common.reset' | translate}}" (click)="resetForm(settingsForm)" class="btn btn-secondary">
             </div>
         </form>
     </div>

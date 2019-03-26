@@ -5,7 +5,7 @@ import { LoginUser } from '../../shared/login-model';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private registerService: RegisterService, private formBuilder: FormBuilder, private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() { }
 
@@ -59,26 +59,23 @@ export class RegisterComponent implements OnInit {
       xhr.onreadystatechange = (result: any) => {
         if (xhr.readyState === 4) {
           if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-            this.existingUsername = 'Username already exists';
+            this.existingUsername = this.translate.instant('register-user.object-exists', { param: 'Username' });
           } else {
             this.existingUsername = '';
           }
           if (!isNullOrUndefined(xhr.response.emailMessage)) {
-            this.existingEmail = 'Email Address already exists';
+            this.existingEmail = this.translate.instant('register-user.object-exists', { param: 'email address' });
           } else {
             this.existingEmail = '';
           }
           if (xhr.status === 200) {
-            console.log(xhr.response);
-            if (!isNullOrUndefined(xhr.response.success)) {
-              console.log(xhr.response.success);
-              this.toastr.success('User Created !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            if (xhr.response.status === 1) {
+              this.toastr.success(this.translate.instant('common.create', { param: 'User' }), '');
               this.resetForm(form);
               this.router.navigate(['/login']);
             }
-            if (!isNullOrUndefined(xhr.response.fail)) {
-              console.log(xhr.response.success);
-              this.toastr.error('User could not be created', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+            if (xhr.response.status !== 1) {
+              this.toastr.error(this.translate.instant('common.err-create', { param: 'User' }), '');
               this.resetForm(form);
             }
           }

@@ -19,36 +19,30 @@ export class SettingsService {
         return this.httpclient.get('/api/user/detail/' + id);
     }
 
-    Update(user: LoginUser, file?: File) {
-        // const currentUser = JSON.parse(localStorage.getItem('token'));
-        // const body = JSON.stringify(user);
-        // const formData = new FormData();
-        // formData.append('model', body);
-        // if (file !== null) {
-        //     formData.append('file', file);
-        // }
-        // const xhr = new XMLHttpRequest();
-        // xhr.open('PUT', '/api/user/update');
-        // xhr.setRequestHeader('accept', 'application/json');
-        // xhr.setRequestHeader('Authorization', `Bearer ${currentUser}`);
-        // xhr.onreadystatechange = () => {
-        //     if (xhr.readyState === 4) {
-        //         if (xhr.status === 200) {
-        //             localStorage.removeItem('user');
-        //             localStorage.setItem('user', JSON.stringify(user));
-        //             this.toastr.success('Settings Updated !', '', { positionClass: 'toast-top-center' });
-        //         }
-        //     }
-        // };
-        // xhr.send(formData);
-    }
-
     changePassword(password, newPassword) {
         const queryParameters = new HttpParams().set('oldPassword', password).set('newPassword', newPassword);
         return this.httpclient.put('api/user/changePassword', {}, { params: queryParameters }).
             pipe(map(x => {
                 return x;
             }));
+    }
+
+    userList(search, page, size, column, order) {
+        const Size = JSON.stringify(size);
+        const Page = JSON.stringify(page);
+        const Order = JSON.stringify(order);
+        const queryParameters = new HttpParams().set('Search', search).set('PageNumber', Page).set('SortOrder', Order)
+            .set('SortColumn', column).set('PageSize', Size);
+        return this.httpclient.get('api/user/getuserlist', { params: queryParameters });
+    }
+
+    changeUserRoles(id, check, rolesArr) {
+        const userID = JSON.stringify(id);
+        const addCheck = JSON.stringify(check);
+        const roles = JSON.stringify(rolesArr);
+        const selectedRoles = roles.substring(1, roles.length - 1);
+        const queryParameters = new HttpParams().set('id', userID).set('add', addCheck).set('selectedRoles', selectedRoles);
+        return this.httpclient.get('api/user/changeuserrole', { params: queryParameters });
     }
 }
 

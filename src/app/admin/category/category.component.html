@@ -1,6 +1,6 @@
 <div class="container body-content">
-    <h3>
-        Categories
+    <h3 translate>
+        category.title
     </h3>
     <hr>
     <div>
@@ -9,29 +9,29 @@
                 <input autocomplete="off" class="form-control" name="search" #search />
             </div>
             <div class="col-md-9">
-                <input type="submit" value="Search" class="btn btn-info" title="Submit" (click)="listing(search.value)" /> &nbsp;
-                <input type="submit" value="Clear" class="btn btn-info" title="Clear" (click)="listing(search.value='')" name="all" /> &nbsp;
-                <button class="btn btn-info" type="button" [routerLink]="['add']" value="Add" title="Add New Category"><i class="fa fa-plus-circle add-icon"></i> Add</button>
+                <input type="submit" value="{{'common.search' | translate}}" class="btn btn-info" title="{{'common.search' | translate}}" (click)="listing(search.value)" /> &nbsp;
+                <input type="submit" value="{{'common.clear' | translate}}" class="btn btn-info" title="{{'common.clear' | translate}}" (click)="listing(search.value='')" name="all" /> &nbsp;
+                <button class="btn btn-info" type="button" [routerLink]="['add']" title="{{'common.add' | translate}}" translate><i class="fa fa-plus-circle add-icon"></i> common.add</button>
             </div>
             <div class=" col-md-12 page-size">
-                <b>Page Size</b> &nbsp;
+                <b translate>common.page-size</b> &nbsp;
                 <select #pageSize (change)="sizeSelect(pageSize.value)">
-          <option value=5 >5</option>
-          <option value=7 >7</option>
-          <option value=10 >10</option>
+          <option value=5>5</option>
+          <option value=7>7</option>
+          <option value=10>10</option>
         </select>
             </div>
         </div>
         <div class="table-responsive" *ngIf="!message">
             <table class="table table-bordered">
                 <tr>
-                    <th hidden>Category ID</th>
-                    <th appSort [data]="model" [sortKey]="'name'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Name <i *ngIf="sortColumn=='name' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='name' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
-                    <th appSort [data]="model" [sortKey]="'description'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Description <i *ngIf="sortColumn=='description' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='description' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
-                    <th>Active</th>
-                    <th>Created By</th>
-                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)">Created Date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="Ascending"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="Descending"></i></th>
-                    <th>Modified By</th>
+                    <th hidden translate>category.categoryID</th>
+                    <th appSort [data]="model" [sortKey]="'name'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)" translate>category.name <i *ngIf="sortColumn=='name' && sortOrder" class="fa fa-arrow-circle-up" title="{{'common.asc' | translate}}"></i><i *ngIf="sortColumn=='name' && !sortOrder" class="fa fa-arrow-circle-down" title="{{'common.desc' | translate}}"></i></th>
+                    <th appSort [data]="model" [sortKey]="'description'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)" translate>category.description <i *ngIf="sortColumn=='description' && sortOrder" class="fa fa-arrow-circle-up" title="{{'common.asc' | translate}}"></i><i *ngIf="sortColumn=='description' && !sortOrder" class="fa fa-arrow-circle-down" title="{{'common.desc' | translate}}"></i></th>
+                    <th translate>category.active</th>
+                    <th translate>category.created-by</th>
+                    <th appSort [data]="model" [sortKey]="'createdDate'" class="sort-column" (ColumnName)="selectColumn($event)" (Direction)="selectDirection($event)" translate>category.created-date <i *ngIf="sortColumn=='createdDate' && sortOrder" class="fa fa-arrow-circle-up" title="{{'common.asc' | translate}}"></i><i *ngIf="sortColumn=='createdDate' && !sortOrder" class="fa fa-arrow-circle-down" title="{{'common.desc' | translate}}"></i></th>
+                    <th translate>category.modified-by</th>
                     <th></th>
                 </tr>
 
@@ -45,10 +45,10 @@
                     <td>{{category.modifiedUser}}</td>
                     <td class="message">
                         <a [routerLink]="['detail',(category.id)]">
-                            <i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+                            <i class="fa fa-pencil icon" aria-hidden="true" title="{{'common.edit-title' | translate}}"></i>
                         </a>&nbsp;
                         <a>
-                            <i class="fa fa-times icon" aria-hidden="true" title="Delete" (click)="delete(category.id, category.associatedProducts)"></i>
+                            <i class="fa fa-times icon" aria-hidden="true" title="{{'common.delete-title' | translate}}" (click)="delete(category.id, category.associatedProducts)"></i>
                         </a>
                     </td>
                 </tr>

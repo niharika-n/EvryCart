@@ -1,30 +1,29 @@
-<a title="Add Attribute" value="add Attribute" class="addnewLink" id="addnewAttribute" (click)="showAttributeValueForm()">add
-  new Attribute</a>
+<a title="{{'product-detail.add-attr' | translate}}" class="addnewLink" id="addnewAttribute" (click)="showAttributeValueForm()" translate>product-detail.add-attr</a>
 <div *ngIf="isAttribute">
-    <form #attributeForm="ngForm" (ngSubmit)="addAttribute(AttributeID.value,Value.value,attributeForm)" class="form-group" novalidate>
+    <form #attributeForm="ngForm" (ngSubmit)="addAttribute(AttributeID.value,AttrValue.value,attributeForm)" class="form-group" novalidate>
         <br>
         <br>
         <div>
-            <label for="AttributeID">Attribute</label>
-            <select class="form-control form-input" name="AttributeID" #AttributeID="ngModel" [(ngModel)]="model.attributeID" [ngClass]="{ 'is-invalid': AttributeID.errors && submitted}" id="AttributeID" required>            
-<option value="0" selected="true" disabled>-select-</option>
+            <label for="AttributeID" translate>product-detail.attr</label>
+            <select id="AttributeID" class="form-control form-input" name="AttributeID" #AttributeID [(ngModel)]="model.attributeID" [ngClass]="{ 'is-invalid': AttributeID.errors && submitted}" required>            
+<option value="0" selected="true" disabled translate>product-detail.select</option>
 <option [value]="attribute.attributeID" *ngFor="let attribute of AttributeArr">{{attribute.attributeName}}</option>
 </select>
-            <div *ngIf="submitted && AttributeID.errors?.required" class="error-message">*required</div>
+            <div *ngIf="submitted && AttributeID.errors?.required" class="error-message" translate>required</div>
         </div>
         <br>
         <div>
-            <label for="Value">Value </label>
-            <input type="text" maxlength="20" class="form-control form-input" autocomplete="off" name="Value" #Value="ngModel" [(ngModel)]="model.value" [ngClass]="{ 'is-invalid ': Value.errors && submitted}" (keyup)="attributeValMessage=='' || attributeValCheck($event)"
-                id="Value" required />
-            <div *ngIf="submitted && Value.errors?.required" class="error-message">*required</div>
+            <label for="AttrValue" translate>product-detail.val </label>
+            <input type="text" maxlength="20" class="form-control form-input" autocomplete="off" name="AttrValue" #AttrValue [(ngModel)]="model.value" [ngClass]="{ 'is-invalid ': AttrValue.errors && submitted}" (keyup)="attributeValMessage=='' || attributeValCheck($event)"
+                id="AttrValue" required />
+            <div *ngIf="submitted && AttrValue.errors?.required" class="error-message" translate>required</div>
             <div *ngIf="attributeValMessage!=''" class="error-message">{{attributeValMessage}}</div>
         </div>
         <br>
         <div id="div-btn">
             <label></label>
-            <button type="submit" class="btn btn-info" title="Add">Add</button>&nbsp;
-            <button type="reset" value="Reset" class="btn btn-secondary" title="Reset" (click)="resetForm(attributeForm)">Reset</button>
+            <button type="submit" class="btn btn-info" title="{{'common.add' | translate}}" translate>common.add</button>&nbsp;
+            <button type="reset" value="{{'common.reset' | translate}}" class="btn btn-secondary" title="{{'common.reset' | translate}}" (click)="resetForm(attributeForm)" translate>common.reset</button>
         </div>
     </form>
 
@@ -32,7 +31,7 @@
 <div *ngIf="!isAttribute">
     <div *ngIf="!attributeMessage">
         <div class=" col-md-12 page-size">
-            <b>Page Size</b> &nbsp;
+            <b translate>common.page-size</b> &nbsp;
             <select #pageSize (change)="sizeSelect(pageSize.value)">
           <option value=4 >4</option>
           <option value=7 >7</option>
@@ -42,17 +41,17 @@
         <div class="table-responsive">
             <table class="table table-bordered">
                 <tr>
-                    <th>Attribute</th>
-                    <th>Value</th>
+                    <th translate>product-detail.attr</th>
+                    <th translate>product-detail.val</th>
                     <th></th>
                 </tr>
                 <tr *ngFor='let attribute of attributeValues '>
                     <td>{{attribute.attributeName}}</td>
                     <td>{{attribute.value}}</td>
                     <td class="table-icons">
-                        <a (click)="getDetailAttribute(attribute.id)"><i class="fa fa-pencil icon" aria-hidden="true" title="Edit"></i>
+                        <a (click)="getDetailAttribute(attribute.id)"><i class="fa fa-pencil icon" aria-hidden="true" title="{{'common.edit-title' | translate}}"></i>
             </a>&nbsp;&nbsp;&nbsp;
-                        <a (click)="deleteAttribute(attribute.id)"><i class="fa fa-times icon" aria-hidden="true" title="Delete"></i>
+                        <a (click)="deleteAttribute(attribute.id)"><i class="fa fa-times icon" aria-hidden="true" title="{{'common.delete-title' | translate}}"></i>
             </a>
                     </td>
                 </tr>
@@ -62,7 +61,7 @@
             </nav>
         </div>
     </div>
-    <h5 *ngIf="attributeMessage">
-        <br> Product attributes do not exist.
+    <h5 *ngIf="attributeMessage" translate>
+        <br> product-detail.attr-message
     </h5>
 </div>

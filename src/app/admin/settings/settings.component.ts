@@ -4,7 +4,8 @@ import { LoginUser } from '../../shared/login-model';
 import { SettingsService } from '../../services/settings.service';
 import { ToastrService } from 'ngx-toastr';
 import { isNullOrUndefined } from 'util';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { SpinnerService } from '../../services/spinner.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +26,7 @@ export class SettingsComponent implements OnInit {
   existingEmail = '';
 
   constructor(private formbuilder: FormBuilder, private settingsService: SettingsService,
-    private toastr: ToastrService, private spinnerService: SpinnerService) {
+    private toastr: ToastrService, private spinnerService: SpinnerService, private translate: TranslateService) {
     this.settingsForm = this.formbuilder.group({
       userID: [''],
       firstName: ['', Validators.required],
@@ -38,16 +39,22 @@ export class SettingsComponent implements OnInit {
   get model() { return this.settingsForm.controls; }
 
   ngOnInit() {
+    this.pageStart();
+  }
+
+  pageStart() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.id = this.user.userID;
     this.spinnerService.startRequest();
     this.settingsService.Detail(this.id).subscribe((result: any) => {
       this.spinnerService.endRequest();
-      this.user = result;
-      if (result.imageContent != null) {
-        this.userImg = 'data:image/png;base64,' + result.imageContent;
+      if (!isNullOrUndefined(result.body)) {
+      this.user = result.body;
+      if (result.body.imageContent != null) {
+        this.userImg = 'data:image/png;base64,' + result.body.imageContent;
         this.fileSelected = true;
       }
+    }
       this.formValue();
     });
   }
@@ -102,21 +109,21 @@ export class SettingsComponent implements OnInit {
       xhr.responseType = 'json';
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
-          if (!isNullOrUndefined(xhr.response.usernameMessage)) {
-            this.existingUsername = 'Username already exists';
+          if (xhr.response.message === 'usernameMessage') {
+            this.existingUsername = this.translate.instant('register-user.username-exists');
           } else {
             this.existingUsername = '';
           }
-          if (!isNullOrUndefined(xhr.response.emailMessage)) {
-            this.existingEmail = 'This Email already exists';
+          if (xhr.response.message === 'emailMessage') {
+            this.existingEmail = this.translate.instant('register-user.email-exists');
           } else {
             this.existingEmail = '';
           }
           if (xhr.status === 200) {
-            if (!isNullOrUndefined(xhr.response.user)) {
+            if (xhr.response.status === 1) {
               localStorage.removeItem('user');
-              localStorage.setItem('user', JSON.stringify(formValue.value));
-              this.toastr.success('Settings Updated !', '', { positionClass: 'toast-top-right', timeOut: 5000 });
+              localStorage.setItem('user', JSON.stringify(xhr.response.body));
+              this.toastr.success(this.translate.instant('common.update', { param: 'Settings' }), '');
             }
           }
         }
@@ -132,7 +139,7 @@ export class SettingsComponent implements OnInit {
       this.fileSelected = false;
       this.submitted = false;
       this.url = '';
-      this.ngOnInit();
+      this.pageStart();
       this.imagePath.nativeElement.value = '';
     }
   }
